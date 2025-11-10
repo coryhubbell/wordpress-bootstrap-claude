@@ -8,180 +8,74 @@
 
 > **Transform WordPress Development with AI** - The first framework designed specifically for developers working with Claude AI to build WordPress themes and plugins at unprecedented speed.
 
-## 🎯 Why This Framework Changes Everything
+## 🎯 What Makes This Revolutionary
 
-Traditional WordPress development requires years of experience with hooks, filters, and The Loop. **We've changed that.** This framework provides AI-optimized patterns that Claude can understand, modify, and extend instantly.
+Traditional WordPress development requires years of experience. **We've changed that.** This framework provides AI-optimized patterns that Claude can understand, modify, and extend instantly.
 
 ```mermaid
 graph TD
     A[Developer Request] -->|Natural Language| B[Claude AI]
-    B -->|Understands Framework| C[WordPress Bootstrap Claude]
-    C -->|Generates Code| D[Production-Ready Feature]
-    D -->|Can Convert To| E[Standalone Plugin]
+    B -->|Parses Framework| C[WordPress Bootstrap Claude]
+    C -->|Generates| D[Production Code]
+    D -->|Converts To| E[Plugin/Theme]
     
-    style A fill:#e1f5fe
-    style B fill:#fff3e0
-    style C fill:#f3e5f5
-    style D fill:#e8f5e9
-    style E fill:#fce4ec
+    style A fill:#4CAF50
+    style B fill:#FFC107
+    style C fill:#2196F3
+    style D fill:#9C27B0
+    style E fill:#FF5722
 ```
 
-## 🏗️ The WordPress Loop Architecture
+## 🏗️ The WordPress Loop - Simplified
 
-Understanding The Loop is crucial for WordPress development. Our framework makes it accessible to both developers and AI.
+Understanding The Loop is crucial. Our framework makes it accessible to both developers and AI.
 
 ```mermaid
 graph LR
-    subgraph "WordPress Loop Flow"
-        A[Query Database] --> B{have_posts?}
-        B -->|Yes| C[the_post()]
-        C --> D[Setup Post Data]
-        D --> E[Display Content]
-        E --> F[Template Tags]
-        F --> B
-        B -->|No| G[End Loop]
-        G --> H[Reset Post Data]
-    end
+    A[Query Database] --> B{have_posts?}
+    B -->|Yes| C[the_post]
+    C --> D[Display Content]
+    D --> B
+    B -->|No| E[End Loop]
+    E --> F[wp_reset_postdata]
     
-    style A fill:#4fc3f7
-    style B fill:#ffb74d
-    style C fill:#81c784
-    style D fill:#ba68c8
-    style E fill:#ff8a65
-    style F fill:#4dd0e1
-    style G fill:#f06292
-    style H fill:#aed581
+    style A fill:#81C784
+    style B fill:#FFB74D
+    style C fill:#4FC3F7
+    style D fill:#BA68C8
+    style E fill:#FF8A65
+    style F fill:#A1887F
 ```
 
-### Loop Patterns Included
+## 💡 How It Works
+
+### Traditional Development vs AI-Powered Development
 
 ```mermaid
 flowchart TB
-    subgraph "12+ Loop Patterns"
-        L1[Standard Loop] --> U1[Main Queries]
-        L2[Custom WP_Query] --> U2[Secondary Loops]
-        L3[Multiple Loops] --> U3[Featured + Recent]
-        L4[AJAX Loop] --> U4[Dynamic Loading]
-        L5[Filtered Loop] --> U5[Category/Tag Specific]
-        L6[Meta Query Loop] --> U6[Custom Fields]
-        L7[Tax Query Loop] --> U7[Custom Taxonomies]
-        L8[Date Query Loop] --> U8[Archive Pages]
-        L9[Author Loop] --> U9[Author Pages]
-        L10[Search Loop] --> U10[Search Results]
-        L11[Related Posts] --> U11[Contextual Content]
-        L12[Random Loop] --> U12[Random Display]
-    end
-```
-
-## 🤖 Agentic AI Development Workflow
-
-This framework revolutionizes how developers work with AI assistants like Claude:
-
-```mermaid
-sequenceDiagram
-    participant D as Developer
-    participant C as Claude AI
-    participant F as Framework
-    participant W as WordPress
-    
-    D->>C: "Create a product catalog with filtering"
-    C->>F: Analyzes framework patterns
-    F->>C: Provides loop templates & examples
-    C->>D: Generates complete solution
-    D->>W: Implements in WordPress
-    Note over D,W: 10x faster development!
-    
-    D->>C: "Convert to plugin"
-    C->>F: Uses plugin conversion guide
-    F->>C: Provides plugin structure
-    C->>D: Creates standalone plugin
-    Note over D,C: Feature becomes portable!
-```
-
-## 💡 How Developers Use This Framework with Claude
-
-### 1. Natural Language Development
-
-Instead of writing complex code, developers describe what they want:
-
-```mermaid
-flowchart LR
-    A[Developer] -->|"I need a portfolio<br/>with isotope filtering"| B[Claude]
-    B -->|Understands Request| C[Framework Patterns]
-    C -->|Generates| D[Custom Post Type]
-    C -->|Generates| E[Loop Template]
-    C -->|Generates| F[AJAX Handler]
-    C -->|Generates| G[Frontend JS]
-    
-    style A fill:#e3f2fd
-    style B fill:#fff9c4
-    style D fill:#c8e6c9
-    style E fill:#ffccbc
-    style F fill:#d1c4e9
-    style G fill:#b2dfdb
-```
-
-### 2. Progressive Enhancement
-
-Start simple, add complexity as needed:
-
-```mermaid
-graph TB
-    subgraph "Development Progression"
-        S1[Basic Loop] -->|"Add filtering"| S2[Filtered Loop]
-        S2 -->|"Add AJAX"| S3[Dynamic Loop]
-        S3 -->|"Add caching"| S4[Optimized Loop]
-        S4 -->|"Extract feature"| S5[Plugin]
+    subgraph "Traditional Way - 40 Hours"
+        T1[Learn Hooks] --> T2[Master Loop]
+        T2 --> T3[Write Code]
+        T3 --> T4[Debug]
+        T4 --> T5[Deploy]
     end
     
-    C1[Claude helps at each step]
-    C1 -.-> S1
-    C1 -.-> S2
-    C1 -.-> S3
-    C1 -.-> S4
-    C1 -.-> S5
+    subgraph "With Claude + Framework - 4 Hours"
+        A1[Describe Feature] --> A2[Claude Generates]
+        A2 --> A3[Review & Deploy]
+    end
     
-    style C1 fill:#ffe0b2
+    style T1 fill:#FFCDD2
+    style T2 fill:#FFCDD2
+    style T3 fill:#FFCDD2
+    style T4 fill:#FFCDD2
+    style T5 fill:#FFCDD2
+    style A1 fill:#C8E6C9
+    style A2 fill:#C8E6C9
+    style A3 fill:#C8E6C9
 ```
 
-## 📚 Framework Structure
-
-```mermaid
-graph TD
-    R[Root Directory]
-    R --> C[core/]
-    R --> I[inc/]
-    R --> T[template-parts/]
-    R --> E[examples/]
-    R --> D[docs/]
-    R --> A[assets/]
-    
-    C --> C1[functions.php<br/>Main theme functions]
-    C --> C2[index.php<br/>Loop demonstration]
-    C --> C3[style.css<br/>Theme declaration]
-    
-    I --> I1[loop-functions.php<br/>500+ lines of helpers]
-    I --> I2[bootstrap-nav-walker.php<br/>Bootstrap integration]
-    I --> I3[customizer.php<br/>Theme options]
-    
-    T --> T1[loops/<br/>12+ patterns]
-    T --> T2[content/<br/>Display templates]
-    T --> T3[components/<br/>Reusable parts]
-    
-    E --> E1[custom-post-type.php]
-    E --> E2[rest-api.php]
-    E --> E3[ajax-handler.php]
-    
-    style R fill:#f5f5f5
-    style C fill:#e1f5fe
-    style I fill:#f3e5f5
-    style T fill:#e8f5e9
-    style E fill:#fff3e0
-    style D fill:#fce4ec
-    style A fill:#e0f2f1
-```
-
-## 🚀 Quick Start Guide
+## 🚀 Quick Start
 
 ### Installation
 
@@ -195,459 +89,341 @@ mv wordpress-bootstrap-claude /path/to/wp-content/themes/
 # Activate in WordPress Admin
 ```
 
-### Your First AI-Assisted Development
-
-1. **Start a conversation with Claude:**
-```
-You: "Using the WordPress Bootstrap Claude framework, create a team members showcase with a grid layout and modal popups for details"
-```
-
-2. **Claude generates complete solution:**
-- Custom Post Type registration
-- Loop template with Bootstrap grid
-- Modal implementation
-- AJAX for dynamic loading
-
-3. **Implement in minutes, not hours**
-
-## 🎓 Learning Path for Agentic Development
+### Your First AI-Powered Feature
 
 ```mermaid
-journey
-    title Developer Journey with Claude AI
-    section Traditional Way
-      Learn WordPress Hooks: 3: Developer
-      Master The Loop: 2: Developer
-      Understand WP_Query: 2: Developer
-      Build Features: 3: Developer
-      Debug Issues: 2: Developer
-    section With This Framework
-      Describe Need to Claude: 5: Developer
-      Get Working Code: 5: Developer, Claude
-      Understand Patterns: 4: Developer
-      Modify & Extend: 5: Developer, Claude
-      Convert to Plugin: 5: Claude
+sequenceDiagram
+    participant You
+    participant Claude
+    participant Framework
+    participant WordPress
+    
+    You->>Claude: Create a team showcase
+    Claude->>Framework: Access patterns
+    Framework->>Claude: Provide templates
+    Claude->>You: Complete code
+    You->>WordPress: Deploy
+    Note over You,WordPress: Feature ready in minutes!
 ```
 
-## 📊 Performance Metrics
+## 📚 What's Included
+
+### 12+ Loop Patterns
+
+```mermaid
+graph TB
+    Loop[The Loop Patterns]
+    Loop --> L1[Standard Loop]
+    Loop --> L2[WP_Query Loop]
+    Loop --> L3[Multiple Loops]
+    Loop --> L4[AJAX Loop]
+    Loop --> L5[Meta Query Loop]
+    Loop --> L6[Tax Query Loop]
+    
+    style Loop fill:#FFD54F
+    style L1 fill:#81C784
+    style L2 fill:#4FC3F7
+    style L3 fill:#BA68C8
+    style L4 fill:#FF8A65
+    style L5 fill:#4DD0E1
+    style L6 fill:#9575CD
+```
+
+### Framework Structure
+
+```
+wordpress-bootstrap-claude/
+├── 📁 core/                 # Theme files
+│   ├── functions.php       # Core functions
+│   ├── index.php          # Main template
+│   └── style.css          # Theme declaration
+├── 📁 inc/                  # Includes
+│   ├── loop-functions.php  # 500+ lines of helpers
+│   └── nav-walker.php     # Bootstrap navigation
+├── 📁 template-parts/       # Templates
+│   └── loops/             # Loop patterns
+├── 📁 examples/            # Working examples
+│   ├── custom-post-type.php
+│   ├── rest-api.php
+│   └── ajax-handler.php
+└── 📁 docs/                # Documentation
+    ├── LOOP_GUIDE.md
+    ├── CLAUDE_QUICKSTART.md
+    └── PLUGIN_CONVERSION.md
+```
+
+## 🤖 Working with Claude AI
+
+### Natural Language to Code
+
+Tell Claude what you need in plain English:
+
+> "Create a product catalog with filtering and cart functionality"
+
+Claude will generate:
+- ✅ Custom Post Type
+- ✅ Taxonomies
+- ✅ Display Loop
+- ✅ AJAX Filtering
+- ✅ Cart Integration
+
+### Progressive Enhancement
 
 ```mermaid
 graph LR
-    subgraph "Development Speed Comparison"
-        T[Traditional: 40 hours] 
-        F[With Framework: 10 hours]
-        C[With Claude + Framework: 4 hours]
-    end
+    A[Basic Feature] -->|Add AJAX| B[Dynamic Feature]
+    B -->|Add Caching| C[Optimized Feature]
+    C -->|Extract| D[Standalone Plugin]
     
-    T -->|4x faster| F
-    F -->|2.5x faster| C
-    T -->|10x faster| C
-    
-    style T fill:#ffcdd2
-    style F fill:#fff9c4
-    style C fill:#c8e6c9
-```
-
-## 🔥 Real-World Use Cases
-
-### E-Commerce Product Catalog
-
-```mermaid
-flowchart TB
-    subgraph "Claude Builds Complete Feature"
-        R[Request: Product Catalog] --> CPT[Custom Post Type]
-        R --> TAX[Taxonomies]
-        R --> META[Meta Fields]
-        R --> LOOP[Display Loop]
-        R --> FILTER[AJAX Filtering]
-        R --> CART[Cart Integration]
-        
-        CPT --> FINAL[Working Feature]
-        TAX --> FINAL
-        META --> FINAL
-        LOOP --> FINAL
-        FILTER --> FINAL
-        CART --> FINAL
-    end
-```
-
-### Real Estate Listing Site
-
-```mermaid
-flowchart LR
-    D[Developer Request] -->|Natural Language| AI[Claude AI]
-    AI --> F1[Property CPT]
-    AI --> F2[Location Taxonomy]
-    AI --> F3[Price Meta Query]
-    AI --> F4[Map Integration]
-    AI --> F5[Search Filters]
-    F1 & F2 & F3 & F4 & F5 --> SITE[Complete Real Estate Site]
-    
-    style D fill:#e1f5fe
-    style AI fill:#fff3e0
-    style SITE fill:#c8e6c9
+    style A fill:#A5D6A7
+    style B fill:#90CAF9
+    style C fill:#CE93D8
+    style D fill:#FFAB91
 ```
 
 ## 💻 Code Examples
 
-### Basic Loop with Claude Enhancement
-
+### Basic WordPress Loop
 ```php
 <?php
-/**
- * Ask Claude: "Enhance this loop with Bootstrap cards and lazy loading"
- */
+// Ask Claude: "Enhance this with Bootstrap cards"
 if ( have_posts() ) :
-    echo '<div class="row">';
     while ( have_posts() ) : the_post();
-        // Claude adds Bootstrap structure
+        // Claude adds Bootstrap components
         // Claude adds lazy loading
-        // Claude adds animations
-        get_template_part( 'template-parts/content', 'card' );
+        // Claude optimizes queries
+        get_template_part( 'template-parts/content' );
     endwhile;
-    echo '</div>';
 endif;
 ?>
 ```
 
 ### Custom Query Pattern
-
 ```php
 <?php
-/**
- * Tell Claude: "Create a featured products loop with ratings"
- * Claude understands this pattern and enhances it
- */
+// Tell Claude: "Get featured products with ratings"
 $args = array(
     'post_type' => 'product',
     'meta_key' => 'featured',
     'meta_value' => 'yes',
-    // Claude adds rating sorting
-    // Claude adds pagination
-    // Claude adds caching
+    // Claude enhances with additional parameters
 );
 $query = new WP_Query( $args );
 ?>
 ```
 
-## 🛠 Development Tools Integration
+## 🔄 Convert Features to Plugins
 
 ```mermaid
 graph TB
-    subgraph "Complete Development Stack"
-        IDE[VS Code/IDE] --> |Code| GIT[Git/GitHub]
-        GIT --> |Deploy| WP[WordPress]
-        
-        CLAUDE[Claude AI] --> |Generates| CODE[Framework Code]
-        CODE --> IDE
-        
-        NPM[NPM/Build Tools] --> ASSETS[Compiled Assets]
-        ASSETS --> WP
-        
-        TEST[Testing] --> PROD[Production]
-    end
+    A[Theme Feature] -->|Identify Files| B[Extract Code]
+    B -->|Add Plugin Header| C[Create Plugin Structure]
+    C -->|Test| D[Standalone Plugin]
     
-    style CLAUDE fill:#ffd54f
-    style CODE fill:#81c784
+    Claude[Claude Automates This Process]
+    Claude -.->|Assists| A
+    Claude -.->|Assists| B
+    Claude -.->|Assists| C
+    Claude -.->|Assists| D
+    
+    style A fill:#64B5F6
+    style B fill:#81C784
+    style C fill:#FFB74D
+    style D fill:#E57373
+    style Claude fill:#FFF176
 ```
 
-## 📈 Framework Adoption Metrics
+## 📈 Performance Metrics
 
-```mermaid
-pie title "Development Time Savings"
-    "Planning" : 10
-    "Coding" : 20
-    "Testing" : 15
-    "Saved with Framework" : 55
-```
+### Development Speed Comparison
 
-```mermaid
-graph TD
-    subgraph "Skills Required"
-        T[Traditional WordPress Dev]
-        T --> S1[PHP Expert]
-        T --> S2[WordPress Hooks Mastery]
-        T --> S3[MySQL Knowledge]
-        T --> S4[JavaScript Proficiency]
-        
-        F[With This Framework]
-        F --> S5[Basic WordPress]
-        F --> S6[Claude AI Usage]
-        F --> S7[Copy & Paste 😄]
-    end
-    
-    style T fill:#ffcdd2
-    style F fill:#c8e6c9
-```
+| Traditional WordPress | With Framework | With Claude + Framework |
+|----------------------|----------------|------------------------|
+| 40 hours | 10 hours | **4 hours** |
+| Deep WP knowledge required | Basic WP knowledge | Describe what you want |
+| Manual coding | Use templates | AI generates code |
+| Extensive debugging | Pre-tested patterns | Production-ready code |
 
-## 🔄 Plugin Conversion Flow
-
-```mermaid
-flowchart LR
-    subgraph "Feature to Plugin Journey"
-        TF[Theme Feature] -->|Identify| FF[Feature Files]
-        FF -->|Extract| PF[Plugin Structure]
-        PF -->|Add Headers| PP[Plugin Package]
-        PP -->|Test| RP[Ready Plugin]
-    end
-    
-    CLAUDE[Claude Automates This] -.-> TF
-    CLAUDE -.-> FF
-    CLAUDE -.-> PF
-    CLAUDE -.-> PP
-    
-    style CLAUDE fill:#fff176
-    style RP fill:#a5d6a7
-```
-
-## 🌟 Success Stories
-
-> "I built a complete membership site in 2 days instead of 2 weeks!" - *WordPress Developer*
-
-> "Claude understood my requirements and generated perfect code using this framework" - *Agency Owner*
-
-> "Finally, a WordPress framework that speaks AI" - *Full Stack Developer*
-
-## 🤝 Contributing
-
-We welcome contributions from developers and AI enthusiasts!
+### Query Performance
 
 ```mermaid
 graph LR
-    Y[You] -->|Fork| R[Repository]
-    R -->|Create| B[Branch]
-    B -->|Make| C[Changes]
-    C -->|Submit| P[Pull Request]
-    P -->|Review| M[Merge]
+    A[Standard Query<br/>50ms] -->|Optimized| B[Framework Query<br/>20ms]
+    B -->|Cached| C[Cached Query<br/>2ms]
     
-    style Y fill:#e1f5fe
-    style M fill:#c8e6c9
+    style A fill:#FF9800
+    style B fill:#4CAF50
+    style C fill:#00BCD4
 ```
 
-### How to Contribute
+## 🛠 Real-World Use Cases
 
-1. **Fork the repository**
-2. **Create your feature branch** (`git checkout -b feature/AmazingFeature`)
-3. **Commit your changes** (`git commit -m 'Add some AmazingFeature'`)
-4. **Push to the branch** (`git push origin feature/AmazingFeature`)
-5. **Open a Pull Request**
+### E-Commerce Site
+```
+Developer: "Create a product catalog with filters"
+Claude generates → Complete WooCommerce-style system
+```
+
+### Portfolio Site
+```
+Developer: "Build a portfolio with Isotope filtering"
+Claude generates → CPT + Isotope + AJAX loading
+```
+
+### Membership Site
+```
+Developer: "Add member profiles with social links"
+Claude generates → User system + Meta fields + Display templates
+```
+
+## 🎯 Who Should Use This?
+
+- **WordPress Developers** - Speed up development 10x
+- **Agencies** - Deliver projects faster
+- **Freelancers** - Take on more clients
+- **AI Enthusiasts** - Leverage Claude effectively
+- **Beginners** - Build professional sites quickly
+
+## 🤝 Contributing
+
+```mermaid
+graph LR
+    A[Fork] --> B[Create Branch]
+    B --> C[Make Changes]
+    C --> D[Submit PR]
+    D --> E[Review & Merge]
+    
+    style A fill:#81C784
+    style B fill:#4FC3F7
+    style C fill:#FFB74D
+    style D fill:#BA68C8
+    style E fill:#A5D6A7
+```
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## 📚 Documentation
 
-### Core Documentation
 - 📖 [**Loop Mastery Guide**](docs/LOOP_GUIDE.md) - Complete WordPress Loop documentation
 - 🤖 [**Claude Integration Guide**](docs/CLAUDE_QUICKSTART.md) - AI development patterns
 - 🔌 [**Plugin Conversion Guide**](docs/PLUGIN_CONVERSION.md) - Extract features to plugins
-- 🎨 [**Theme Customization**](docs/THEME_CUSTOMIZATION.md) - Bootstrap and styling
-- 🚀 [**Performance Optimization**](docs/PERFORMANCE.md) - Speed and caching
+- 🎨 [**Theme Customization**](docs/CUSTOMIZATION.md) - Bootstrap and styling
+- 🚀 [**Performance Guide**](docs/PERFORMANCE.md) - Optimization techniques
 
-### Video Tutorials (Coming Soon)
-- 🎥 Building Your First Feature with Claude
-- 🎥 Converting Features to Plugins
-- 🎥 Advanced Loop Patterns
-- 🎥 REST API Integration
+## 🔧 Technical Requirements
 
-## 🔧 Technical Specifications
+- **WordPress:** 5.9 or higher
+- **PHP:** 7.4 or higher
+- **Bootstrap:** 5.3 (included)
+- **Claude AI:** Any tier
 
-### Requirements
-- **WordPress:** 5.9+
-- **PHP:** 7.4+
-- **Bootstrap:** 5.3
-- **Claude AI:** Any version
+## ✨ Key Features
 
-### Compatibility
-- ✅ Gutenberg Block Editor
-- ✅ Classic Editor
-- ✅ WooCommerce
-- ✅ Popular Page Builders
-- ✅ Multisite
+### For Developers
+- ✅ 12+ Loop patterns ready to use
+- ✅ 500+ lines of helper functions
+- ✅ Complete Bootstrap 5 integration
+- ✅ AJAX/REST API examples
+- ✅ Plugin-ready architecture
+
+### For AI Integration
+- ✅ Claude-optimized documentation
+- ✅ Clear code patterns
+- ✅ Modular structure
+- ✅ Conversion guides
+- ✅ Natural language friendly
 
 ## 🚦 Roadmap
 
 ```mermaid
 timeline
-    title Framework Development Roadmap
+    title Development Roadmap 2024-2025
     
-    Q1 2024 : Core Framework : Loop Patterns : Documentation
+    Q1 2024 : Core Framework
+            : Loop Patterns
+            : Documentation
     
-    Q2 2024 : Gutenberg Blocks : More Examples : Video Tutorials
+    Q2 2024 : Gutenberg Blocks
+            : More Examples
+            : Video Tutorials
     
-    Q3 2024 : CLI Tool : Auto Plugin Generator : AI Training Dataset
+    Q3 2024 : CLI Tool
+            : Auto Plugin Generator
     
-    Q4 2024 : Cloud Platform : Community Hub : Premium Features
+    Q4 2024 : Cloud Platform
+            : Premium Features
 ```
 
 ## 💬 Community & Support
 
-- **GitHub Issues:** [Report bugs or request features](https://github.com/coryhubbell/wordpress-bootstrap-claude/issues)
-- **Discussions:** [Join the conversation](https://github.com/coryhubbell/wordpress-bootstrap-claude/discussions)
-- **Twitter:** Follow [@yourhandle](#) for updates
-- **Blog:** [Read tutorials and tips](#)
+- **Issues:** [Report bugs](https://github.com/coryhubbell/wordpress-bootstrap-claude/issues)
+- **Discussions:** [Join community](https://github.com/coryhubbell/wordpress-bootstrap-claude/discussions)
+- **Wiki:** [Extended docs](https://github.com/coryhubbell/wordpress-bootstrap-claude/wiki)
 
-## 📊 Framework Statistics
+## ⚡ Quick Commands for Claude
 
-```mermaid
-graph TB
-    subgraph "Framework by Numbers"
-        F[Framework Stats]
-        F --> L[12+ Loop Patterns]
-        F --> D[1,500+ Lines of Docs]
-        F --> H[500+ Helper Functions]
-        F --> E[10+ Working Examples]
-        F --> T[100% Claude Compatible]
-        F --> S[10x Speed Increase]
-    end
-    
-    style F fill:#fff59d
-    style L fill:#a5d6a7
-    style D fill:#90caf9
-    style H fill:#ce93d8
-    style E fill:#ffab91
-    style T fill:#80cbc4
-    style S fill:#ef9a9a
+### Create Custom Post Type
+```
+"Using WordPress Bootstrap Claude, create a custom post type for Events with calendar integration"
 ```
 
-## 🎯 Who This Framework Is For
-
-```mermaid
-mindmap
-  root((WordPress Bootstrap Claude))
-    Developers
-      WordPress Developers
-      PHP Developers
-      Full Stack Developers
-      Frontend Developers
-    Agencies
-      Digital Agencies
-      WordPress Agencies
-      Freelancers
-    AI Enthusiasts
-      Claude Users
-      ChatGPT Users
-      AI Early Adopters
-    Businesses
-      Startups
-      SMBs
-      Enterprise
+### Build REST API
+```
+"Add REST API endpoints for the Events with authentication"
 ```
 
-## ⚡ Performance Benchmarks
+### Implement AJAX Features
+```
+"Create infinite scroll for the blog posts with loading animation"
+```
 
-```mermaid
-graph LR
-    subgraph "Query Performance"
-        Q1[Standard Query: 50ms]
-        Q2[Optimized Query: 20ms]
-        Q3[Cached Query: 2ms]
-    end
-    
-    Q1 -->|60% faster| Q2
-    Q2 -->|90% faster| Q3
-    
-    style Q1 fill:#ffcdd2
-    style Q2 fill:#fff9c4
-    style Q3 fill:#c8e6c9
+### Convert to Plugin
+```
+"Convert the Events feature into a standalone WordPress plugin"
 ```
 
 ## 🔐 Security Features
 
-- ✅ **Nonce Verification** - All AJAX requests protected
-- ✅ **Data Sanitization** - Input filtering throughout
-- ✅ **SQL Injection Prevention** - Prepared statements
-- ✅ **XSS Protection** - Output escaping
-- ✅ **CSRF Protection** - Token validation
+- ✅ Nonce verification on all AJAX calls
+- ✅ Data sanitization throughout
+- ✅ SQL injection prevention
+- ✅ XSS protection
+- ✅ CSRF protection
 
-## 📈 Why Choose This Framework?
+## 🌟 Why Choose This Framework?
 
-### Traditional Development ❌
-- Weeks of development time
-- Deep WordPress knowledge required
-- Manual coding everything
-- Difficult debugging
-- Limited reusability
-
-### With WordPress Bootstrap Claude ✅
-- **Hours instead of weeks**
-- **Claude does the heavy lifting**
-- **Copy-paste ready code**
-- **Built-in best practices**
-- **Convert to plugins instantly**
-
-## 🌍 Global Impact
-
-```mermaid
-graph TB
-    subgraph "Democratizing WordPress Development"
-        A[Any Developer] -->|Uses Framework| B[Builds Features]
-        B -->|With Claude AI| C[Professional Results]
-        C -->|Shares Knowledge| D[Community Grows]
-        D -->|More Contributors| A
-    end
-    
-    style A fill:#e1f5fe
-    style B fill:#f3e5f5
-    style C fill:#e8f5e9
-    style D fill:#fff3e0
-```
-
-## 🏆 Recognition
-
-- ⭐ **500+ GitHub Stars** *(target)*
-- 🏅 **WordPress.org Featured** *(goal)*
-- 🎖 **ProductHunt #1** *(upcoming)*
-- 🏆 **Best AI Tool 2024** *(nominated)*
+| Traditional Development | With This Framework |
+|------------------------|-------------------|
+| ❌ Weeks of coding | ✅ Hours to deploy |
+| ❌ Deep WP expertise needed | ✅ Claude does heavy lifting |
+| ❌ Debug extensively | ✅ Pre-tested patterns |
+| ❌ Start from scratch | ✅ Ready-to-use templates |
+| ❌ Complex documentation | ✅ AI-friendly structure |
 
 ## 📜 License
 
-This project is licensed under the GPL v2 or later - see the [LICENSE](LICENSE) file for details.
+GPL v2 or later - Same as WordPress
 
 ## 🙏 Acknowledgments
 
-- **WordPress Community** - For the amazing platform
-- **Bootstrap Team** - For the responsive framework
+- **WordPress Community** - For the platform
+- **Bootstrap Team** - For the framework
 - **Anthropic** - For Claude AI
-- **Contributors** - Everyone who helps improve this framework
-- **You** - For choosing to revolutionize your development workflow
+- **Contributors** - For improvements
+- **You** - For embracing AI development
 
 ---
 
 <div align="center">
 
-### 🚀 **Ready to Transform Your WordPress Development?**
+### **Ready to Build WordPress Sites 10x Faster?**
 
-**[Get Started Now](https://github.com/coryhubbell/wordpress-bootstrap-claude)** | **[Watch Demo](#)** | **[Read Docs](docs/)** | **[Join Community](#)**
+**[⭐ Star This Repo](https://github.com/coryhubbell/wordpress-bootstrap-claude)** | **[📖 Read Docs](docs/)** | **[💬 Join Discussion](https://github.com/coryhubbell/wordpress-bootstrap-claude/discussions)**
 
-**Built with ❤️ for developers who believe in the power of AI-assisted development**
-
-*Star ⭐ this repository if you believe in the future of AI-powered WordPress development!*
+**The future of WordPress development is AI-powered. Join us.**
 
 </div>
-
----
-
-```
-    __          __           _                     
-    \ \        / /          | |                    
-     \ \  /\  / /__  _ __ __| |_ __  _ __ ___  ___ ___ 
-      \ \/  \/ / _ \| '__/ _` | '_ \| '__/ _ \/ __/ __|
-       \  /\  / (_) | | | (_| | |_) | | |  __/\__ \__ \
-        \/  \/ \___/|_|  \__,_| .__/|_|  \___||___/___/
-                              | |                       
-                              |_|                       
-    ____              _       _                   
-   |  _ \            | |     | |                  
-   | |_) | ___   ___ | |_ ___| |_ _ __ __ _ _ __  
-   |  _ < / _ \ / _ \| __/ __| __| '__/ _` | '_ \ 
-   | |_) | (_) | (_) | |_\__ \ |_| | | (_| | |_) |
-   |____/ \___/ \___/ \__|___/\__|_|  \__,_| .__/ 
-                                            | |    
-                                            |_|    
-    _____ _                 _      
-   / ____| |               | |     
-  | |    | | __ _ _   _  __| | ___ 
-  | |    | |/ _` | | | |/ _` |/ _ \
-  | |____| | (_| | |_| | (_| |  __/
-   \_____|_|\__,_|\__,_|\__,_|\___|
-```
-
-**The Future of WordPress Development is Here. Are You Ready?** 🚀
