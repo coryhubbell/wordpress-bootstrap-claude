@@ -1,0 +1,7 @@
+{
+  "name": "wordpress-bootstrap-claude",
+  "version": "1.0.0",
+  "description": "AI-Powered WordPress Development Framework",
+  "keywords": ["wordpress", "bootstrap", "claude-ai"],
+  "license": "GPL-2.0-or-later"
+}
