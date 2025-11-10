@@ -47,13 +47,13 @@ Get up and running in less than 5 minutes:
 
 ```bash
 # Clone the repository
-git clone https://github.com/coryhubbell/wordpress-bootstrap-claude.git
+git clone https://github.com/coryhubbell/wordpress-boostrap-claude.git
 
 # Navigate to your WordPress themes directory
 cd /path/to/wordpress/wp-content/themes/
 
 # Copy the framework
-cp -r /path/to/wordpress-bootstrap-claude ./
+cp -r /path/to/wordpress-boostrap-claude ./
 
 # Activate in WordPress Admin
 # Go to Appearance > Themes > WordPress Bootstrap Claude > Activate
@@ -108,19 +108,7 @@ Claude will generate the complete implementation using the framework's optimized
 ## 🏗️ Architecture
 
 ```mermaid
-%%{init: {'theme':'base', 'themeVariables': {
-  'primaryColor':'#4A9EFF',
-  'primaryTextColor':'#FFFFFF',
-  'primaryBorderColor':'#6BB6FF',
-  'lineColor':'#8AB4F8',
-  'secondaryColor':'#34D399',
-  'tertiaryColor':'#F59E0B',
-  'background':'#1F2937',
-  'mainBkg':'#374151',
-  'secondBkg':'#4B5563',
-  'textColor':'#F3F4F6',
-  'fontSize':'16px'
-}}}%%
+%%{init: {'theme':'dark'}}%%
 flowchart TB
     subgraph "WordPress Bootstrap Claude"
         A[Claude AI Instructions] --> B[Framework Core]
@@ -143,7 +131,7 @@ flowchart TB
         F & G & H & I & J & K & L & M & N --> O[Production Site]
     end
     
-    style A fill:#F59E0B,stroke:#FBBF24,color:#000000,stroke-width:3px
+    style A fill:#8B5CF6,stroke:#C4B5FD,color:#FFFFFF,stroke-width:3px
     style B fill:#4A9EFF,stroke:#6BB6FF,color:#FFFFFF,stroke-width:3px
     style O fill:#34D399,stroke:#6EE7B7,color:#000000,stroke-width:3px
 ```
@@ -153,7 +141,7 @@ flowchart TB
 ## 📁 Project Structure
 
 ```
-wordpress-bootstrap-claude/
+wordpress-boostrap-claude/
 │
 ├── 📂 core/                    # Framework core
 │   ├── class-wpbc-loader.php   # Main loader
@@ -175,6 +163,13 @@ wordpress-bootstrap-claude/
 │   ├── custom-post-types/      # CPT templates
 │   ├── ajax-handlers/          # AJAX patterns
 │   └── api-endpoints/          # API routes
+│
+├── 📂 docs/                     # Documentation
+│   ├── getting-started.md      # Quick start guide
+│   ├── claude-integration.md   # AI usage guide
+│   ├── the-loop.md            # Loop patterns
+│   ├── bootstrap-components.md # UI components
+│   └── api-development.md     # REST API guide
 │
 ├── 📄 functions.php            # Theme functions
 ├── 📄 index.php                # Main template
@@ -267,18 +262,7 @@ endwhile;
 ## 🔄 Development Workflow
 
 ```mermaid
-%%{init: {'theme':'base', 'themeVariables': {
-  'primaryColor':'#4A9EFF',
-  'primaryTextColor':'#FFFFFF',
-  'primaryBorderColor':'#6BB6FF',
-  'lineColor':'#8AB4F8',
-  'secondaryColor':'#34D399',
-  'tertiaryColor':'#F59E0B',
-  'background':'#1F2937',
-  'mainBkg':'#374151',
-  'textColor':'#F3F4F6',
-  'fontSize':'16px'
-}}}%%
+%%{init: {'theme':'dark'}}%%
 graph LR
     A[Request] -->|Natural Language| B[Claude AI]
     B -->|Generates| C[Code]
@@ -286,7 +270,7 @@ graph LR
     D -->|Creates| E[WordPress Site]
     
     style A fill:#8B5CF6,stroke:#C4B5FD,color:#FFFFFF,stroke-width:3px
-    style B fill:#F59E0B,stroke:#FBBF24,color:#000000,stroke-width:3px
+    style B fill:#60A5FA,stroke:#93C5FD,color:#FFFFFF,stroke-width:3px
     style E fill:#34D399,stroke:#6EE7B7,color:#000000,stroke-width:3px
 ```
 
@@ -459,9 +443,9 @@ This project is licensed under **GPL v2 or later** - same as WordPress.
 
 ### **Ready to build WordPress sites 10x faster?**
 
-## [⭐ Star this repo](https://github.com/coryhubbell/wordpress-bootstrap-claude) • [🍴 Fork it](https://github.com/coryhubbell/wordpress-bootstrap-claude/fork) • [🚀 Get Started](#-quick-start)
+## [⭐ Star this repo](https://github.com/coryhubbell/wordpress-boostrap-claude) • [🍴 Fork it](https://github.com/coryhubbell/wordpress-boostrap-claude/fork) • [🚀 Get Started](#-quick-start)
 
-**Made with ❤️ by [Cory Hubbell](https://github.com/coryhubbell) and [contributors](https://github.com/coryhubbell/wordpress-bootstrap-claude/graphs/contributors)**
+**Made with ❤️ by [Cory Hubbell](https://github.com/coryhubbell) and [contributors](https://github.com/coryhubbell/wordpress-boostrap-claude/graphs/contributors)**
 
 *Empowering developers to build WordPress sites at the speed of thought with AI*
 
