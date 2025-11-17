@@ -16,13 +16,16 @@ class WPBC_File_Handler {
      * @var array
      */
     private $extensions = [
-        'bootstrap' => 'html',
-        'divi'      => 'txt',  // DIVI uses shortcodes in text files
-        'elementor' => 'json',
-        'avada'     => 'html',
-        'bricks'    => 'json',
-        'wpbakery'  => 'txt',  // WPBakery uses shortcodes
-        'claude'    => 'html',
+        'bootstrap'      => 'html',
+        'divi'           => 'txt',  // DIVI uses shortcodes in text files
+        'elementor'      => 'json',
+        'avada'          => 'html',
+        'bricks'         => 'json',
+        'wpbakery'       => 'txt',  // WPBakery uses shortcodes
+        'beaver-builder' => 'txt',  // Beaver Builder uses serialized PHP
+        'gutenberg'      => 'html', // Gutenberg uses HTML comments
+        'oxygen'         => 'json', // Oxygen uses JSON
+        'claude'         => 'html',
     ];
 
     /**

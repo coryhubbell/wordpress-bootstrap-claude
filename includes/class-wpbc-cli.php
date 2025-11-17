@@ -44,13 +44,16 @@ class WPBC_CLI {
      * @var array
      */
     private $frameworks = [
-        'bootstrap' => 'Bootstrap 5.3.3',
-        'divi'      => 'DIVI Builder',
-        'elementor' => 'Elementor',
-        'avada'     => 'Avada Fusion Builder',
-        'bricks'    => 'Bricks Builder',
-        'wpbakery'  => 'WPBakery Page Builder',
-        'claude'    => 'Claude AI-Optimized',
+        'bootstrap'      => 'Bootstrap 5.3.3',
+        'divi'           => 'DIVI Builder',
+        'elementor'      => 'Elementor',
+        'avada'          => 'Avada Fusion Builder',
+        'bricks'         => 'Bricks Builder',
+        'wpbakery'       => 'WPBakery Page Builder',
+        'beaver-builder' => 'Beaver Builder',
+        'gutenberg'      => 'Gutenberg Block Editor',
+        'oxygen'         => 'Oxygen Builder',
+        'claude'         => 'Claude AI-Optimized',
     ];
 
     /**

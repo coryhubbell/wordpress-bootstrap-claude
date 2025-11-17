@@ -17,6 +17,9 @@ use WPBC\TranslationBridge\Parsers\WPBC_Elementor_Parser;
 use WPBC\TranslationBridge\Parsers\WPBC_Avada_Parser;
 use WPBC\TranslationBridge\Parsers\WPBC_Bricks_Parser;
 use WPBC\TranslationBridge\Parsers\WPBC_WPBakery_Parser;
+use WPBC\TranslationBridge\Parsers\WPBC_Beaver_Builder_Parser;
+use WPBC\TranslationBridge\Parsers\WPBC_Gutenberg_Parser;
+use WPBC\TranslationBridge\Parsers\WPBC_Oxygen_Parser;
 use WPBC\TranslationBridge\Parsers\WPBC_Claude_Parser;
 
 /**
@@ -88,6 +91,20 @@ class WPBC_Parser_Factory {
 			case 'visualcomposer':
 				return new WPBC_WPBakery_Parser();
 
+			case 'beaver':
+			case 'beaverbuilder':
+			case 'beaver-builder':
+				return new WPBC_Beaver_Builder_Parser();
+
+			case 'gutenberg':
+			case 'blocks':
+			case 'block-editor':
+				return new WPBC_Gutenberg_Parser();
+
+			case 'oxygen':
+			case 'oxygen-builder':
+				return new WPBC_Oxygen_Parser();
+
 			case 'claude':
 			case 'claude-ai':
 			case 'ai':
@@ -104,7 +121,7 @@ class WPBC_Parser_Factory {
 	 * @return array<string> Array of framework names.
 	 */
 	public static function get_supported_frameworks(): array {
-		return [ 'bootstrap', 'divi', 'elementor', 'avada', 'bricks', 'wpbakery', 'claude' ];
+		return [ 'bootstrap', 'divi', 'elementor', 'avada', 'bricks', 'wpbakery', 'beaver-builder', 'gutenberg', 'oxygen', 'claude' ];
 	}
 
 	/**

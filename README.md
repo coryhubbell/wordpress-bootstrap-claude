@@ -23,7 +23,7 @@
 
 ### **🤖 Edit Pages in Real-Time with Claude AI • 🌉 90 Translation Pairs Across 10 Frameworks • 🔌 Full REST API • ⚡ Deploy Anywhere**
 
-**[📖 Documentation](docs/) • [🔌 API Docs](docs/api-v2.md) • [🚀 Quick Start](#-quick-start) • [🌟 Star This Repo](https://github.com/coryhubbell/wordpress-boostrap-claude)**
+**[📖 Documentation](docs/) • [🔌 API Docs](docs/api-v2.md) • [🚀 Quick Start](#-quick-start) • [🌟 Star This Repo](https://github.com/coryhubbell/wordpress-bootstrap-claude)**
 
 ---
 
@@ -564,7 +564,7 @@ wpbc list-frameworks
 **Output:**
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  Supported Frameworks (7 Total)
+  Supported Frameworks (10 Total)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
   bootstrap    Bootstrap 5.3.3
@@ -1700,7 +1700,7 @@ Translation Bridge™ is a trademark of WordPress Bootstrap Claude.
 
 **The framework that changes everything. The bridge that connects everything. The AI that accelerates everything.**
 
-### **WordPress Bootstrap Claude™ 3.0 - Now Available**
+### **WordPress Bootstrap Claude™ 3.2 - Now Available**
 
 </div>
 

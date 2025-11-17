@@ -119,6 +119,16 @@ function wpbc_init_translation_bridge() {
         require_once WPBC_INCLUDES_DIR . '/class-wpbc-logger.php';
         require_once WPBC_INCLUDES_DIR . '/class-wpbc-claude-api.php';
     }
+
+    // Load API v2
+    if (file_exists(WPBC_INCLUDES_DIR . '/class-wpbc-api-v2.php')) {
+        require_once WPBC_INCLUDES_DIR . '/class-wpbc-api-v2.php';
+    }
+
+    // Load Job Queue (for async batch processing)
+    if (file_exists(WPBC_INCLUDES_DIR . '/class-wpbc-job-queue.php')) {
+        require_once WPBC_INCLUDES_DIR . '/class-wpbc-job-queue.php';
+    }
 }
 add_action('after_setup_theme', 'wpbc_init_translation_bridge');
 
