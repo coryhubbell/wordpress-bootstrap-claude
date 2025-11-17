@@ -23,12 +23,12 @@
 
 ### **🤖 Edit Pages in Real-Time with Claude AI • 🌉 90 Translation Pairs Across 10 Frameworks • 🔌 Full REST API • ⚡ Deploy Anywhere**
 
-**[🎥 Watch Demo](https://youtube.com/demo) • [📖 Documentation](docs/) • [🔌 API Docs](docs/api-v2.md) • [💬 Discord](https://discord.gg/wpbc) • [🌟 Star This Repo](#)**
+**[📖 Documentation](docs/) • [🔌 API Docs](docs/api-v2.md) • [🚀 Quick Start](#-quick-start) • [🌟 Star This Repo](https://github.com/coryhubbell/wordpress-boostrap-claude)**
 
 ---
 
 ### **📚 Quick Navigation**
-**[🤖 Real-Time AI Editing](#-real-time-ai-editing-with-claude)** • **[🚀 Quick Start](#-quick-start)** • **[🌉 10 Frameworks](#-all-10-frameworks-supported)** • **[🔌 REST API v2](#-rest-api-v2)** • **[🖥️ CLI Tool](#%EF%B8%8F-cli-tool---production-ready)** • **[📊 Translation Pairs](#supported-translations)** • **[🛠 Installation](#-installation)**
+**[🆕 What's New](#-whats-new-in-v32)** • **[🤖 AI Editing](#-real-time-ai-editing-with-claude)** • **[🚀 Quick Start](#-quick-start)** • **[🌉 10 Frameworks](#-all-10-frameworks-supported)** • **[🔌 REST API v2](#-rest-api-v2)** • **[🖥️ CLI Tool](#%EF%B8%8F-cli-tool---production-ready)** • **[🛠 Installation](#-installation)**
 
 </div>
 
