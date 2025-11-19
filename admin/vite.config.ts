@@ -38,12 +38,18 @@ export default defineConfig({
   },
 
   server: {
+    host: '0.0.0.0', // Listen on all interfaces
     port: 3000,
     strictPort: true,
     // Allow access from WordPress dev server
-    cors: true,
+    cors: {
+      origin: ['http://localhost:8080', 'http://localhost:3000'],
+      credentials: true,
+    },
     hmr: {
       host: 'localhost',
+      protocol: 'ws',
+      port: 3000,
     },
   },
 
