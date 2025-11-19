@@ -3,7 +3,7 @@
  * Main component for the visual interface
  */
 
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Allotment } from 'allotment';
 import 'allotment/dist/style.css';
 import MonacoEditor from './Monaco/MonacoEditor';

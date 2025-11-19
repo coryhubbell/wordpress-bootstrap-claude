@@ -3,7 +3,7 @@
  * Top application toolbar with actions and settings
  */
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useEditorStore } from '@/store/editorStore';
 
 const Toolbar: React.FC = () => {

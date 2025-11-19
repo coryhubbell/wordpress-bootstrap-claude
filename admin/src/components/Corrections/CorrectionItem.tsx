@@ -3,6 +3,7 @@
  * Individual correction/suggestion display with action buttons
  */
 
+import React from 'react';
 import type { CorrectionSuggestion } from '@/types';
 import { useEditorStore } from '@/store/editorStore';
 

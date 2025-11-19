@@ -3,7 +3,7 @@
  * Displays AI-generated corrections and suggestions
  */
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useEditorStore } from '@/store/editorStore';
 import CorrectionItem from './CorrectionItem';
 
