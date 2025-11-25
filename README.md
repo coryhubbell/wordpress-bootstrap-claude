@@ -815,35 +815,6 @@ wpbc translate claude elementor landing-final.html
 
 ---
 
-## 🖥️ **CLI Tool - Production Ready**
-
-### **🆕 NEW: Professional Command-Line Interface**
-
-The Translation Bridge™ now includes a production-ready CLI tool for seamless framework translation from your terminal.
-
-#### **Requirements**
-- **PHP 7.4+** (required)
-- **PHP Extensions:** mbstring, json, curl (optional)
-
-#### **Installation**
-```bash
-# Already included in the repository
-cd wordpress-bootstrap-claude
-chmod +x wpbc
-./wpbc --version
-```
-
-#### **Add to PATH** (Optional)
-```bash
-# macOS/Linux
-export PATH="$(pwd):$PATH"
-
-# Now use from anywhere
-wpbc --version
-```
-
----
-
 ## 🎮 **CLI Commands Reference**
 
 ### **Supported Frameworks**
@@ -938,16 +909,19 @@ wpbc list-frameworks
   Supported Frameworks (10 Total)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-  bootstrap    Bootstrap 5.3.3
-  divi         DIVI Builder
-  elementor    Elementor
-  avada        Avada Fusion Builder
-  bricks       Bricks Builder
-  wpbakery     WPBakery Page Builder
-  claude       Claude AI-Optimized
+  bootstrap       Bootstrap 5.3.3
+  divi            DIVI Builder
+  elementor       Elementor
+  avada           Avada Fusion Builder
+  bricks          Bricks Builder
+  wpbakery        WPBakery Page Builder
+  beaver-builder  Beaver Builder
+  gutenberg       Gutenberg Block Editor
+  oxygen          Oxygen Builder
+  claude          Claude AI-Optimized
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Translation Pairs: 30 (any framework to any other)
+Translation Pairs: 90 (any framework to any other)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
@@ -1814,32 +1788,6 @@ wordpress-bootstrap-claude/
 
 ---
 
-## 📊 **Performance Metrics**
-
-### **Translation Speed**
-| Operation | Traditional | With Bridge | Improvement |
-|-----------|------------|-------------|-------------|
-| Single Component | 1 hour | 0.1 seconds | 36,000x |
-| Full Page | 8 hours | 2 seconds | 14,400x |
-| Complete Site | 40 hours | 30 seconds | 4,800x |
-
-### **Development Speed**
-| Task | Traditional | With Claude AI | Improvement |
-|------|------------|----------------|-------------|
-| Create Component | 2 hours | 5 minutes | 24x |
-| Build Page | 8 hours | 20 minutes | 24x |
-| Full Theme | 2 weeks | 2 days | 7x |
-
-### **Cost Savings**
-```
-Traditional Site Migration: $6,000
-With Translation Bridge: $200
-Savings: $5,800 (97% reduction)
-ROI: 2,900%
-```
-
----
-
 ## 🛠 **Installation**
 
 ### **Requirements**
@@ -2037,44 +1985,6 @@ Select source and target from all 10 supported frameworks:
 - 📅 Certification program
 - 📅 Partner network
 - 📅 Visual conversion preview tool
-
----
-
-## 💰 **Pricing**
-
-### **Open Source** (Free)
-- ✅ Core framework
-- ✅ Basic components
-- ✅ Community support
-- ✅ Documentation
-- ⚠️ Limited translations (10/month)
-
-### **Pro License** ($199/year)
-- ✅ Everything in Open Source
-- ✅ Translation Bridge™ unlimited
-- ✅ Claude AI integration
-- ✅ Premium components
-- ✅ Priority support
-- ✅ Advanced patterns
-- ✅ Updates for 1 year
-
-### **Agency License** ($499/year)
-- ✅ Everything in Pro
-- ✅ 5 site licenses
-- ✅ White label option
-- ✅ Client management
-- ✅ Batch processing
-- ✅ API access
-- ✅ Phone support
-
-### **Enterprise** (Custom)
-- ✅ Unlimited sites
-- ✅ Custom frameworks
-- ✅ On-premise option
-- ✅ Training included
-- ✅ SLA guarantee
-- ✅ Dedicated support
-- 📞 [Contact Sales](mailto:enterprise@wpbc.io)
 
 ---
 
