@@ -104,13 +104,28 @@ class WPBC_Shortcode_Helper {
 
 		// Add attributes
 		foreach ( $attributes as $key => $value ) {
+			// Skip null values
+			if ( $value === null ) {
+				continue;
+			}
+
 			if ( is_bool( $value ) ) {
 				// Boolean to yes/no
 				$value = $value ? 'yes' : 'no';
 			} elseif ( is_array( $value ) ) {
-				// Array to comma-separated
-				$value = implode( ',', $value );
+				// Flatten nested arrays and convert to comma-separated string
+				$value = self::flatten_array_to_string( $value );
+			} elseif ( is_object( $value ) ) {
+				// Objects to JSON
+				$value = wp_json_encode( $value );
 			}
+
+			// Ensure value is a string
+			if ( ! is_string( $value ) && ! is_numeric( $value ) ) {
+				continue;
+			}
+
+			$value = (string) $value;
 
 			// Quote value if it contains spaces or special characters
 			if ( preg_match( '/[\s,]/', $value ) ) {
@@ -434,6 +449,28 @@ class WPBC_Shortcode_Helper {
 		}
 
 		return $normalized;
+	}
+
+	/**
+	 * Flatten a potentially nested array to a comma-separated string
+	 *
+	 * Handles nested arrays that would otherwise cause "Array to string conversion" warnings.
+	 *
+	 * @param array $array The array to flatten.
+	 * @return string Comma-separated string of values.
+	 */
+	private static function flatten_array_to_string( array $array ): string {
+		$flat = [];
+
+		array_walk_recursive( $array, function( $value ) use ( &$flat ) {
+			if ( is_string( $value ) || is_numeric( $value ) ) {
+				$flat[] = (string) $value;
+			} elseif ( is_bool( $value ) ) {
+				$flat[] = $value ? 'yes' : 'no';
+			}
+		} );
+
+		return implode( ',', $flat );
 	}
 
 	/**

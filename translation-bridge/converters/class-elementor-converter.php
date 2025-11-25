@@ -140,16 +140,23 @@ class WPBC_Elementor_Converter implements WPBC_Converter_Interface {
 	 * Convert column component to Elementor column
 	 *
 	 * @param WPBC_Component $component Component to convert.
+	 * @param bool           $is_inner  Whether this is an inner column.
 	 * @return array Elementor column element.
 	 */
-	private function convert_column( WPBC_Component $component ): array {
+	private function convert_column( WPBC_Component $component, bool $is_inner = false ): array {
 		$settings = $this->denormalize_attributes( $component->attributes );
 
-		// Convert width to Elementor column size
+		// Convert width to Elementor column size with responsive breakpoints
+		$column_size = 100;
 		if ( isset( $component->attributes['width'] ) ) {
-			$width = $this->parse_width( $component->attributes['width'] );
-			$settings['_column_size'] = $width;
+			$column_size = $this->parse_width( $component->attributes['width'] );
 		}
+
+		// Elementor requires responsive column sizes
+		$settings['_column_size']        = $column_size;
+		$settings['_inline_size']        = null;
+		$settings['_column_size_tablet'] = ''; // Empty = inherit from desktop
+		$settings['_column_size_mobile'] = ''; // Empty = inherit from desktop
 
 		// Add styles
 		if ( ! empty( $component->styles ) ) {
@@ -159,15 +166,22 @@ class WPBC_Elementor_Converter implements WPBC_Converter_Interface {
 		$element = [
 			'id'       => $this->generate_id(),
 			'elType'   => 'column',
-			'settings' => $settings,
+			'settings' => ! empty( $settings ) ? $settings : new \stdClass(),
 			'elements' => [],
+			'isInner'  => $is_inner,
 		];
 
-		// Convert children to widgets
+		// Convert children - columns can ONLY contain widgets or inner sections
 		foreach ( $component->children as $child ) {
-			$widget = $this->convert_widget( $child );
-			if ( $widget ) {
-				$element['elements'][] = $widget;
+			if ( in_array( $child->type, [ 'column', 'row', 'section', 'container' ], true ) ) {
+				// Layout components become inner sections
+				$inner_section = $this->create_inner_section( $child );
+				$element['elements'][] = $inner_section;
+			} else {
+				$widget = $this->convert_widget( $child );
+				if ( $widget ) {
+					$element['elements'][] = $widget;
+				}
 			}
 		}
 
@@ -175,7 +189,54 @@ class WPBC_Elementor_Converter implements WPBC_Converter_Interface {
 	}
 
 	/**
+	 * Create inner section for nested layouts
+	 *
+	 * Elementor structure: section > column > inner_section > column > widget
+	 *
+	 * @param WPBC_Component $component Layout component to wrap.
+	 * @return array Elementor inner section element.
+	 */
+	private function create_inner_section( WPBC_Component $component ): array {
+		$section = [
+			'id'       => $this->generate_id(),
+			'elType'   => 'section',
+			'settings' => new \stdClass(),
+			'elements' => [],
+			'isInner'  => true, // Critical flag for inner sections
+		];
+
+		// Process children based on component type
+		if ( in_array( $component->type, [ 'row', 'section', 'container' ], true ) ) {
+			foreach ( $component->children as $child ) {
+				if ( $child->type === 'column' ) {
+					$column = $this->convert_column( $child, true );
+					$section['elements'][] = $column;
+				} else {
+					// Wrap non-column children in a column
+					$column = $this->create_column( [ $child ], true );
+					$section['elements'][] = $column;
+				}
+			}
+		} else {
+			// Single component - wrap in a column
+			$column = $this->convert_column( $component, true );
+			$section['elements'][] = $column;
+		}
+
+		// Ensure at least one column
+		if ( empty( $section['elements'] ) ) {
+			$column = $this->create_column( [], true );
+			$section['elements'][] = $column;
+		}
+
+		return $section;
+	}
+
+	/**
 	 * Convert component to Elementor widget
+	 *
+	 * IMPORTANT: Widgets cannot contain other widgets in Elementor.
+	 * Nested items (for tabs/accordions) go in settings, not elements.
 	 *
 	 * @param WPBC_Component $component Component to convert.
 	 * @return array|null Elementor widget element.
@@ -183,8 +244,9 @@ class WPBC_Elementor_Converter implements WPBC_Converter_Interface {
 	private function convert_widget( WPBC_Component $component ): ?array {
 		$widget_type = $this->map_to_widget_type( $component->type );
 
+		// Use fallback for unmapped types instead of returning null
 		if ( ! $widget_type ) {
-			return null;
+			return $this->get_fallback( $component );
 		}
 
 		$settings = $this->denormalize_attributes( $component->attributes );
@@ -197,25 +259,71 @@ class WPBC_Elementor_Converter implements WPBC_Converter_Interface {
 			$settings = array_merge( $settings, $this->convert_styles( $component->styles ) );
 		}
 
-		$element = [
+		// Handle nested elements for tabs/accordions (stored in settings, not elements)
+		if ( ! empty( $component->children ) ) {
+			$settings = $this->add_nested_items( $widget_type, $settings, $component->children );
+		}
+
+		// Widgets DO NOT have an 'elements' key - they cannot contain child elements
+		return [
 			'id'         => $this->generate_id(),
 			'elType'     => 'widget',
 			'widgetType' => $widget_type,
-			'settings'   => $settings,
+			'settings'   => ! empty( $settings ) ? $settings : new \stdClass(),
 		];
+	}
 
-		// Handle nested elements (for tabs, accordion, etc.)
-		if ( ! empty( $component->children ) ) {
-			$element['elements'] = [];
-			foreach ( $component->children as $child ) {
-				$child_widget = $this->convert_widget( $child );
-				if ( $child_widget ) {
-					$element['elements'][] = $child_widget;
+	/**
+	 * Add nested items to widget settings for tabs/accordions
+	 *
+	 * @param string $widget_type Widget type.
+	 * @param array  $settings    Current settings.
+	 * @param array  $children    Child components.
+	 * @return array Updated settings with nested items.
+	 */
+	private function add_nested_items( string $widget_type, array $settings, array $children ): array {
+		switch ( $widget_type ) {
+			case 'tabs':
+				$settings['tabs'] = [];
+				foreach ( $children as $index => $child ) {
+					$title = $child->get_attribute( 'title' ) ?? $child->get_attribute( 'label' ) ?? 'Tab ' . ( $index + 1 );
+					$settings['tabs'][] = [
+						'_id'         => $this->generate_id(),
+						'tab_title'   => $title,
+						'tab_content' => $child->content ?? '',
+					];
 				}
-			}
+				break;
+
+			case 'accordion':
+				$settings['tabs'] = []; // Accordion also uses 'tabs' key
+				foreach ( $children as $index => $child ) {
+					$title = $child->get_attribute( 'title' ) ?? $child->get_attribute( 'label' ) ?? 'Item ' . ( $index + 1 );
+					$settings['tabs'][] = [
+						'_id'                 => $this->generate_id(),
+						'tab_title'           => $title,
+						'tab_content'         => $child->content ?? '',
+						'tab_default_active'  => $index === 0 ? 'yes' : '',
+					];
+				}
+				break;
+
+			case 'icon-list':
+				$settings['icon_list'] = [];
+				foreach ( $children as $child ) {
+					$settings['icon_list'][] = [
+						'_id'  => $this->generate_id(),
+						'text' => $child->content ?? '',
+						'icon' => [
+							'value'   => 'fas fa-check',
+							'library' => 'fa-solid',
+						],
+					];
+				}
+				break;
 		}
 
-		return $element;
+		return $settings;
 	}
 
 	/**
@@ -262,6 +370,23 @@ class WPBC_Elementor_Converter implements WPBC_Converter_Interface {
 	}
 
 	/**
+	 * Create Elementor link object with all required properties
+	 *
+	 * @param string $url    URL value.
+	 * @param string $target Link target (_self, _blank).
+	 * @param string $rel    Rel attribute value.
+	 * @return array Elementor link object.
+	 */
+	private function create_link_object( string $url, string $target = '_self', string $rel = '' ): array {
+		return [
+			'url'               => $url,
+			'is_external'       => $target === '_blank' ? 'on' : '',
+			'nofollow'          => strpos( $rel, 'nofollow' ) !== false ? 'on' : '',
+			'custom_attributes' => '',
+		];
+	}
+
+	/**
 	 * Denormalize universal attributes to Elementor settings
 	 *
 	 * @param array $attributes Universal attributes.
@@ -270,61 +395,109 @@ class WPBC_Elementor_Converter implements WPBC_Converter_Interface {
 	private function denormalize_attributes( array $attributes ): array {
 		$settings = [];
 
-		$attr_map = [
-			// Button
-			'url'               => 'link',
-			'label'             => 'text',
-			'variant'           => 'button_type',
-			'size'              => 'size',
-			'target'            => '_link_target',
-
-			// Image
-			'image_url'         => 'image',
-			'alt_text'          => 'alt_text',
-
-			// Heading
-			'heading'           => 'title',
-			'level'             => 'header_size',
-
-			// Card / Icon box
-			'description'       => 'description_text',
-			'icon'              => 'icon',
-
-			// Colors
-			'background_color'  => 'background_color',
-			'text_color'        => 'color',
-
-			// Layout
-			'width'             => 'content_width',
-			'gap'               => 'gap',
-
-			// Alignment
-			'alignment'         => 'align',
-		];
-
 		foreach ( $attributes as $key => $value ) {
-			// Check if we need to denormalize this key
-			$elementor_key = $attr_map[ $key ] ?? $key;
+			switch ( $key ) {
+				case 'url':
+					// URLs become full link objects
+					$settings['link'] = $this->create_link_object(
+						$value,
+						$attributes['target'] ?? '_self',
+						$attributes['rel'] ?? ''
+					);
+					break;
 
-			// Handle special cases
-			if ( $key === 'url' ) {
-				// URLs become link arrays
-				$settings['link'] = [
-					'url'         => $value,
-					'is_external' => $attributes['target'] === '_blank' ? 'on' : '',
-					'nofollow'    => isset( $attributes['rel'] ) && strpos( $attributes['rel'], 'nofollow' ) !== false ? 'on' : '',
-				];
-			} elseif ( $key === 'image_url' ) {
-				// Images become image arrays
-				$settings['image'] = [
-					'url' => $value,
-					'alt' => $attributes['alt_text'] ?? '',
-				];
-			} elseif ( $key === 'heading' && isset( $attributes['title'] ) ) {
-				// For icon-box, use title_text
-				$settings['title_text'] = $value;
-			} else {
-				$settings[ $elementor_key ] = $value;
+				case 'image_url':
+					// Images become image arrays with all properties
+					$settings['image'] = [
+						'url'    => $value,
+						'id'     => '',
+						'alt'    => $attributes['alt_text'] ?? '',
+						'source' => 'library',
+					];
+					break;
+
+				case 'variant':
+					// Map variants to Elementor button types
+					$variant_map = [
+						'primary'   => 'default',
+						'secondary' => 'info',
+						'success'   => 'success',
+						'danger'    => 'danger',
+						'warning'   => 'warning',
+						'info'      => 'info',
+						'light'     => '',
+						'dark'      => 'default',
+					];
+					$settings['button_type'] = $variant_map[ $value ] ?? 'default';
+					break;
+
+				case 'size':
+					// Map sizes to Elementor sizes
+					$size_map = [
+						'sm'     => 'sm',
+						'small'  => 'sm',
+						'md'     => 'md',
+						'medium' => 'md',
+						'lg'     => 'lg',
+						'large'  => 'lg',
+						'xl'     => 'xl',
+					];
+					$settings['size'] = $size_map[ $value ] ?? 'md';
+					break;
+
+				case 'level':
+					// Convert heading level to Elementor header_size
+					$level_map = [
+						1 => 'h1', 2 => 'h2', 3 => 'h3',
+						4 => 'h4', 5 => 'h5', 6 => 'h6',
+					];
+					$settings['header_size'] = $level_map[ (int) $value ] ?? 'h2';
+					break;
+
+				case 'alignment':
+					$settings['align'] = $value;
+					break;
+
+				case 'heading':
+				case 'title':
+					$settings['title'] = $value;
+					break;
+
+				case 'label':
+					$settings['text'] = $value;
+					break;
+
+				case 'description':
+					$settings['description_text'] = $value;
+					break;
+
+				case 'icon':
+					// Convert icon to Elementor icon format
+					$settings['selected_icon'] = [
+						'value'   => $value,
+						'library' => 'fa-solid',
+					];
+					break;
+
+				case 'background_color':
+					$settings['background_color'] = $value;
+					break;
+
+				case 'text_color':
+					$settings['color'] = $value;
+					break;
+
+				// Skip attributes handled elsewhere
+				case 'target':
+				case 'rel':
+				case 'alt_text':
+				case 'width': // Handled in column conversion
+					break;
+
+				default:
+					// Pass through other attributes
+					$settings[ $key ] = $value;
+					break;
 			}
 		}
 
@@ -387,7 +560,7 @@ class WPBC_Elementor_Converter implements WPBC_Converter_Interface {
 	}
 
 	/**
-	 * Convert styles to Elementor settings
+	 * Convert styles to Elementor settings with proper unit wrappers
 	 *
 	 * @param array $styles Styles array.
 	 * @return array Elementor settings.
@@ -395,31 +568,93 @@ class WPBC_Elementor_Converter implements WPBC_Converter_Interface {
 	private function convert_styles( array $styles ): array {
 		$settings = [];
 
+		// Properties that need dimension wrappers
+		$dimensional_properties = [
+			'font_size', 'font-size',
+			'line_height', 'line-height',
+			'letter_spacing', 'letter-spacing',
+			'padding', 'margin',
+			'border_radius', 'border-radius',
+			'width', 'height',
+			'max_width', 'max-width',
+			'min_height', 'min-height',
+		];
+
 		foreach ( $styles as $property => $value ) {
-			// Convert CSS property names to Elementor settings
+			// Convert CSS property names to Elementor settings (underscore format)
 			$elementor_key = str_replace( '-', '_', $property );
 
-			// Add to settings
-			$settings[ $elementor_key ] = $value;
+			// Check if this is a dimensional property
+			if ( in_array( $property, $dimensional_properties, true ) ||
+			     in_array( $elementor_key, $dimensional_properties, true ) ) {
+				$settings[ $elementor_key ] = $this->create_dimension_value( $value );
+			} else {
+				$settings[ $elementor_key ] = $value;
+			}
 		}
 
 		return $settings;
 	}
 
 	/**
-	 * Create a default column
+	 * Create Elementor dimension value object
 	 *
-	 * @param array $widgets Widgets to add to column.
+	 * Elementor requires dimensional values in a specific format with unit information.
+	 *
+	 * @param mixed $value CSS value with unit or numeric.
+	 * @return array Elementor dimension object.
+	 */
+	private function create_dimension_value( $value ): array {
+		// Already an array, return as-is
+		if ( is_array( $value ) ) {
+			return $value;
+		}
+
+		// Parse string values like "16px", "1.5em", "100%"
+		if ( is_string( $value ) && preg_match( '/^([\d.]+)(px|em|rem|%|vw|vh|vmin|vmax)?$/', $value, $matches ) ) {
+			return [
+				'size'  => (float) $matches[1],
+				'unit'  => $matches[2] ?? 'px',
+				'sizes' => [], // Responsive breakpoints
+			];
+		}
+
+		// Numeric values default to px
+		if ( is_numeric( $value ) ) {
+			return [
+				'size'  => (float) $value,
+				'unit'  => 'px',
+				'sizes' => [],
+			];
+		}
+
+		// Fallback for unparseable values
+		return [
+			'size'  => 0,
+			'unit'  => 'px',
+			'sizes' => [],
+		];
+	}
+
+	/**
+	 * Create a default column with all required Elementor settings
+	 *
+	 * @param array $widgets  Widgets to add to column.
+	 * @param bool  $is_inner Whether this is an inner column.
 	 * @return array Elementor column element.
 	 */
-	private function create_column( array $widgets = [] ): array {
+	private function create_column( array $widgets = [], bool $is_inner = false ): array {
 		$element = [
 			'id'       => $this->generate_id(),
 			'elType'   => 'column',
 			'settings' => [
-				'_column_size' => 100,
+				'_column_size'        => 100,
+				'_inline_size'        => null,
+				'_column_size_tablet' => '',
+				'_column_size_mobile' => '',
 			],
 			'elements' => [],
+			'isInner'  => $is_inner,
 		];
 
 		foreach ( $widgets as $widget ) {

@@ -206,5 +206,173 @@ if (!class_exists('WP_REST_Response')) {
     }
 }
 
+// Additional WordPress functions for Translation Bridge
+if (!function_exists('wp_json_encode')) {
+    function wp_json_encode($data, $options = 0, $depth = 512) {
+        return json_encode($data, $options, $depth);
+    }
+}
+
+if (!function_exists('maybe_unserialize')) {
+    function maybe_unserialize($data) {
+        if (is_serialized($data)) {
+            return @unserialize(trim($data));
+        }
+        return $data;
+    }
+}
+
+if (!function_exists('is_serialized')) {
+    function is_serialized($data, $strict = true) {
+        if (!is_string($data)) {
+            return false;
+        }
+        $data = trim($data);
+        if ('N;' === $data) {
+            return true;
+        }
+        if (strlen($data) < 4) {
+            return false;
+        }
+        if (':' !== $data[1]) {
+            return false;
+        }
+        if ($strict) {
+            $lastc = substr($data, -1);
+            if (';' !== $lastc && '}' !== $lastc) {
+                return false;
+            }
+        } else {
+            $semicolon = strpos($data, ';');
+            $brace = strpos($data, '}');
+            if (false === $semicolon && false === $brace) {
+                return false;
+            }
+            if (false !== $semicolon && $semicolon < 3) {
+                return false;
+            }
+            if (false !== $brace && $brace < 4) {
+                return false;
+            }
+        }
+        $token = $data[0];
+        switch ($token) {
+            case 's':
+                if ($strict) {
+                    if ('"' !== substr($data, -2, 1)) {
+                        return false;
+                    }
+                } elseif (!str_contains($data, '"')) {
+                    return false;
+                }
+            case 'a':
+            case 'O':
+            case 'E':
+                return (bool) preg_match("/^{$token}:[0-9]+:/s", $data);
+            case 'b':
+            case 'i':
+            case 'd':
+                $end = $strict ? '$' : '';
+                return (bool) preg_match("/^{$token}:[0-9.E+-]+;{$end}/", $data);
+        }
+        return false;
+    }
+}
+
+if (!function_exists('do_shortcode')) {
+    function do_shortcode($content) {
+        return $content;
+    }
+}
+
+if (!function_exists('shortcode_atts')) {
+    function shortcode_atts($pairs, $atts, $shortcode = '') {
+        $atts = (array) $atts;
+        $out = [];
+        foreach ($pairs as $name => $default) {
+            if (array_key_exists($name, $atts)) {
+                $out[$name] = $atts[$name];
+            } else {
+                $out[$name] = $default;
+            }
+        }
+        return $out;
+    }
+}
+
+// Mock WordPress get_shortcode_regex function
+// This regex matches WordPress core's implementation from wp-includes/shortcodes.php
+if (!function_exists('get_shortcode_regex')) {
+    function get_shortcode_regex($tagnames = null) {
+        // Default to common page builder shortcode patterns
+        $tagregexp = '[a-zA-Z0-9_-]+';
+        if ($tagnames !== null && is_array($tagnames)) {
+            $tagregexp = implode('|', array_map('preg_quote', $tagnames));
+        }
+
+        return '\\['                              // Opening bracket
+            . '(\\[?)'                           // 1: Optional second opening bracket for escaping: [[tag]]
+            . "($tagregexp)"                     // 2: Shortcode name
+            . '(?![\\w-])'                       // Not followed by word character or hyphen
+            . '('                                // 3: Unroll the loop: Inside the opening shortcode tag
+            .     '[^\\]\\/]*'                   // Not a closing bracket or forward slash
+            .     '(?:'
+            .         '\\/(?!\\])'               // A forward slash not followed by a closing bracket
+            .         '[^\\]\\/]*'               // Not a closing bracket or forward slash
+            .     ')*?'
+            . ')'
+            . '(?:'
+            .     '(\\/)'                        // 4: Self closing tag...
+            .     '\\]'                          // ...and closing bracket
+            . '|'
+            .     '\\]'                          // Closing bracket
+            .     '(?:'
+            .         '('                        // 5: Unroll the loop: Optionally, anything between the opening and closing tags
+            .             '[^\\[]*+'             // Not an opening bracket
+            .             '(?:'
+            .                 '\\[(?!\\/\\2\\])' // An opening bracket not followed by the closing shortcode tag
+            .                 '[^\\[]*+'         // Not an opening bracket
+            .             ')*+'
+            .         ')'
+            .         '\\[\\/\\2\\]'             // Closing shortcode tag
+            .     ')?'
+            . ')'
+            . '(\\]?)';                          // 6: Optional second closing bracket for escaping: [[tag]]
+    }
+}
+
+// Mock WordPress shortcode_parse_atts function
+// Parses shortcode attribute strings into associative arrays
+if (!function_exists('shortcode_parse_atts')) {
+    function shortcode_parse_atts($text) {
+        $atts = [];
+        // Match: name="value", name='value', or name=value
+        $pattern = '/(\w+)\s*=\s*"([^"]*)"|(\w+)\s*=\s*\'([^\']*)\'|(\w+)\s*=\s*([^\s\]]+)/';
+        if (preg_match_all($pattern, $text, $matches, PREG_SET_ORDER)) {
+            foreach ($matches as $match) {
+                if (!empty($match[1])) {
+                    $atts[$match[1]] = $match[2];
+                } elseif (!empty($match[3])) {
+                    $atts[$match[3]] = $match[4];
+                } elseif (!empty($match[5])) {
+                    $atts[$match[5]] = $match[6];
+                }
+            }
+        }
+        return $atts;
+    }
+}
+
+// Mock WordPress strip_shortcodes function
+if (!function_exists('strip_shortcodes')) {
+    function strip_shortcodes($content) {
+        if (empty($content)) {
+            return $content;
+        }
+        // Simple regex to remove shortcode tags
+        return preg_replace('/\[[^\]]+\]/', '', $content);
+    }
+}
+
 echo "PHPUnit Bootstrap loaded successfully\n";
 echo "Test environment initialized\n";
