@@ -1,0 +1,88 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release (e.g., 1.0.0)'
+        required: true
+
+jobs:
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: admin/package-lock.json
+
+      - name: Install admin dependencies
+        working-directory: admin
+        run: npm ci
+
+      - name: Build admin for production
+        working-directory: admin
+        run: npm run build
+
+      - name: Get version from tag
+        id: version
+        run: |
+          if [ -n "${{ github.event.inputs.version }}" ]; then
+            echo "version=${{ github.event.inputs.version }}" >> $GITHUB_OUTPUT
+          else
+            echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create release package
+        run: |
+          mkdir -p release/wordpress-bootstrap-claude
+          cp -r includes release/wordpress-bootstrap-claude/
+          cp -r translation-bridge release/wordpress-bootstrap-claude/
+          cp -r admin/dist release/wordpress-bootstrap-claude/admin-dist/
+          cp functions.php style.css index.php release/wordpress-bootstrap-claude/
+          cp README.md LICENSE release/wordpress-bootstrap-claude/ 2>/dev/null || true
+          cd release && zip -r ../wordpress-bootstrap-claude-${{ steps.version.outputs.version }}.zip wordpress-bootstrap-claude/
+
+      - name: Generate changelog
+        id: changelog
+        uses: mikepenz/release-changelog-builder-action@v4
+        with:
+          configuration: ".github/changelog-config.json"
+          failOnError: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: v${{ steps.version.outputs.version }}
+          body: |
+            ## WordPress Bootstrap Claude v${{ steps.version.outputs.version }}
+
+            ${{ steps.changelog.outputs.changelog }}
+
+            ### Installation
+            1. Download the zip file below
+            2. Upload to your WordPress themes directory
+            3. Activate the theme
+
+            ### Requirements
+            - WordPress 5.8+
+            - PHP 7.4+
+          files: wordpress-bootstrap-claude-${{ steps.version.outputs.version }}.zip
+          draft: false
+          prerelease: ${{ contains(github.ref, 'beta') || contains(github.ref, 'alpha') }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

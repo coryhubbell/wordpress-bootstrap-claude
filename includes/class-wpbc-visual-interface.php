@@ -100,7 +100,7 @@ class WPBC_Visual_Interface {
 					'userId'    => get_current_user_id(),
 					'siteUrl'   => get_site_url(),
 					'adminUrl'  => admin_url(),
-					'version'   => '3.2.1',
+					'version'   => WPBC_THEME_VERSION,
 				]
 			);
 		}

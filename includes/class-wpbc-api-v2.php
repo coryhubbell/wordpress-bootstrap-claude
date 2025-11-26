@@ -403,7 +403,7 @@ class WPBC_API_V2 {
         try {
             require_once WPBC_TRANSLATION_BRIDGE_DIR . '/core/class-parser-factory.php';
 
-            $parser = Parser_Factory::create($framework);
+            $parser = \WPBC\TranslationBridge\Core\WPBC_Parser_Factory::create($framework);
             $components = $parser->parse($content);
 
             $is_valid = !empty($components);
@@ -882,9 +882,4 @@ class WPBC_API_V2 {
             'message' => 'API key revoked successfully',
         ], 200);
     }
-}
-
-// Initialize API
-if (class_exists('WPBC_Logger')) {
-    new WPBC_API_V2();
 }

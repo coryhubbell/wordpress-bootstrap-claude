@@ -383,6 +383,7 @@ class WPBC_CLI
         $successful = 0;
         $failed = 0;
         $start_time = microtime(true);
+        $target_count = count($this->frameworks) - 1; // Exclude source framework
 
         // Translate to each framework
         foreach ($this->frameworks as $target => $name) {
@@ -392,7 +393,7 @@ class WPBC_CLI
 
             $total++;
             echo PHP_EOL;
-            $this->info("[{$total}/6] Translating to {$name}...");
+            $this->info("[{$total}/{$target_count}] Translating to {$name}...");
 
             // Generate output filename
             $basename = pathinfo($input_file, PATHINFO_FILENAME);
@@ -404,7 +405,7 @@ class WPBC_CLI
 
                 // Translate
                 require_once WPBC_TRANSLATION_BRIDGE . '/core/class-translator.php';
-                $translator = new Translator();
+                $translator = new \WPBC\TranslationBridge\Core\WPBC_Translator();
                 $result = $translator->translate($input_content, $source, $target);
 
                 if ($result) {
@@ -508,7 +509,7 @@ class WPBC_CLI
             $input_content = $this->file_handler->read_file($input_file, $framework);
 
             require_once WPBC_TRANSLATION_BRIDGE . '/core/class-parser-factory.php';
-            $parser = Parser_Factory::create($framework);
+            $parser = \WPBC\TranslationBridge\Core\WPBC_Parser_Factory::create($framework);
             $components = $parser->parse($input_content);
 
             if (empty($components)) {
@@ -543,71 +544,19 @@ class WPBC_CLI
     }
 
     /**
-     * Command: antigravity
-     *
-     * Run the Antigravity Agentic Loop
-     * Usage: wpbc antigravity <url> --target=<framework>
-     */
-    private function command_antigravity()
-    {
-        if (count($this->params) < 1) {
-            $this->error("Insufficient arguments for 'antigravity' command");
-            $this->info("Usage: wpbc antigravity <url> --target=<framework>");
-            return 1;
-        }
-
-        $url = $this->params[0];
-        $target = $this->get_option('target', 't');
-
-        if (!$target) {
-            $this->error("Target framework is required (--target=<framework>)");
-            return 1;
-        }
-
-        if (!isset($this->frameworks[$target])) {
-            $this->error("Unknown target framework: {$target}");
-            $this->list_frameworks();
-            return 1;
-        }
-
-        $this->info("🚀 Initializing Antigravity Agent...");
-        $this->info("Target: {$this->frameworks[$target]}");
-        $this->info("URL:    {$url}");
-        echo PHP_EOL;
-
-        require_once WPBC_INCLUDES . '/class-wpbc-antigravity-agent.php';
-        require_once WPBC_TRANSLATION_BRIDGE . '/core/class-translator.php';
-
-        // Initialize dependencies
-        try {
-            $translator = new \WPBC\TranslationBridge\Core\WPBC_Translator();
-        } catch (\Exception $e) {
-            $this->error("Failed to initialize Translator: " . $e->getMessage());
-            return 1;
-        }
-
-        $agent = new WPBC_Antigravity_Agent($translator, $this->logger);
-
-        if ($agent->run($url, $target)) {
-            $this->success("✨ Antigravity mission successful!");
-            return 0;
-        } else {
-            $this->error("💥 Antigravity mission failed.");
-            return 1;
-        }
-    }
-
-    /**
      * Show version information
      */
     private function show_version()
     {
+        $framework_count = count($this->frameworks);
+        $translation_pairs = $framework_count * ($framework_count - 1);
+
         echo $this->bold("WPBC - WordPress Bootstrap Claude") . PHP_EOL;
         echo "Version: " . WPBC_VERSION . PHP_EOL;
         echo "Translation Bridge™ - Universal Framework Translator" . PHP_EOL;
         echo PHP_EOL;
-        echo "Supported Frameworks: 7" . PHP_EOL;
-        echo "Translation Pairs: 30" . PHP_EOL;
+        echo "Supported Frameworks: {$framework_count}" . PHP_EOL;
+        echo "Translation Pairs: {$translation_pairs}" . PHP_EOL;
         echo PHP_EOL;
         return 0;
     }
@@ -634,16 +583,13 @@ class WPBC_CLI
         echo "    Translate from one framework to another" . PHP_EOL;
         echo PHP_EOL;
         echo "  " . $this->bold("translate-all") . " <source> <file>" . PHP_EOL;
-        echo "    Translate to all frameworks (generates 6 files)" . PHP_EOL;
+        echo "    Translate to all frameworks (generates 9 files)" . PHP_EOL;
         echo PHP_EOL;
         echo "  " . $this->bold("list-frameworks") . PHP_EOL;
         echo "    List all supported frameworks" . PHP_EOL;
         echo PHP_EOL;
         echo "  " . $this->bold("validate") . " <framework> <file>" . PHP_EOL;
         echo "    Validate a framework file" . PHP_EOL;
-        echo PHP_EOL;
-        echo "  " . $this->bold("antigravity") . " <url> --target=<framework>" . PHP_EOL;
-        echo "    Run the Antigravity Agentic Loop" . PHP_EOL;
         echo PHP_EOL;
         echo "  " . $this->bold("help") . " [command]" . PHP_EOL;
         echo "    Show help for a specific command" . PHP_EOL;

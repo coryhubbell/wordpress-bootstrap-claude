@@ -1,0 +1,55 @@
+[
+  {
+    "id": "element1",
+    "elType": "section",
+    "settings": {
+      "layout": "full_width",
+      "background_background": "classic",
+      "background_color": "#007bff"
+    },
+    "elements": [
+      {
+        "id": "column1",
+        "elType": "column",
+        "settings": {
+          "_column_size": 100
+        },
+        "elements": [
+          {
+            "id": "heading1",
+            "elType": "widget",
+            "widgetType": "heading",
+            "settings": {
+              "title": "Welcome to Our Site",
+              "header_size": "h1",
+              "align": "center",
+              "title_color": "#ffffff"
+            }
+          },
+          {
+            "id": "text1",
+            "elType": "widget",
+            "widgetType": "text-editor",
+            "settings": {
+              "editor": "<p>This is a simple hero section.</p>",
+              "align": "center"
+            }
+          },
+          {
+            "id": "button1",
+            "elType": "widget",
+            "widgetType": "button",
+            "settings": {
+              "text": "Get Started",
+              "size": "lg",
+              "align": "center",
+              "link": {
+                "url": "#"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

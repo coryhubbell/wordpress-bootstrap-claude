@@ -33,6 +33,7 @@
             <file>index.php</file>
         </exclude>
         <report>
+            <clover outputFile="coverage/clover.xml"/>
             <html outputDirectory="coverage"/>
             <text outputFile="php://stdout" showUncoveredFiles="false"/>
         </report>

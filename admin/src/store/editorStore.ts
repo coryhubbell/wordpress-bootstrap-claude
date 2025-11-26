@@ -202,7 +202,8 @@ export const useEditorStore = create<EditorStoreState>()(
 
           try {
             // Call WordPress REST API
-            const response = await fetch('/wp-json/wpbc/v2/translate', {
+            const restUrl = (window as any).wpbcData?.restUrl || '/wp-json/wpbc/v2/';
+            const response = await fetch(`${restUrl}translate`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',

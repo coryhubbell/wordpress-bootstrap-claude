@@ -4,7 +4,8 @@
 
 <div align="center">
 
-![Version](https://img.shields.io/badge/version-3.2.1-blue.svg)
+![Version](https://img.shields.io/badge/version-3.2.2-blue.svg)
+![CI](https://img.shields.io/github/actions/workflow/status/coryhubbell/wordpress-bootstrap-claude/ci.yml?label=CI)
 ![CLI](https://img.shields.io/badge/CLI-Production_Ready-success.svg)
 ![API](https://img.shields.io/badge/REST_API_v2-Live-success.svg)
 ![License](https://img.shields.io/badge/license-GPL--2.0%2B-green.svg)
@@ -373,7 +374,34 @@ tests/
 
 ## 📋 **Version History**
 
-### **v3.2.1 - November 2025** 🚀 Latest
+### **v3.2.2 - November 2025** 🚀 Latest
+
+#### **🤖 Full CI/CD Pipeline:**
+- **GitHub Actions CI** - PHP matrix testing (7.4, 8.0, 8.1, 8.2) + Node.js (18, 20)
+- **Automated releases** - Version tag triggers create GitHub releases
+- **Dependabot** - Weekly Composer and npm dependency updates
+- **Code coverage** - Clover output integrated with Codecov
+
+#### **🧪 Comprehensive Test Suite:**
+- **68+ Unit Tests** - RateLimiter (15), Encryption (12), CLI (14), API v2 (16), Auth (10+), FileHandler (15)
+- **Integration Tests** - Full Translation Bridge workflow testing across all frameworks
+- **Test Fixtures** - Bootstrap HTML and Elementor JSON fixtures for realistic testing
+
+#### **🐛 Bug Fixes:**
+- Fixed namespace instantiation errors in CLI (`\WPBC\TranslationBridge\Core\WPBC_Translator`)
+- Fixed namespace instantiation in API v2 (`\WPBC\TranslationBridge\Core\WPBC_Parser_Factory`)
+- Fixed dynamic framework count in CLI (`translate-all` now shows correct count)
+- Fixed Visual Interface version display (uses `WPBC_THEME_VERSION` constant)
+- Fixed REST URL in Visual Interface editor store
+- Fixed save button functionality in Toolbar component
+- Removed double API class instantiation
+
+#### **🧹 Code Cleanup:**
+- **Removed Antigravity Agent** - Experimental feature removed from codebase
+- Updated help text framework references (6 → 9 files for translate-all)
+- Dynamic framework counting in version display
+
+### **v3.2.1 - November 2025**
 
 #### **🔒 Enterprise Security Update:**
 - **API Key Encryption** - AES-256-CBC encryption for all stored keys

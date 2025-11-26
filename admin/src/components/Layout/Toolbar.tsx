@@ -11,7 +11,25 @@ function Toolbar() {
   const [showSettings, setShowSettings] = useState(false);
 
   const handleSave = () => {
-    // TODO: Implement save functionality
+    // Save current state to localStorage
+    try {
+      localStorage.setItem('wpbc_editor_state', JSON.stringify({
+        sourceCode: editor.sourceCode,
+        translatedCode: editor.translatedCode,
+        sourceFramework: editor.sourceFramework,
+        targetFramework: editor.targetFramework,
+        savedAt: new Date().toISOString(),
+      }));
+      // Show brief success feedback
+      const btn = document.querySelector('[data-save-btn]') as HTMLButtonElement;
+      if (btn) {
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>';
+        setTimeout(() => { btn.innerHTML = originalText; }, 1500);
+      }
+    } catch (e) {
+      console.error('Failed to save:', e);
+    }
   };
 
   const handleExport = () => {
@@ -43,7 +61,7 @@ function Toolbar() {
         </div>
 
         <span className="text-xs px-2 py-1 bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-300 rounded-full font-medium">
-          v3.2.1
+          v{(window as any).wpbcData?.version || '3.1.0'}
         </span>
       </div>
 
@@ -79,7 +97,9 @@ function Toolbar() {
         <button
           onClick={handleSave}
           disabled={!editor.isDirty}
+          data-save-btn
           className="btn btn-secondary disabled:opacity-50 disabled:cursor-not-allowed"
+          title="Save to browser"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path

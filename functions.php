@@ -169,11 +169,6 @@ function wpbc_init_translation_bridge() {
         require_once WPBC_INCLUDES_DIR . '/class-wpbc-visual-interface.php';
         new WPBC_Visual_Interface();
     }
-
-    // Load Antigravity Agent (agentic workflow)
-    if (file_exists(WPBC_INCLUDES_DIR . '/class-wpbc-antigravity-agent.php')) {
-        require_once WPBC_INCLUDES_DIR . '/class-wpbc-antigravity-agent.php';
-    }
 }
 add_action('after_setup_theme', 'wpbc_init_translation_bridge');
 
@@ -259,9 +254,12 @@ function wpbc_admin_page() {
                 <li><strong>Avada</strong> - Avada Fusion Builder HTML</li>
                 <li><strong>Bricks</strong> - Bricks Builder JSON</li>
                 <li><strong>WPBakery</strong> - WPBakery Page Builder shortcodes</li>
+                <li><strong>Beaver Builder</strong> - Beaver Builder modules</li>
+                <li><strong>Gutenberg</strong> - Gutenberg Block Editor</li>
+                <li><strong>Oxygen</strong> - Oxygen Builder JSON</li>
                 <li><strong>Claude</strong> - Claude AI-Optimized HTML</li>
             </ul>
-            <p><strong>30 Translation Pairs</strong> - Convert any framework to any other framework</p>
+            <p><strong>90 Translation Pairs</strong> - Convert any framework to any other framework</p>
         </div>
 
         <div class="card">
@@ -285,7 +283,7 @@ function wpbc_admin_page() {
                     </tr>
                     <tr>
                         <td><code>wpbc translate-all &lt;source&gt; &lt;file&gt;</code></td>
-                        <td><?php _e('Translate to all frameworks (6 files)', 'wpbc'); ?></td>
+                        <td><?php _e('Translate to all frameworks (9 files)', 'wpbc'); ?></td>
                     </tr>
                     <tr>
                         <td><code>wpbc list-frameworks</code></td>
@@ -348,15 +346,18 @@ function wpbc_frameworks_page() {
                         <td>
                             <?php
                             $formats = [
-                                'bootstrap' => 'HTML/CSS',
-                                'divi'      => 'Shortcodes',
-                                'elementor' => 'JSON',
-                                'avada'     => 'HTML',
-                                'bricks'    => 'JSON',
-                                'wpbakery'  => 'Shortcodes',
-                                'claude'    => 'HTML (AI-Optimized)',
+                                'bootstrap'      => 'HTML/CSS',
+                                'divi'           => 'Shortcodes',
+                                'elementor'      => 'JSON',
+                                'avada'          => 'HTML',
+                                'bricks'         => 'JSON',
+                                'wpbakery'       => 'Shortcodes',
+                                'beaver-builder' => 'Serialized PHP',
+                                'gutenberg'      => 'HTML Comments',
+                                'oxygen'         => 'JSON',
+                                'claude'         => 'HTML (AI-Optimized)',
                             ];
-                            echo esc_html($formats[$key]);
+                            echo esc_html($formats[$key] ?? 'Unknown');
                             ?>
                         </td>
                         <td><span style="color: green;">✓ Active</span></td>
@@ -368,7 +369,7 @@ function wpbc_frameworks_page() {
 
         <div class="card">
             <h2>Framework Details</h2>
-            <p><strong>Translation Pairs:</strong> 30 (any framework to any other)</p>
+            <p><strong>Translation Pairs:</strong> 90 (any framework to any other)</p>
             <p><strong>Visual Accuracy:</strong> 98% across all conversions</p>
             <p><strong>Conversion Speed:</strong> ~30 seconds average</p>
         </div>
@@ -507,11 +508,11 @@ function wpbc_show_system_status() {
         </tr>
         <tr>
             <th><?php _e('Supported Frameworks', 'wpbc'); ?></th>
-            <td>7 (Bootstrap, DIVI, Elementor, Avada, Bricks, WPBakery, Claude)</td>
+            <td>10 (Bootstrap, DIVI, Elementor, Avada, Bricks, WPBakery, Beaver Builder, Gutenberg, Oxygen, Claude)</td>
         </tr>
         <tr>
             <th><?php _e('Translation Pairs', 'wpbc'); ?></th>
-            <td>30</td>
+            <td>90</td>
         </tr>
     </table>
     <?php
