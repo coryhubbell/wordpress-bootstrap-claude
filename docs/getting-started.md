@@ -18,16 +18,28 @@ Welcome to WordPress Bootstrap Claude! This guide will walk you through everythi
 Before you begin, ensure you have:
 
 ### Required
-- **PHP 8.0** or higher
-- **WordPress 5.9** or higher
+- **PHP 7.4+** (8.0+ recommended)
+- **WordPress 5.8** or higher
 - **MySQL 5.7+** or MariaDB 10.3+
 - **Web Server**: Apache or Nginx
 
 ### Optional (for development)
-- **Node.js 16+** - For asset compilation
-- **Composer** - For dependency management
-- **Claude AI Account** - For AI-powered development
+- **Node.js 18+** - For Visual Interface development
+- **Composer 2.0+** - For dependency management
+- **Docker** - For containerized development
+- **Claude AI Account** - For AI-powered editing features
 - **Git** - For version control
+
+### Quick Setup (CLI Only)
+
+If you just want to use the translation CLI without WordPress:
+
+```bash
+git clone https://github.com/coryhubbell/wordpress-bootstrap-claude.git
+cd wordpress-bootstrap-claude
+./setup.sh
+./wpbc --help
+```
 
 ---
 

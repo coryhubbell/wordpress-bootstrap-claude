@@ -1,0 +1,133 @@
+[vc_row full_width="stretch_row" css=".vc_custom{background-color:#0073aa;padding:80px 0;}"]
+[vc_column]
+[vc_custom_heading text="Welcome to Our Platform" font_container="tag:h1|text_align:center|color:%23ffffff" google_fonts="font_family:Roboto:300,300italic,400,400italic,500,500italic,700,700italic|font_style:700%20bold%20regular%3A700%3Anormal"]
+[vc_column_text css=".vc_custom{text-align:center;color:#ffffff;}"]
+Discover the power of seamless page builder translation. Convert your designs between any framework in seconds.
+[/vc_column_text]
+[vc_row_inner]
+[vc_column_inner width="1/2" offset="vc_col-md-offset-3 vc_col-md-6"]
+[vc_btn title="Get Started" style="flat" color="white" align="center" link="url:%23features"]
+[vc_btn title="Learn More" style="outline" color="white" align="center" link="url:%23about"]
+[/vc_column_inner]
+[/vc_row_inner]
+[/vc_column]
+[/vc_row]
+
+[vc_row css=".vc_custom{padding:60px 0;}"]
+[vc_column]
+[vc_custom_heading text="Key Features" font_container="tag:h2|text_align:center" google_fonts="font_family:Roboto:300,300italic,400,400italic,500,500italic,700,700italic|font_style:700%20bold%20regular%3A700%3Anormal"]
+[vc_empty_space height="30px"]
+[/vc_column]
+[/vc_row]
+
+[vc_row]
+[vc_column width="1/3"]
+[vc_icon icon_fontawesome="fa fa-exchange" color="custom" size="xl" align="center" custom_color="#0073aa"]
+[vc_custom_heading text="Universal Translation" font_container="tag:h3|text_align:center"]
+[vc_column_text css=".vc_custom{text-align:center;}"]
+Convert between 10 page builders with 90 translation pairs. Support for Bootstrap, DIVI, Elementor, and more.
+[/vc_column_text]
+[/vc_column]
+[vc_column width="1/3"]
+[vc_icon icon_fontawesome="fa fa-magic" color="custom" size="xl" align="center" custom_color="#0073aa"]
+[vc_custom_heading text="AI-Powered Editing" font_container="tag:h3|text_align:center"]
+[vc_column_text css=".vc_custom{text-align:center;}"]
+Edit your pages using natural language with Claude AI. Simply describe the changes you want to make.
+[/vc_column_text]
+[/vc_column]
+[vc_column width="1/3"]
+[vc_icon icon_fontawesome="fa fa-bolt" color="custom" size="xl" align="center" custom_color="#0073aa"]
+[vc_custom_heading text="30-Second Conversions" font_container="tag:h3|text_align:center"]
+[vc_column_text css=".vc_custom{text-align:center;}"]
+What used to take 40 hours of manual rebuilding now takes just 30 seconds with our Translation Bridge.
+[/vc_column_text]
+[/vc_column]
+[/vc_row]
+
+[vc_row css=".vc_custom{background-color:#f7f7f7;padding:60px 0;}"]
+[vc_column]
+[vc_custom_heading text="What Our Users Say" font_container="tag:h2|text_align:center"]
+[vc_empty_space height="30px"]
+[/vc_column]
+[/vc_row]
+
+[vc_row css=".vc_custom{background-color:#f7f7f7;padding-bottom:60px;}"]
+[vc_column width="1/3"]
+[vc_column_text css=".vc_custom{background-color:#ffffff;padding:30px;border-radius:8px;}"]
+<em>"This tool saved us weeks of work when migrating our client sites from DIVI to Elementor. Absolutely incredible!"</em>
+
+<strong>Sarah Johnson</strong>
+Web Developer, TechCorp
+[/vc_column_text]
+[/vc_column]
+[vc_column width="1/3"]
+[vc_column_text css=".vc_custom{background-color:#ffffff;padding:30px;border-radius:8px;}"]
+<em>"We can now offer multi-framework support to our clients without the massive overhead. Game changer for our business."</em>
+
+<strong>Mike Chen</strong>
+Agency Owner, Digital Agency
+[/vc_column_text]
+[/vc_column]
+[vc_column width="1/3"]
+[vc_column_text css=".vc_custom{background-color:#ffffff;padding:30px;border-radius:8px;}"]
+<em>"The AI editing feature is mind-blowing. I just describe what I want and it happens. No more digging through settings!"</em>
+
+<strong>Emma Davis</strong>
+Freelancer
+[/vc_column_text]
+[/vc_column]
+[/vc_row]
+
+[vc_row css=".vc_custom{padding:60px 0;}"]
+[vc_column width="1/3" offset="vc_col-md-offset-3 vc_col-md-6"]
+[vc_custom_heading text="Ready to Get Started?" font_container="tag:h2|text_align:center"]
+[vc_column_text css=".vc_custom{text-align:center;}"]
+Join thousands of developers who are already saving time with our translation platform.
+[/vc_column_text]
+[contact-form-7 id="1" title="Contact Form"]
+[/vc_column]
+[/vc_row]
+
+[vc_row full_width="stretch_row" css=".vc_custom{background-color:#333333;padding:40px 0;}"]
+[vc_column width="1/4"]
+[vc_custom_heading text="Company" font_container="tag:h4|color:%23ffffff"]
+[vc_column_text css=".vc_custom{color:#cccccc;}"]
+<a href="/about">About Us</a>
+<a href="/team">Our Team</a>
+<a href="/careers">Careers</a>
+[/vc_column_text]
+[/vc_column]
+[vc_column width="1/4"]
+[vc_custom_heading text="Product" font_container="tag:h4|color:%23ffffff"]
+[vc_column_text css=".vc_custom{color:#cccccc;}"]
+<a href="/features">Features</a>
+<a href="/pricing">Pricing</a>
+<a href="/docs">Documentation</a>
+[/vc_column_text]
+[/vc_column]
+[vc_column width="1/4"]
+[vc_custom_heading text="Support" font_container="tag:h4|color:%23ffffff"]
+[vc_column_text css=".vc_custom{color:#cccccc;}"]
+<a href="/help">Help Center</a>
+<a href="/contact">Contact</a>
+<a href="/status">Status</a>
+[/vc_column_text]
+[/vc_column]
+[vc_column width="1/4"]
+[vc_custom_heading text="Legal" font_container="tag:h4|color:%23ffffff"]
+[vc_column_text css=".vc_custom{color:#cccccc;}"]
+<a href="/privacy">Privacy Policy</a>
+<a href="/terms">Terms of Service</a>
+<a href="/cookies">Cookie Policy</a>
+[/vc_column_text]
+[/vc_column]
+[/vc_row]
+
+[vc_row full_width="stretch_row" css=".vc_custom{background-color:#333333;padding-bottom:20px;}"]
+[vc_column]
+[vc_separator color="custom" accent_color="#555555"]
+[vc_column_text css=".vc_custom{text-align:center;color:#999999;}"]
+© 2024 WordPress Bootstrap Claude. All rights reserved.
+[/vc_column_text]
+[/vc_column]
+[/vc_row]

@@ -38,6 +38,39 @@
 
 ---
 
+## 👩‍💻 **Quick Start for Contributors**
+
+Get up and running in under 5 minutes:
+
+```bash
+# Clone the repository
+git clone https://github.com/coryhubbell/wordpress-bootstrap-claude.git
+cd wordpress-bootstrap-claude
+
+# Run setup (installs dependencies, generates security keys)
+./setup.sh
+# Or use make:
+make setup
+
+# Verify everything works
+make test
+
+# Try a translation
+./wpbc translate bootstrap divi examples/hero-bootstrap.html
+```
+
+**Optional: Full development stack with Docker**
+
+```bash
+make docker-up
+# WordPress: http://localhost:8080
+# phpMyAdmin: http://localhost:8081
+```
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the full contributor guide.
+
+---
+
 ## 🎯 **Mission: Revolutionize WordPress Development**
 
 > **We're ending the era of vendor lock-in and manual page building forever.**

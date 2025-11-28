@@ -1,0 +1,513 @@
+{
+  "content": [
+    {
+      "id": "section-hero",
+      "name": "section",
+      "parent": 0,
+      "settings": {
+        "background": {
+          "color": "#0073aa"
+        },
+        "_padding": {
+          "top": "80px",
+          "bottom": "80px"
+        }
+      },
+      "children": [
+        {
+          "id": "container-hero",
+          "name": "container",
+          "parent": "section-hero",
+          "settings": {
+            "_width": "1200px"
+          },
+          "children": [
+            {
+              "id": "heading-main",
+              "name": "heading",
+              "parent": "container-hero",
+              "settings": {
+                "text": "Welcome to Our Platform",
+                "tag": "h1",
+                "_textAlign": "center",
+                "_color": "#ffffff"
+              }
+            },
+            {
+              "id": "text-intro",
+              "name": "text",
+              "parent": "container-hero",
+              "settings": {
+                "text": "Discover the power of seamless page builder translation. Convert your designs between any framework in seconds.",
+                "_textAlign": "center",
+                "_color": "#ffffff"
+              }
+            },
+            {
+              "id": "buttons-hero",
+              "name": "block",
+              "parent": "container-hero",
+              "settings": {
+                "_display": "flex",
+                "_justifyContent": "center",
+                "_gap": "15px"
+              },
+              "children": [
+                {
+                  "id": "button-cta",
+                  "name": "button",
+                  "parent": "buttons-hero",
+                  "settings": {
+                    "text": "Get Started",
+                    "link": {
+                      "url": "#features"
+                    },
+                    "style": "primary"
+                  }
+                },
+                {
+                  "id": "button-learn",
+                  "name": "button",
+                  "parent": "buttons-hero",
+                  "settings": {
+                    "text": "Learn More",
+                    "link": {
+                      "url": "#about"
+                    },
+                    "style": "outline"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-features",
+      "name": "section",
+      "parent": 0,
+      "settings": {
+        "_padding": {
+          "top": "60px",
+          "bottom": "60px"
+        }
+      },
+      "children": [
+        {
+          "id": "container-features",
+          "name": "container",
+          "parent": "section-features",
+          "settings": {
+            "_width": "1200px"
+          },
+          "children": [
+            {
+              "id": "heading-features",
+              "name": "heading",
+              "parent": "container-features",
+              "settings": {
+                "text": "Key Features",
+                "tag": "h2",
+                "_textAlign": "center",
+                "_marginBottom": "40px"
+              }
+            },
+            {
+              "id": "columns-features",
+              "name": "block",
+              "parent": "container-features",
+              "settings": {
+                "_display": "flex",
+                "_gap": "30px"
+              },
+              "children": [
+                {
+                  "id": "feature-1",
+                  "name": "block",
+                  "parent": "columns-features",
+                  "settings": {
+                    "_flex": "1",
+                    "_textAlign": "center"
+                  },
+                  "children": [
+                    {
+                      "id": "icon-1",
+                      "name": "icon",
+                      "parent": "feature-1",
+                      "settings": {
+                        "icon": {
+                          "library": "fontawesome",
+                          "icon": "fas fa-exchange-alt"
+                        },
+                        "_fontSize": "48px",
+                        "_color": "#0073aa"
+                      }
+                    },
+                    {
+                      "id": "heading-feature-1",
+                      "name": "heading",
+                      "parent": "feature-1",
+                      "settings": {
+                        "text": "Universal Translation",
+                        "tag": "h3"
+                      }
+                    },
+                    {
+                      "id": "text-feature-1",
+                      "name": "text",
+                      "parent": "feature-1",
+                      "settings": {
+                        "text": "Convert between 10 page builders with 90 translation pairs. Support for Bootstrap, DIVI, Elementor, and more."
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "feature-2",
+                  "name": "block",
+                  "parent": "columns-features",
+                  "settings": {
+                    "_flex": "1",
+                    "_textAlign": "center"
+                  },
+                  "children": [
+                    {
+                      "id": "icon-2",
+                      "name": "icon",
+                      "parent": "feature-2",
+                      "settings": {
+                        "icon": {
+                          "library": "fontawesome",
+                          "icon": "fas fa-magic"
+                        },
+                        "_fontSize": "48px",
+                        "_color": "#0073aa"
+                      }
+                    },
+                    {
+                      "id": "heading-feature-2",
+                      "name": "heading",
+                      "parent": "feature-2",
+                      "settings": {
+                        "text": "AI-Powered Editing",
+                        "tag": "h3"
+                      }
+                    },
+                    {
+                      "id": "text-feature-2",
+                      "name": "text",
+                      "parent": "feature-2",
+                      "settings": {
+                        "text": "Edit your pages using natural language with Claude AI. Simply describe the changes you want to make."
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "feature-3",
+                  "name": "block",
+                  "parent": "columns-features",
+                  "settings": {
+                    "_flex": "1",
+                    "_textAlign": "center"
+                  },
+                  "children": [
+                    {
+                      "id": "icon-3",
+                      "name": "icon",
+                      "parent": "feature-3",
+                      "settings": {
+                        "icon": {
+                          "library": "fontawesome",
+                          "icon": "fas fa-bolt"
+                        },
+                        "_fontSize": "48px",
+                        "_color": "#0073aa"
+                      }
+                    },
+                    {
+                      "id": "heading-feature-3",
+                      "name": "heading",
+                      "parent": "feature-3",
+                      "settings": {
+                        "text": "30-Second Conversions",
+                        "tag": "h3"
+                      }
+                    },
+                    {
+                      "id": "text-feature-3",
+                      "name": "text",
+                      "parent": "feature-3",
+                      "settings": {
+                        "text": "What used to take 40 hours of manual rebuilding now takes just 30 seconds with our Translation Bridge."
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-testimonials",
+      "name": "section",
+      "parent": 0,
+      "settings": {
+        "background": {
+          "color": "#f7f7f7"
+        },
+        "_padding": {
+          "top": "60px",
+          "bottom": "60px"
+        }
+      },
+      "children": [
+        {
+          "id": "container-testimonials",
+          "name": "container",
+          "parent": "section-testimonials",
+          "settings": {
+            "_width": "1200px"
+          },
+          "children": [
+            {
+              "id": "heading-testimonials",
+              "name": "heading",
+              "parent": "container-testimonials",
+              "settings": {
+                "text": "What Our Users Say",
+                "tag": "h2",
+                "_textAlign": "center",
+                "_marginBottom": "40px"
+              }
+            },
+            {
+              "id": "testimonials-grid",
+              "name": "block",
+              "parent": "container-testimonials",
+              "settings": {
+                "_display": "flex",
+                "_gap": "30px"
+              },
+              "children": [
+                {
+                  "id": "testimonial-1",
+                  "name": "testimonial",
+                  "parent": "testimonials-grid",
+                  "settings": {
+                    "quote": "This tool saved us weeks of work when migrating our client sites from DIVI to Elementor. Absolutely incredible!",
+                    "author": "Sarah Johnson",
+                    "role": "Web Developer, TechCorp"
+                  }
+                },
+                {
+                  "id": "testimonial-2",
+                  "name": "testimonial",
+                  "parent": "testimonials-grid",
+                  "settings": {
+                    "quote": "We can now offer multi-framework support to our clients without the massive overhead. Game changer for our business.",
+                    "author": "Mike Chen",
+                    "role": "Agency Owner, Digital Agency"
+                  }
+                },
+                {
+                  "id": "testimonial-3",
+                  "name": "testimonial",
+                  "parent": "testimonials-grid",
+                  "settings": {
+                    "quote": "The AI editing feature is mind-blowing. I just describe what I want and it happens. No more digging through settings!",
+                    "author": "Emma Davis",
+                    "role": "Freelancer"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-footer",
+      "name": "section",
+      "parent": 0,
+      "settings": {
+        "background": {
+          "color": "#333333"
+        },
+        "_padding": {
+          "top": "40px",
+          "bottom": "40px"
+        }
+      },
+      "children": [
+        {
+          "id": "container-footer",
+          "name": "container",
+          "parent": "section-footer",
+          "settings": {
+            "_width": "1200px"
+          },
+          "children": [
+            {
+              "id": "footer-columns",
+              "name": "block",
+              "parent": "container-footer",
+              "settings": {
+                "_display": "flex",
+                "_gap": "30px"
+              },
+              "children": [
+                {
+                  "id": "footer-col-1",
+                  "name": "block",
+                  "parent": "footer-columns",
+                  "settings": {
+                    "_flex": "1"
+                  },
+                  "children": [
+                    {
+                      "id": "footer-heading-1",
+                      "name": "heading",
+                      "parent": "footer-col-1",
+                      "settings": {
+                        "text": "Company",
+                        "tag": "h4",
+                        "_color": "#ffffff"
+                      }
+                    },
+                    {
+                      "id": "footer-links-1",
+                      "name": "list",
+                      "parent": "footer-col-1",
+                      "settings": {
+                        "items": [
+                          {"text": "About Us", "link": "/about"},
+                          {"text": "Our Team", "link": "/team"},
+                          {"text": "Careers", "link": "/careers"}
+                        ],
+                        "_color": "#cccccc"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "footer-col-2",
+                  "name": "block",
+                  "parent": "footer-columns",
+                  "settings": {
+                    "_flex": "1"
+                  },
+                  "children": [
+                    {
+                      "id": "footer-heading-2",
+                      "name": "heading",
+                      "parent": "footer-col-2",
+                      "settings": {
+                        "text": "Product",
+                        "tag": "h4",
+                        "_color": "#ffffff"
+                      }
+                    },
+                    {
+                      "id": "footer-links-2",
+                      "name": "list",
+                      "parent": "footer-col-2",
+                      "settings": {
+                        "items": [
+                          {"text": "Features", "link": "/features"},
+                          {"text": "Pricing", "link": "/pricing"},
+                          {"text": "Documentation", "link": "/docs"}
+                        ],
+                        "_color": "#cccccc"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "footer-col-3",
+                  "name": "block",
+                  "parent": "footer-columns",
+                  "settings": {
+                    "_flex": "1"
+                  },
+                  "children": [
+                    {
+                      "id": "footer-heading-3",
+                      "name": "heading",
+                      "parent": "footer-col-3",
+                      "settings": {
+                        "text": "Support",
+                        "tag": "h4",
+                        "_color": "#ffffff"
+                      }
+                    },
+                    {
+                      "id": "footer-links-3",
+                      "name": "list",
+                      "parent": "footer-col-3",
+                      "settings": {
+                        "items": [
+                          {"text": "Help Center", "link": "/help"},
+                          {"text": "Contact", "link": "/contact"},
+                          {"text": "Status", "link": "/status"}
+                        ],
+                        "_color": "#cccccc"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "id": "footer-col-4",
+                  "name": "block",
+                  "parent": "footer-columns",
+                  "settings": {
+                    "_flex": "1"
+                  },
+                  "children": [
+                    {
+                      "id": "footer-heading-4",
+                      "name": "heading",
+                      "parent": "footer-col-4",
+                      "settings": {
+                        "text": "Legal",
+                        "tag": "h4",
+                        "_color": "#ffffff"
+                      }
+                    },
+                    {
+                      "id": "footer-links-4",
+                      "name": "list",
+                      "parent": "footer-col-4",
+                      "settings": {
+                        "items": [
+                          {"text": "Privacy Policy", "link": "/privacy"},
+                          {"text": "Terms of Service", "link": "/terms"},
+                          {"text": "Cookie Policy", "link": "/cookies"}
+                        ],
+                        "_color": "#cccccc"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "footer-copyright",
+              "name": "text",
+              "parent": "container-footer",
+              "settings": {
+                "text": "© 2024 WordPress Bootstrap Claude. All rights reserved.",
+                "_textAlign": "center",
+                "_color": "#999999",
+                "_marginTop": "30px"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

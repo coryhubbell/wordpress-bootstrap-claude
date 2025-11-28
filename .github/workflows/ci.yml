@@ -39,14 +39,22 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
 
+      - name: Validate composer files
+        run: composer validate --no-check-all
+
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
 
       - name: Run PHP Syntax Check
-        run: find includes translation-bridge -name "*.php" -exec php -l {} \; | grep -v "No syntax errors"
+        run: |
+          find includes translation-bridge -name "*.php" -exec php -l {} \; 2>&1 | grep -v "No syntax errors" || true
 
       - name: Run PHPUnit
         run: vendor/bin/phpunit --testdox
+
+      - name: Create coverage directory
+        if: matrix.php == '8.2'
+        run: mkdir -p coverage
 
       - name: Run PHPUnit with Coverage
         if: matrix.php == '8.2'

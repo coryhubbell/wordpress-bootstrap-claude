@@ -2,13 +2,18 @@ node_modules/
 vendor/
 .DS_Store
 *.log
+# Environment files
 .env
+.env.local
+.env.*.local
+!.env.example
 
 # Composer
 composer.phar
 
 # PHPUnit
 .phpunit.result.cache
+/coverage/
 
 # Session and test files
 SESSION-*.md

@@ -1,0 +1,119 @@
+[et_pb_section fb_built="1" _builder_version="4.16"]
+[et_pb_row _builder_version="4.16"]
+[et_pb_column type="4_4" _builder_version="4.16"]
+[et_pb_text _builder_version="4.16"]
+<h1 style="text-align: center;">Welcome to Our Platform</h1>
+<p style="text-align: center;">Discover the power of seamless page builder translation. Convert your designs between any framework in seconds.</p>
+[/et_pb_text]
+[et_pb_button button_text="Get Started" button_url="#features" button_alignment="center" _builder_version="4.16"][/et_pb_button]
+[et_pb_button button_text="Learn More" button_url="#about" button_alignment="center" _builder_version="4.16"][/et_pb_button]
+[/et_pb_column]
+[/et_pb_row]
+[/et_pb_section]
+
+[et_pb_section fb_built="1" _builder_version="4.16" custom_padding="60px||60px||true|"]
+[et_pb_row column_structure="1_3,1_3,1_3" _builder_version="4.16"]
+[et_pb_column type="1_3" _builder_version="4.16"]
+[et_pb_blurb title="Universal Translation" use_icon="on" font_icon="&#xe105;" _builder_version="4.16"]
+<p>Convert between 10 page builders with 90 translation pairs. Support for Bootstrap, DIVI, Elementor, and more.</p>
+[/et_pb_blurb]
+[/et_pb_column]
+[et_pb_column type="1_3" _builder_version="4.16"]
+[et_pb_blurb title="AI-Powered Editing" use_icon="on" font_icon="&#xe0a9;" _builder_version="4.16"]
+<p>Edit your pages using natural language with Claude AI. Simply describe the changes you want to make.</p>
+[/et_pb_blurb]
+[/et_pb_column]
+[et_pb_column type="1_3" _builder_version="4.16"]
+[et_pb_blurb title="30-Second Conversions" use_icon="on" font_icon="&#xe094;" _builder_version="4.16"]
+<p>What used to take 40 hours of manual rebuilding now takes just 30 seconds with our Translation Bridge.</p>
+[/et_pb_blurb]
+[/et_pb_column]
+[/et_pb_row]
+[/et_pb_section]
+
+[et_pb_section fb_built="1" _builder_version="4.16" background_color="#f7f7f7"]
+[et_pb_row _builder_version="4.16"]
+[et_pb_column type="4_4" _builder_version="4.16"]
+[et_pb_text _builder_version="4.16"]
+<h2 style="text-align: center;">What Our Users Say</h2>
+[/et_pb_text]
+[/et_pb_column]
+[/et_pb_row]
+[et_pb_row column_structure="1_3,1_3,1_3" _builder_version="4.16"]
+[et_pb_column type="1_3" _builder_version="4.16"]
+[et_pb_testimonial author="Sarah Johnson" job_title="Web Developer" company_name="TechCorp" portrait_url="https://example.com/sarah.jpg" _builder_version="4.16"]
+"This tool saved us weeks of work when migrating our client sites from DIVI to Elementor. Absolutely incredible!"
+[/et_pb_testimonial]
+[/et_pb_column]
+[et_pb_column type="1_3" _builder_version="4.16"]
+[et_pb_testimonial author="Mike Chen" job_title="Agency Owner" company_name="Digital Agency" portrait_url="https://example.com/mike.jpg" _builder_version="4.16"]
+"We can now offer multi-framework support to our clients without the massive overhead. Game changer for our business."
+[/et_pb_testimonial]
+[/et_pb_column]
+[et_pb_column type="1_3" _builder_version="4.16"]
+[et_pb_testimonial author="Emma Davis" job_title="Freelancer" company_name="Self-employed" portrait_url="https://example.com/emma.jpg" _builder_version="4.16"]
+"The AI editing feature is mind-blowing. I just describe what I want and it happens. No more digging through settings!"
+[/et_pb_testimonial]
+[/et_pb_column]
+[/et_pb_row]
+[/et_pb_section]
+
+[et_pb_section fb_built="1" _builder_version="4.16"]
+[et_pb_row _builder_version="4.16"]
+[et_pb_column type="4_4" _builder_version="4.16"]
+[et_pb_text _builder_version="4.16"]
+<h2 style="text-align: center;">Ready to Get Started?</h2>
+<p style="text-align: center;">Join thousands of developers who are already saving time with our translation platform.</p>
+[/et_pb_text]
+[et_pb_contact_form email="contact@example.com" title="Contact Us" _builder_version="4.16"]
+[et_pb_contact_field field_id="Name" field_title="Name" _builder_version="4.16"][/et_pb_contact_field]
+[et_pb_contact_field field_id="Email" field_title="Email" field_type="email" _builder_version="4.16"][/et_pb_contact_field]
+[et_pb_contact_field field_id="Message" field_title="Message" field_type="text" fullwidth_field="on" _builder_version="4.16"][/et_pb_contact_field]
+[/et_pb_contact_form]
+[/et_pb_column]
+[/et_pb_row]
+[/et_pb_section]
+
+[et_pb_section fb_built="1" _builder_version="4.16" background_color="#333333"]
+[et_pb_row column_structure="1_4,1_4,1_4,1_4" _builder_version="4.16"]
+[et_pb_column type="1_4" _builder_version="4.16"]
+[et_pb_text _builder_version="4.16" text_text_color="#ffffff"]
+<h4>Company</h4>
+<p><a href="/about">About Us</a></p>
+<p><a href="/team">Our Team</a></p>
+<p><a href="/careers">Careers</a></p>
+[/et_pb_text]
+[/et_pb_column]
+[et_pb_column type="1_4" _builder_version="4.16"]
+[et_pb_text _builder_version="4.16" text_text_color="#ffffff"]
+<h4>Product</h4>
+<p><a href="/features">Features</a></p>
+<p><a href="/pricing">Pricing</a></p>
+<p><a href="/docs">Documentation</a></p>
+[/et_pb_text]
+[/et_pb_column]
+[et_pb_column type="1_4" _builder_version="4.16"]
+[et_pb_text _builder_version="4.16" text_text_color="#ffffff"]
+<h4>Support</h4>
+<p><a href="/help">Help Center</a></p>
+<p><a href="/contact">Contact</a></p>
+<p><a href="/status">Status</a></p>
+[/et_pb_text]
+[/et_pb_column]
+[et_pb_column type="1_4" _builder_version="4.16"]
+[et_pb_text _builder_version="4.16" text_text_color="#ffffff"]
+<h4>Legal</h4>
+<p><a href="/privacy">Privacy Policy</a></p>
+<p><a href="/terms">Terms of Service</a></p>
+<p><a href="/cookies">Cookie Policy</a></p>
+[/et_pb_text]
+[/et_pb_column]
+[/et_pb_row]
+[et_pb_row _builder_version="4.16"]
+[et_pb_column type="4_4" _builder_version="4.16"]
+[et_pb_text _builder_version="4.16" text_text_color="#999999"]
+<p style="text-align: center;">&copy; 2024 WordPress Bootstrap Claude. All rights reserved.</p>
+[/et_pb_text]
+[/et_pb_column]
+[/et_pb_row]
+[/et_pb_section]

@@ -1,58 +1,96 @@
+# =============================================================================
+# WordPress Bootstrap Claude - Docker Compose Configuration
+# =============================================================================
+# Configuration is read from .env file (copy from .env.example)
+# Run: docker-compose up -d
+# =============================================================================
+
 version: '3.8'
 
 services:
+  # ---------------------------------------------------------------------------
   # MySQL Database
+  # ---------------------------------------------------------------------------
   db:
     image: mysql:8.0
     container_name: wpbc-mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: wordpress
-      MYSQL_DATABASE: wordpress
-      MYSQL_USER: wordpress
-      MYSQL_PASSWORD: wordpress
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-wordpress}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-wordpress}
+      MYSQL_USER: ${MYSQL_USER:-wordpress}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-wordpress}
     volumes:
       - db_data:/var/lib/mysql
     ports:
-      - "3306:3306"
+      - "${MYSQL_PORT:-3306}:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD:-wordpress}"]
+      timeout: 5s
+      retries: 10
+      interval: 10s
 
+  # ---------------------------------------------------------------------------
   # WordPress
+  # ---------------------------------------------------------------------------
   wordpress:
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     image: wordpress:latest
     container_name: wpbc-wordpress
     restart: always
     ports:
-      - "8080:80"
+      - "${WORDPRESS_PORT:-8080}:80"
     extra_hosts:
+      # Enables host.docker.internal on Linux (already works on macOS/Windows)
       - "host.docker.internal:host-gateway"
     environment:
       WORDPRESS_DB_HOST: db:3306
-      WORDPRESS_DB_USER: wordpress
-      WORDPRESS_DB_PASSWORD: wordpress
-      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: ${MYSQL_USER:-wordpress}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD:-wordpress}
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE:-wordpress}
+      # Pass through for PHP access
+      CLAUDE_API_KEY: ${CLAUDE_API_KEY:-}
       WORDPRESS_CONFIG_EXTRA: |
-        /* WordPress Bootstrap Claude Configuration */
-        define('WP_DEBUG_LOG', true);
-        define('WP_DEBUG_DISPLAY', false);
+        /* =================================================================
+         * WordPress Bootstrap Claude Configuration
+         * Generated from docker-compose.yml environment
+         * ================================================================= */
 
-        /* Security Keys */
-        define('AUTH_KEY',         'put your unique phrase here');
-        define('SECURE_AUTH_KEY',  'put your unique phrase here');
-        define('LOGGED_IN_KEY',    'put your unique phrase here');
-        define('NONCE_KEY',        'put your unique phrase here');
-        define('AUTH_SALT',        'put your unique phrase here');
-        define('SECURE_AUTH_SALT', 'put your unique phrase here');
-        define('LOGGED_IN_SALT',   'put your unique phrase here');
-        define('NONCE_SALT',       'put your unique phrase here');
+        /* Debug Settings */
+        define('WP_DEBUG', ${WP_DEBUG:-true});
+        define('WP_DEBUG_LOG', ${WP_DEBUG_LOG:-true});
+        define('WP_DEBUG_DISPLAY', ${WP_DEBUG_DISPLAY:-false});
+
+        /* Vite Development Server Configuration */
+        define('WPBC_VITE_PORT', '${VITE_PORT:-3000}');
+        define('WPBC_VITE_HMR_HOST', '${VITE_HMR_HOST:-localhost}');
+        define('WPBC_VITE_DOCKER_MODE', ${VITE_DOCKER_MODE:-true});
+
+        /* Security Keys - Read from environment or use defaults */
+        define('AUTH_KEY',         '${AUTH_KEY:-put-your-unique-phrase-here}');
+        define('SECURE_AUTH_KEY',  '${SECURE_AUTH_KEY:-put-your-unique-phrase-here}');
+        define('LOGGED_IN_KEY',    '${LOGGED_IN_KEY:-put-your-unique-phrase-here}');
+        define('NONCE_KEY',        '${NONCE_KEY:-put-your-unique-phrase-here}');
+        define('AUTH_SALT',        '${AUTH_SALT:-put-your-unique-phrase-here}');
+        define('SECURE_AUTH_SALT', '${SECURE_AUTH_SALT:-put-your-unique-phrase-here}');
+        define('LOGGED_IN_SALT',   '${LOGGED_IN_SALT:-put-your-unique-phrase-here}');
+        define('NONCE_SALT',       '${NONCE_SALT:-put-your-unique-phrase-here}');
+
+        /* Claude API (optional - only if set in environment) */
+        if (getenv('CLAUDE_API_KEY')) {
+            define('CLAUDE_API_KEY', getenv('CLAUDE_API_KEY'));
+        }
     volumes:
-      # Mount the entire theme directory
+      # Mount the theme directory for live development
       - ./:/var/www/html/wp-content/themes/wordpress-bootstrap-claude
-      # WordPress core files
+      # WordPress core files (persistent)
       - wordpress_data:/var/www/html
 
-  # PhpMyAdmin (optional - for database management)
+  # ---------------------------------------------------------------------------
+  # phpMyAdmin (Database Management - Optional)
+  # ---------------------------------------------------------------------------
   phpmyadmin:
     depends_on:
       - db
@@ -60,10 +98,10 @@ services:
     container_name: wpbc-phpmyadmin
     restart: always
     ports:
-      - "8081:80"
+      - "${PHPMYADMIN_PORT:-8081}:80"
     environment:
       PMA_HOST: db
-      MYSQL_ROOT_PASSWORD: wordpress
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-wordpress}
 
 volumes:
   db_data:

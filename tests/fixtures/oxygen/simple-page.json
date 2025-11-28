@@ -1,0 +1,354 @@
+{
+  "name": "root",
+  "children": [
+    {
+      "id": 1,
+      "name": "ct_section",
+      "options": {
+        "ct_id": 1,
+        "ct_parent": 0,
+        "selector": "section-1",
+        "original": {
+          "background-color": "#0073aa",
+          "padding-top": "80",
+          "padding-bottom": "80"
+        }
+      },
+      "children": [
+        {
+          "id": 2,
+          "name": "ct_headline",
+          "options": {
+            "ct_id": 2,
+            "ct_parent": 1,
+            "ct_content": "Welcome to Our Platform",
+            "tag": "h1",
+            "original": {
+              "text-align": "center",
+              "color": "#ffffff"
+            }
+          }
+        },
+        {
+          "id": 3,
+          "name": "ct_text_block",
+          "options": {
+            "ct_id": 3,
+            "ct_parent": 1,
+            "ct_content": "Discover the power of seamless page builder translation. Convert your designs between any framework in seconds.",
+            "original": {
+              "text-align": "center",
+              "color": "#ffffff"
+            }
+          }
+        },
+        {
+          "id": 4,
+          "name": "ct_div_block",
+          "options": {
+            "ct_id": 4,
+            "ct_parent": 1,
+            "original": {
+              "display": "flex",
+              "justify-content": "center",
+              "gap": "10px"
+            }
+          },
+          "children": [
+            {
+              "id": 5,
+              "name": "ct_link_button",
+              "options": {
+                "ct_id": 5,
+                "ct_parent": 4,
+                "ct_content": "Get Started",
+                "url": "#features",
+                "original": {
+                  "background-color": "#ffffff",
+                  "color": "#0073aa"
+                }
+              }
+            },
+            {
+              "id": 6,
+              "name": "ct_link_button",
+              "options": {
+                "ct_id": 6,
+                "ct_parent": 4,
+                "ct_content": "Learn More",
+                "url": "#about",
+                "original": {
+                  "background-color": "transparent",
+                  "border": "2px solid #ffffff",
+                  "color": "#ffffff"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "ct_section",
+      "options": {
+        "ct_id": 7,
+        "ct_parent": 0,
+        "selector": "section-features",
+        "original": {
+          "padding-top": "60",
+          "padding-bottom": "60"
+        }
+      },
+      "children": [
+        {
+          "id": 8,
+          "name": "ct_headline",
+          "options": {
+            "ct_id": 8,
+            "ct_parent": 7,
+            "ct_content": "Key Features",
+            "tag": "h2",
+            "original": {
+              "text-align": "center"
+            }
+          }
+        },
+        {
+          "id": 9,
+          "name": "ct_columns",
+          "options": {
+            "ct_id": 9,
+            "ct_parent": 7
+          },
+          "children": [
+            {
+              "id": 10,
+              "name": "ct_div_block",
+              "options": {
+                "ct_id": 10,
+                "ct_parent": 9,
+                "original": {
+                  "width": "33.33%"
+                }
+              },
+              "children": [
+                {
+                  "id": 11,
+                  "name": "ct_icon",
+                  "options": {
+                    "ct_id": 11,
+                    "ct_parent": 10,
+                    "icon": "exchange"
+                  }
+                },
+                {
+                  "id": 12,
+                  "name": "ct_headline",
+                  "options": {
+                    "ct_id": 12,
+                    "ct_parent": 10,
+                    "ct_content": "Universal Translation",
+                    "tag": "h3"
+                  }
+                },
+                {
+                  "id": 13,
+                  "name": "ct_text_block",
+                  "options": {
+                    "ct_id": 13,
+                    "ct_parent": 10,
+                    "ct_content": "Convert between 10 page builders with 90 translation pairs. Support for Bootstrap, DIVI, Elementor, and more."
+                  }
+                }
+              ]
+            },
+            {
+              "id": 14,
+              "name": "ct_div_block",
+              "options": {
+                "ct_id": 14,
+                "ct_parent": 9,
+                "original": {
+                  "width": "33.33%"
+                }
+              },
+              "children": [
+                {
+                  "id": 15,
+                  "name": "ct_icon",
+                  "options": {
+                    "ct_id": 15,
+                    "ct_parent": 14,
+                    "icon": "magic"
+                  }
+                },
+                {
+                  "id": 16,
+                  "name": "ct_headline",
+                  "options": {
+                    "ct_id": 16,
+                    "ct_parent": 14,
+                    "ct_content": "AI-Powered Editing",
+                    "tag": "h3"
+                  }
+                },
+                {
+                  "id": 17,
+                  "name": "ct_text_block",
+                  "options": {
+                    "ct_id": 17,
+                    "ct_parent": 14,
+                    "ct_content": "Edit your pages using natural language with Claude AI. Simply describe the changes you want to make."
+                  }
+                }
+              ]
+            },
+            {
+              "id": 18,
+              "name": "ct_div_block",
+              "options": {
+                "ct_id": 18,
+                "ct_parent": 9,
+                "original": {
+                  "width": "33.33%"
+                }
+              },
+              "children": [
+                {
+                  "id": 19,
+                  "name": "ct_icon",
+                  "options": {
+                    "ct_id": 19,
+                    "ct_parent": 18,
+                    "icon": "bolt"
+                  }
+                },
+                {
+                  "id": 20,
+                  "name": "ct_headline",
+                  "options": {
+                    "ct_id": 20,
+                    "ct_parent": 18,
+                    "ct_content": "30-Second Conversions",
+                    "tag": "h3"
+                  }
+                },
+                {
+                  "id": 21,
+                  "name": "ct_text_block",
+                  "options": {
+                    "ct_id": 21,
+                    "ct_parent": 18,
+                    "ct_content": "What used to take 40 hours of manual rebuilding now takes just 30 seconds with our Translation Bridge."
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "name": "ct_section",
+      "options": {
+        "ct_id": 22,
+        "ct_parent": 0,
+        "selector": "section-testimonials",
+        "original": {
+          "background-color": "#f7f7f7",
+          "padding-top": "60",
+          "padding-bottom": "60"
+        }
+      },
+      "children": [
+        {
+          "id": 23,
+          "name": "ct_headline",
+          "options": {
+            "ct_id": 23,
+            "ct_parent": 22,
+            "ct_content": "What Our Users Say",
+            "tag": "h2",
+            "original": {
+              "text-align": "center"
+            }
+          }
+        },
+        {
+          "id": 24,
+          "name": "ct_columns",
+          "options": {
+            "ct_id": 24,
+            "ct_parent": 22
+          },
+          "children": [
+            {
+              "id": 25,
+              "name": "ct_testimonial",
+              "options": {
+                "ct_id": 25,
+                "ct_parent": 24,
+                "quote": "This tool saved us weeks of work when migrating our client sites from DIVI to Elementor. Absolutely incredible!",
+                "author": "Sarah Johnson",
+                "title": "Web Developer, TechCorp"
+              }
+            },
+            {
+              "id": 26,
+              "name": "ct_testimonial",
+              "options": {
+                "ct_id": 26,
+                "ct_parent": 24,
+                "quote": "We can now offer multi-framework support to our clients without the massive overhead. Game changer for our business.",
+                "author": "Mike Chen",
+                "title": "Agency Owner, Digital Agency"
+              }
+            },
+            {
+              "id": 27,
+              "name": "ct_testimonial",
+              "options": {
+                "ct_id": 27,
+                "ct_parent": 24,
+                "quote": "The AI editing feature is mind-blowing. I just describe what I want and it happens. No more digging through settings!",
+                "author": "Emma Davis",
+                "title": "Freelancer"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "name": "ct_section",
+      "options": {
+        "ct_id": 28,
+        "ct_parent": 0,
+        "selector": "section-footer",
+        "original": {
+          "background-color": "#333333",
+          "padding-top": "40",
+          "padding-bottom": "40"
+        }
+      },
+      "children": [
+        {
+          "id": 29,
+          "name": "ct_text_block",
+          "options": {
+            "ct_id": 29,
+            "ct_parent": 28,
+            "ct_content": "© 2024 WordPress Bootstrap Claude. All rights reserved.",
+            "original": {
+              "text-align": "center",
+              "color": "#999999"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

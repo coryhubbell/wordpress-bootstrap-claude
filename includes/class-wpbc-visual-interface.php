@@ -107,14 +107,56 @@ class WPBC_Visual_Interface {
 	}
 
 	/**
+	 * Get configured Vite port
+	 *
+	 * @return int Vite dev server port.
+	 */
+	private function get_vite_port(): int {
+		if ( defined( 'WPBC_VITE_PORT' ) ) {
+			return (int) WPBC_VITE_PORT;
+		}
+		return 3000;
+	}
+
+	/**
+	 * Get list of hosts to check for Vite dev server
+	 *
+	 * @return array List of hostnames to try.
+	 */
+	private function get_vite_hosts(): array {
+		// Check if running in Docker mode
+		$docker_mode = defined( 'WPBC_VITE_DOCKER_MODE' ) && WPBC_VITE_DOCKER_MODE;
+
+		if ( $docker_mode ) {
+			// Docker mode: Try host.docker.internal first (macOS/Windows Docker Desktop)
+			// Then Docker bridge network IP (Linux), then localhost
+			return [ 'host.docker.internal', '172.17.0.1', 'localhost' ];
+		}
+
+		// Local mode: localhost only
+		return [ 'localhost' ];
+	}
+
+	/**
+	 * Get the Vite dev server URL for the browser
+	 *
+	 * @return string Vite dev server URL.
+	 */
+	private function get_vite_url(): string {
+		$port = $this->get_vite_port();
+		$host = defined( 'WPBC_VITE_HMR_HOST' ) ? WPBC_VITE_HMR_HOST : 'localhost';
+		return "http://{$host}:{$port}";
+	}
+
+	/**
 	 * Check if Vite dev server is running
 	 *
-	 * @param int $port Vite dev server port.
+	 * @param int|null $port Vite dev server port (uses configured port if null).
 	 * @return bool True if Vite is running.
 	 */
-	private function is_vite_running( int $port = 3000 ): bool {
-		// Try host machine first (Docker Desktop)
-		$hosts = [ 'host.docker.internal', 'localhost' ];
+	private function is_vite_running( ?int $port = null ): bool {
+		$port  = $port ?? $this->get_vite_port();
+		$hosts = $this->get_vite_hosts();
 
 		foreach ( $hosts as $host ) {
 			$connection = @fsockopen( $host, $port, $errno, $errstr, 1 );
@@ -132,13 +174,15 @@ class WPBC_Visual_Interface {
 	/**
 	 * Enqueue development scripts from Vite dev server
 	 *
-	 * @param int $port Vite dev server port.
+	 * @param int|null $port Vite dev server port (uses configured port if null).
 	 */
-	private function enqueue_dev_scripts( int $port ) {
+	private function enqueue_dev_scripts( ?int $port = null ) {
+		$vite_url = $this->get_vite_url();
+
 		// Vite client
 		wp_enqueue_script(
 			'wpbc-vite-client',
-			"http://localhost:{$port}/@vite/client",
+			"{$vite_url}/@vite/client",
 			[],
 			null,
 			false
@@ -148,7 +192,7 @@ class WPBC_Visual_Interface {
 		// Main entry point
 		wp_enqueue_script(
 			'wpbc-visual-interface',
-			"http://localhost:{$port}/src/main.tsx",
+			"{$vite_url}/src/main.tsx",
 			[ 'wpbc-vite-client' ],
 			null,
 			false
@@ -227,8 +271,8 @@ class WPBC_Visual_Interface {
 		}
 
 		// Determine if we're in dev mode
-		$is_dev = defined( 'WP_DEBUG' ) && WP_DEBUG;
-		$vite_port = 3000;
+		$is_dev   = defined( 'WP_DEBUG' ) && WP_DEBUG;
+		$vite_url = $this->get_vite_url();
 
 		?>
 		<!DOCTYPE html>
@@ -250,14 +294,14 @@ class WPBC_Visual_Interface {
 					'userId'    => get_current_user_id(),
 					'siteUrl'   => get_site_url(),
 					'adminUrl'  => admin_url(),
-					'version'   => '3.2.1',
+					'version'   => defined( 'WPBC_THEME_VERSION' ) ? WPBC_THEME_VERSION : '3.2.2',
 				] ); ?>;
 			</script>
 
 			<?php if ( $is_dev ) : ?>
 				<!-- Development Mode: Vite Dev Server -->
-				<script type="module" src="http://localhost:<?php echo $vite_port; ?>/@vite/client"></script>
-				<script type="module" src="http://localhost:<?php echo $vite_port; ?>/src/main.tsx"></script>
+				<script type="module" src="<?php echo esc_url( $vite_url ); ?>/@vite/client"></script>
+				<script type="module" src="<?php echo esc_url( $vite_url ); ?>/src/main.tsx"></script>
 			<?php else : ?>
 				<!-- Production Mode: Built Assets -->
 				<?php
@@ -298,12 +342,14 @@ class WPBC_Visual_Interface {
 	 */
 	public function get_status(): array {
 		$dist_path = get_template_directory() . '/admin/dist';
-		$built = file_exists( $dist_path . '/.vite/manifest.json' );
+		$built     = file_exists( $dist_path . '/.vite/manifest.json' );
 
 		return [
 			'enabled'    => true,
 			'built'      => $built,
-			'dev_mode'   => defined( 'WP_DEBUG' ) && WP_DEBUG && $this->is_vite_running( 3000 ),
+			'dev_mode'   => defined( 'WP_DEBUG' ) && WP_DEBUG && $this->is_vite_running(),
+			'vite_url'   => $this->get_vite_url(),
+			'vite_port'  => $this->get_vite_port(),
 			'dist_path'  => $dist_path,
 		];
 	}
