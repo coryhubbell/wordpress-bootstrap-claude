@@ -6,55 +6,60 @@
  *
  * @package    WordPress_Bootstrap_Claude
  * @subpackage API
- * @version    3.2.0
+ * @version    3.2.1
  */
 
 class WPBC_Rate_Limiter {
+
+	/**
+	 * Transient buffer time in seconds
+	 */
+	private const TRANSIENT_BUFFER = 60;
+
+	/**
+	 * Default retry delay in seconds
+	 */
+	private const DEFAULT_RETRY_DELAY = 60;
+
 	/**
 	 * Logger instance
 	 *
 	 * @var WPBC_Logger
 	 */
-	private $logger;
+	private WPBC_Logger $logger;
 
 	/**
 	 * Rate limit tiers
 	 *
 	 * @var array
 	 */
-	private $tiers = [
-		'free'       => [
-			'requests_per_hour'   => 100,
-			'requests_per_minute' => 20,
-			'burst_limit'         => 5,
-		],
-		'basic'      => [
-			'requests_per_hour'   => 500,
-			'requests_per_minute' => 50,
-			'burst_limit'         => 10,
-		],
-		'premium'    => [
-			'requests_per_hour'   => 2000,
-			'requests_per_minute' => 100,
-			'burst_limit'         => 20,
-		],
-		'enterprise' => [
-			'requests_per_hour'   => 10000,
-			'requests_per_minute' => 500,
-			'burst_limit'         => 50,
-		],
-		'key_creation' => [
-			'requests_per_hour'   => 5,    // Strict: only 5 keys per hour
-			'requests_per_minute' => 2,    // Max 2 keys per minute
-			'burst_limit'         => 1,    // One at a time
-		],
-	];
+	private array $tiers;
 
 	/**
 	 * Constructor
 	 */
 	public function __construct() {
 		$this->logger = new WPBC_Logger();
+		$this->tiers  = WPBC_Config::RATE_LIMIT_TIERS;
+	}
+
+	/**
+	 * Mask identifier for logging
+	 *
+	 * Creates a safe hash prefix for logging without exposing API keys.
+	 *
+	 * @param string $identifier The identifier to mask.
+	 * @return string Masked identifier safe for logging.
+	 */
+	private function mask_identifier( string $identifier ): string {
+		// Extract the type prefix (key_, user_, ip_)
+		$parts = explode( '_', $identifier, 2 );
+		$type  = $parts[0] ?? 'unknown';
+
+		// Create a short hash of the full identifier
+		$hash = substr( hash( 'sha256', $identifier ), 0, 8 );
+
+		return $type . '_' . $hash;
 	}
 
 	/**
@@ -110,10 +115,10 @@ class WPBC_Rate_Limiter {
 		// Log if rate limited
 		if ( ! $allowed ) {
 			$this->logger->warning( 'Rate limit exceeded', [
-				'identifier' => substr( $identifier, 0, 20 ),
-				'tier'       => $tier,
+				'identifier'  => $this->mask_identifier( $identifier ),
+				'tier'        => $tier,
 				'retry_after' => $result['retry_after'],
-			]);
+			] );
 		}
 
 		return $result;
@@ -135,9 +140,9 @@ class WPBC_Rate_Limiter {
 		$this->record_in_window( $identifier, 'burst', $timestamp );
 
 		$this->logger->debug( 'Request recorded', [
-			'identifier' => substr( $identifier, 0, 20 ),
+			'identifier' => $this->mask_identifier( $identifier ),
 			'tier'       => $tier,
-		]);
+		] );
 
 		return true;
 	}
@@ -216,8 +221,8 @@ class WPBC_Rate_Limiter {
 			return $ts > $cutoff;
 		});
 
-		// Store with expiration
-		set_transient( $key, $requests, $duration + 60 );
+		// Store with expiration (add buffer to ensure data available for window duration).
+		set_transient( $key, $requests, $duration + self::TRANSIENT_BUFFER );
 	}
 
 	/**
@@ -227,16 +232,7 @@ class WPBC_Rate_Limiter {
 	 * @return int Duration in seconds.
 	 */
 	private function get_window_duration( string $window ): int {
-		switch ( $window ) {
-			case 'hour':
-				return 3600;
-			case 'minute':
-				return 60;
-			case 'burst':
-				return 10;
-			default:
-				return 3600;
-		}
+		return WPBC_Config::get_time_window( $window );
 	}
 
 	/**
@@ -273,7 +269,7 @@ class WPBC_Rate_Limiter {
 			$retry_times[] = $burst['reset_at'] - time();
 		}
 
-		return ! empty( $retry_times ) ? min( $retry_times ) : 60;
+		return ! empty( $retry_times ) ? min( $retry_times ) : self::DEFAULT_RETRY_DELAY;
 	}
 
 	/**
@@ -359,8 +355,8 @@ class WPBC_Rate_Limiter {
 		}
 
 		$this->logger->info( 'Rate limit reset', [
-			'identifier' => substr( $identifier, 0, 20 ),
-		]);
+			'identifier' => $this->mask_identifier( $identifier ),
+		] );
 
 		return true;
 	}

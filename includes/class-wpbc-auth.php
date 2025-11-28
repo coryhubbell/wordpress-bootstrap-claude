@@ -352,7 +352,7 @@ class WPBC_Auth {
 	 * @param int $ttl     Time to live in seconds.
 	 * @return string Token.
 	 */
-	public function generate_temp_token( int $user_id, int $ttl = 3600 ): string {
+	public function generate_temp_token( int $user_id, int $ttl = WPBC_Config::TOKEN_TTL_DEFAULT ): string {
 		$token = bin2hex( random_bytes( 32 ) );
 
 		$token_data = [

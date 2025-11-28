@@ -160,80 +160,100 @@ class WPBC_API_V2 {
      *
      * POST /wp-json/wpbc/v2/translate
      *
-     * @param WP_REST_Request $request Request object
-     * @return WP_REST_Response|WP_Error
+     * @param WP_REST_Request $request Request object.
+     * @return WP_REST_Response|WP_Error Response object or error.
      */
-    public function translate($request) {
-        $source = $request->get_param('source');
-        $target = $request->get_param('target');
-        $content = $request->get_param('content');
-        $options = $request->get_param('options') ?: [];
+    public function translate( WP_REST_Request $request ) {
+        $source  = $request->get_param( 'source' );
+        $target  = $request->get_param( 'target' );
+        $content = $request->get_param( 'content' );
 
         try {
-            // Initialize translator
-            require_once WPBC_TRANSLATION_BRIDGE_DIR . '/core/class-translator.php';
-
-            try {
-                $translator = new \WPBC\TranslationBridge\Core\WPBC_Translator();
-            } catch (\Exception $e) {
-                return new WP_Error(
-                    'translator_init_failed',
-                    'Failed to initialize translator: ' . $e->getMessage(),
-                    ['status' => 500]
-                );
+            // Initialize translator.
+            $translator = $this->create_translator();
+            if ( is_wp_error( $translator ) ) {
+                return $translator;
             }
 
-            if (!$translator || !is_object($translator)) {
-                return new WP_Error(
-                    'translator_invalid',
-                    'Translator instance is invalid',
-                    ['status' => 500]
-                );
-            }
+            // Perform translation.
+            $start_time   = microtime( true );
+            $result       = $translator->translate( $content, $source, $target );
+            $elapsed_time = microtime( true ) - $start_time;
 
-            // Perform translation
-            $start_time = microtime(true);
-            $result = $translator->translate($content, $source, $target);
-            $elapsed_time = microtime(true) - $start_time;
-
-            if (!$result) {
+            if ( ! $result ) {
                 return new WP_Error(
                     'translation_failed',
                     'Translation failed. Please check your input and try again.',
-                    ['status' => 400]
+                    array( 'status' => 400 )
                 );
             }
 
-            // Get statistics
+            // Get statistics.
             $stats = $translator->get_stats();
 
-            // Log translation
-            $this->logger->log_translation($source, $target, 'API', 'API', $elapsed_time, true);
+            // Log translation.
+            $this->logger->log_translation( $source, $target, 'API', 'API', $elapsed_time, true );
 
-            // Return response
-            return new WP_REST_Response([
-                'success'       => true,
-                'source'        => $source,
-                'target'        => $target,
-                'result'        => $result,
-                'elapsed_time'  => round($elapsed_time, 3),
-                'stats'         => $stats,
-                'timestamp'     => current_time('mysql'),
-            ], 200);
+            // Return response.
+            return new WP_REST_Response(
+                array(
+                    'success'      => true,
+                    'source'       => $source,
+                    'target'       => $target,
+                    'result'       => $result,
+                    'elapsed_time' => round( $elapsed_time, 3 ),
+                    'stats'        => $stats,
+                    'timestamp'    => current_time( 'mysql' ),
+                ),
+                200
+            );
 
-        } catch (Exception $e) {
-            $this->logger->error('API translation error', [
-                'source' => $source,
-                'target' => $target,
-                'error'  => $e->getMessage(),
-            ]);
+        } catch ( Exception $e ) {
+            $this->logger->error(
+                'API translation error',
+                array(
+                    'source' => $source,
+                    'target' => $target,
+                    'error'  => $e->getMessage(),
+                )
+            );
 
             return new WP_Error(
                 'translation_error',
                 $e->getMessage(),
-                ['status' => 500]
+                array( 'status' => 500 )
             );
         }
+    }
+
+    /**
+     * Create and validate translator instance
+     *
+     * @return \WPBC\TranslationBridge\Core\WPBC_Translator|WP_Error Translator or error.
+     */
+    private function create_translator() {
+        require_once WPBC_TRANSLATION_BRIDGE_DIR . '/core/class-translator.php';
+
+        try {
+            $translator = new \WPBC\TranslationBridge\Core\WPBC_Translator();
+        } catch ( \Exception $e ) {
+            $this->logger->error( 'Translator initialization failed', array( 'error' => $e->getMessage() ) );
+            return new WP_Error(
+                'translator_init_failed',
+                'Failed to initialize translator. Please try again.',
+                array( 'status' => 500 )
+            );
+        }
+
+        if ( ! $translator || ! is_object( $translator ) ) {
+            return new WP_Error(
+                'translator_invalid',
+                'Translator instance is invalid',
+                array( 'status' => 500 )
+            );
+        }
+
+        return $translator;
     }
 
     /**
@@ -241,127 +261,144 @@ class WPBC_API_V2 {
      *
      * POST /wp-json/wpbc/v2/batch-translate
      *
-     * @param WP_REST_Request $request Request object
-     * @return WP_REST_Response|WP_Error
+     * @param WP_REST_Request $request Request object.
+     * @return WP_REST_Response|WP_Error Response object or error.
      */
-    public function batch_translate($request) {
-        $source = $request->get_param('source');
-        $targets = $request->get_param('targets');
-        $content = $request->get_param('content');
-        $async = $request->get_param('async') ?: false;
+    public function batch_translate( WP_REST_Request $request ) {
+        $source  = $request->get_param( 'source' );
+        $targets = $request->get_param( 'targets' );
+        $content = $request->get_param( 'content' );
+        $async   = $request->get_param( 'async' ) ?: false;
 
-        // Validate targets
-        if (empty($targets) || !is_array($targets)) {
+        // Validate targets.
+        if ( empty( $targets ) || ! is_array( $targets ) ) {
             return new WP_Error(
                 'invalid_targets',
                 'Targets must be a non-empty array of framework names.',
-                ['status' => 400]
+                array( 'status' => 400 )
             );
         }
 
-        // If async, create job and return immediately
-        if ($async) {
-            $job_id = $this->create_batch_job($source, $targets, $content);
+        // If async, create job and return immediately.
+        if ( $async ) {
+            $job_id = $this->create_batch_job( $source, $targets, $content );
 
-            return new WP_REST_Response([
-                'success' => true,
-                'job_id'  => $job_id,
-                'status'  => 'queued',
-                'message' => 'Batch translation job created. Check status at /wp-json/wpbc/v2/job/' . $job_id,
-            ], 202);
+            return new WP_REST_Response(
+                array(
+                    'success' => true,
+                    'job_id'  => $job_id,
+                    'status'  => 'queued',
+                    'message' => 'Batch translation job created. Check status at /wp-json/wpbc/v2/job/' . $job_id,
+                ),
+                202
+            );
         }
 
-        // Synchronous batch processing
+        // Synchronous batch processing.
         try {
-            $results = [];
-            $start_time = microtime(true);
+            $start_time = microtime( true );
 
-            require_once WPBC_TRANSLATION_BRIDGE_DIR . '/core/class-translator.php';
-
-            try {
-                $translator = new \WPBC\TranslationBridge\Core\WPBC_Translator();
-            } catch (\Exception $e) {
-                return new WP_Error(
-                    'translator_init_failed',
-                    'Failed to initialize translator: ' . $e->getMessage(),
-                    ['status' => 500]
-                );
+            // Initialize translator using shared helper.
+            $translator = $this->create_translator();
+            if ( is_wp_error( $translator ) ) {
+                return $translator;
             }
 
-            if (!$translator || !is_object($translator)) {
-                return new WP_Error(
-                    'translator_invalid',
-                    'Translator instance is invalid',
-                    ['status' => 500]
-                );
-            }
+            // Process each target framework.
+            $results = $this->process_batch_targets( $translator, $content, $source, $targets );
 
-            foreach ($targets as $target) {
-                if (!in_array($target, $this->frameworks)) {
-                    $results[$target] = [
-                        'success' => false,
-                        'error'   => 'Unknown framework: ' . $target,
-                    ];
-                    continue;
-                }
+            $elapsed_time = microtime( true ) - $start_time;
 
-                try {
-                    $result = $translator->translate($content, $source, $target);
-
-                    if ($result) {
-                        $results[$target] = [
-                            'success' => true,
-                            'result'  => $result,
-                            'stats'   => $translator->get_stats(),
-                        ];
-                    } else {
-                        $results[$target] = [
-                            'success' => false,
-                            'error'   => 'Translation failed',
-                        ];
+            // Count successes/failures.
+            $successful = count(
+                array_filter(
+                    $results,
+                    function ( $result ) {
+                        return $result['success'];
                     }
-                } catch (Exception $e) {
-                    $results[$target] = [
-                        'success' => false,
-                        'error'   => $e->getMessage(),
-                    ];
-                }
-            }
+                )
+            );
+            $failed = count( $results ) - $successful;
 
-            $elapsed_time = microtime(true) - $start_time;
+            $this->logger->info(
+                'Batch translation completed',
+                array(
+                    'source'     => $source,
+                    'targets'    => count( $targets ),
+                    'successful' => $successful,
+                    'failed'     => $failed,
+                    'time'       => round( $elapsed_time, 2 ),
+                )
+            );
 
-            // Count successes/failures
-            $successful = count(array_filter($results, function($r) {
-                return $r['success'];
-            }));
-            $failed = count($results) - $successful;
+            return new WP_REST_Response(
+                array(
+                    'success'      => true,
+                    'source'       => $source,
+                    'total'        => count( $targets ),
+                    'successful'   => $successful,
+                    'failed'       => $failed,
+                    'results'      => $results,
+                    'elapsed_time' => round( $elapsed_time, 3 ),
+                    'timestamp'    => current_time( 'mysql' ),
+                ),
+                200
+            );
 
-            $this->logger->info('Batch translation completed', [
-                'source'     => $source,
-                'targets'    => count($targets),
-                'successful' => $successful,
-                'failed'     => $failed,
-                'time'       => round($elapsed_time, 2),
-            ]);
-
-            return new WP_REST_Response([
-                'success'      => true,
-                'source'       => $source,
-                'total'        => count($targets),
-                'successful'   => $successful,
-                'failed'       => $failed,
-                'results'      => $results,
-                'elapsed_time' => round($elapsed_time, 3),
-                'timestamp'    => current_time('mysql'),
-            ], 200);
-
-        } catch (Exception $e) {
+        } catch ( Exception $e ) {
             return new WP_Error(
                 'batch_error',
                 $e->getMessage(),
-                ['status' => 500]
+                array( 'status' => 500 )
             );
         }
+    }
+
+    /**
+     * Process batch translation targets
+     *
+     * @param object $translator Translator instance.
+     * @param string $content    Content to translate.
+     * @param string $source     Source framework.
+     * @param array  $targets    Target frameworks.
+     * @return array Results for each target.
+     */
+    private function process_batch_targets( $translator, string $content, string $source, array $targets ): array {
+        $results = array();
+
+        foreach ( $targets as $target ) {
+            if ( ! in_array( $target, $this->frameworks, true ) ) {
+                $results[ $target ] = array(
+                    'success' => false,
+                    'error'   => 'Unknown framework: ' . $target,
+                );
+                continue;
+            }
+
+            try {
+                $result = $translator->translate( $content, $source, $target );
+
+                if ( $result ) {
+                    $results[ $target ] = array(
+                        'success' => true,
+                        'result'  => $result,
+                        'stats'   => $translator->get_stats(),
+                    );
+                } else {
+                    $results[ $target ] = array(
+                        'success' => false,
+                        'error'   => 'Translation failed',
+                    );
+                }
+            } catch ( Exception $e ) {
+                $results[ $target ] = array(
+                    'success' => false,
+                    'error'   => $e->getMessage(),
+                );
+            }
+        }
+
+        return $results;
     }
 
     /**

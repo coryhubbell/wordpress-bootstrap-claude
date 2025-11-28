@@ -6,199 +6,255 @@
  *
  * @package    WordPress_Bootstrap_Claude
  * @subpackage CLI
- * @version    3.1.0
+ * @version    3.2.1
  */
 
-class WPBC_CLI
-{
-    /**
-     * Command line arguments
-     *
-     * @var array
-     */
-    private $args;
+class WPBC_CLI {
 
-    /**
-     * Parsed command
-     *
-     * @var string
-     */
-    private $command;
+	/**
+	 * Command line arguments
+	 *
+	 * @var array
+	 */
+	private array $args;
 
-    /**
-     * Command options
-     *
-     * @var array
-     */
-    private $options = [];
+	/**
+	 * Parsed command
+	 *
+	 * @var string
+	 */
+	private string $command = 'help';
 
-    /**
-     * Command parameters
-     *
-     * @var array
-     */
-    private $params = [];
+	/**
+	 * Command options
+	 *
+	 * @var array
+	 */
+	private array $options = array();
 
-    /**
-     * Supported frameworks
-     *
-     * @var array
-     */
-    private $frameworks = [
-        'bootstrap' => 'Bootstrap 5.3.3',
-        'divi' => 'DIVI Builder',
-        'elementor' => 'Elementor',
-        'avada' => 'Avada Fusion Builder',
-        'bricks' => 'Bricks Builder',
-        'wpbakery' => 'WPBakery Page Builder',
-        'beaver-builder' => 'Beaver Builder',
-        'gutenberg' => 'Gutenberg Block Editor',
-        'oxygen' => 'Oxygen Builder',
-        'claude' => 'Claude AI-Optimized',
-    ];
+	/**
+	 * Command parameters
+	 *
+	 * @var array
+	 */
+	private array $params = array();
 
-    /**
-     * Logger instance
-     *
-     * @var WPBC_Logger
-     */
-    private $logger;
+	/**
+	 * Supported frameworks
+	 *
+	 * Uses WPBC_Config if available, otherwise falls back to local array.
+	 *
+	 * @var array
+	 */
+	private array $frameworks = array(
+		'bootstrap'      => 'Bootstrap 5.3.3',
+		'divi'           => 'DIVI Builder',
+		'elementor'      => 'Elementor',
+		'avada'          => 'Avada Fusion Builder',
+		'bricks'         => 'Bricks Builder',
+		'wpbakery'       => 'WPBakery Page Builder',
+		'beaver-builder' => 'Beaver Builder',
+		'gutenberg'      => 'Gutenberg Block Editor',
+		'oxygen'         => 'Oxygen Builder',
+		'claude'         => 'Claude AI-Optimized',
+	);
 
-    /**
-     * File handler instance
-     *
-     * @var WPBC_File_Handler
-     */
-    private $file_handler;
+	/**
+	 * Logger instance
+	 *
+	 * @var WPBC_Logger
+	 */
+	private WPBC_Logger $logger;
 
-    /**
-     * Constructor
-     *
-     * @param array $args Command line arguments
-     */
-    public function __construct($args)
-    {
-        $this->args = $args;
-        $this->logger = new WPBC_Logger();
-        $this->file_handler = new WPBC_File_Handler();
-        $this->parse_arguments();
-    }
+	/**
+	 * File handler instance
+	 *
+	 * @var WPBC_File_Handler
+	 */
+	private WPBC_File_Handler $file_handler;
 
-    /**
-     * Parse command line arguments
-     */
-    private function parse_arguments()
-    {
-        $positional = [];
-        $i = 0;
-        $count = count($this->args);
+	/**
+	 * Constructor
+	 *
+	 * @param array $args Command line arguments.
+	 */
+	public function __construct( array $args ) {
+		$this->args         = $args;
+		$this->logger       = new WPBC_Logger();
+		$this->file_handler = new WPBC_File_Handler();
+		$this->parse_arguments();
+	}
 
-        while ($i < $count) {
-            $arg = $this->args[$i];
+	/**
+	 * Validate that a framework is supported
+	 *
+	 * @param string $framework   Framework identifier.
+	 * @param string $param_name  Parameter name for error message.
+	 * @return bool True if valid, false and outputs error if not.
+	 */
+	private function validate_framework( string $framework, string $param_name = 'framework' ): bool {
+		if ( isset( $this->frameworks[ $framework ] ) ) {
+			return true;
+		}
 
-            // Check if it's an option
-            if (strpos($arg, '--') === 0) {
-                // Long option (--option or --option=value)
-                if (strpos($arg, '=') !== false) {
-                    list($key, $value) = explode('=', substr($arg, 2), 2);
-                    $this->options[$key] = $value;
-                } else {
-                    $key = substr($arg, 2);
-                    // Check if next arg is a value or another option
-                    if ($i + 1 < $count && strpos($this->args[$i + 1], '-') !== 0) {
-                        $this->options[$key] = $this->args[$i + 1];
-                        $i++;
-                    } else {
-                        $this->options[$key] = true;
-                    }
-                }
-            } elseif (strpos($arg, '-') === 0 && strlen($arg) === 2) {
-                // Short option (-o or -o value)
-                $key = substr($arg, 1);
-                if ($i + 1 < $count && strpos($this->args[$i + 1], '-') !== 0) {
-                    $this->options[$key] = $this->args[$i + 1];
-                    $i++;
-                } else {
-                    $this->options[$key] = true;
-                }
-            } else {
-                // Positional argument
-                $positional[] = $arg;
-            }
+		$this->error( "Unknown {$param_name} framework: {$framework}" );
+		$this->list_frameworks();
+		return false;
+	}
 
-            $i++;
-        }
+	/**
+	 * Validate that an input file exists
+	 *
+	 * @param string $file_path Path to the input file.
+	 * @return bool True if exists, false and outputs error if not.
+	 */
+	private function validate_input_file( string $file_path ): bool {
+		if ( file_exists( $file_path ) ) {
+			return true;
+		}
 
-        // First positional is the command
-        $this->command = !empty($positional) ? array_shift($positional) : 'help';
-        $this->params = $positional;
-    }
+		$this->error( "Input file not found: {$file_path}" );
+		return false;
+	}
 
-    /**
-     * Execute the CLI command
-     *
-     * @return int Exit code (0 = success, non-zero = error)
-     */
-    public function execute()
-    {
-        // Handle global options first
-        if ($this->has_option('version', 'v')) {
-            return $this->show_version();
-        }
+	/**
+	 * Get the current command name
+	 *
+	 * @return string The current command.
+	 */
+	public function get_command(): string {
+		return $this->command;
+	}
 
-        if ($this->has_option('help', 'h') || $this->command === 'help') {
-            return $this->show_help();
-        }
+	/**
+	 * Get parsed parameters
+	 *
+	 * @return array The parameters array.
+	 */
+	public function get_params(): array {
+		return $this->params;
+	}
 
-        // Route to command handler
-        $method = 'command_' . str_replace('-', '_', $this->command);
+	/**
+	 * Get parsed options
+	 *
+	 * @return array The options array.
+	 */
+	public function get_options(): array {
+		return $this->options;
+	}
 
-        if (method_exists($this, $method)) {
-            return $this->$method();
-        } else {
-            $this->error("Unknown command: {$this->command}");
-            $this->info("Run 'wpbc help' to see available commands.");
-            return 1;
-        }
-    }
+	/**
+	 * Parse command line arguments
+	 *
+	 * @return void
+	 */
+	private function parse_arguments(): void {
+		$positional = array();
+		$i          = 0;
+		$count      = count( $this->args );
 
-    /**
-     * Command: translate
-     *
-     * Translate from one framework to another
-     * Usage: wpbc translate <source-framework> <target-framework> <input-file> [options]
-     */
-    private function command_translate()
-    {
-        if (count($this->params) < 3) {
-            $this->error("Insufficient arguments for 'translate' command");
-            $this->info("Usage: wpbc translate <source-framework> <target-framework> <input-file> [options]");
-            $this->info("Example: wpbc translate bootstrap divi hero.html");
-            return 1;
-        }
+		while ( $i < $count ) {
+			$arg = $this->args[ $i ];
 
-        $source = strtolower($this->params[0]);
-        $target = strtolower($this->params[1]);
-        $input_file = $this->params[2];
+			// Check if it's an option.
+			if ( 0 === strpos( $arg, '--' ) ) {
+				// Long option (--option or --option=value).
+				if ( false !== strpos( $arg, '=' ) ) {
+					list( $key, $value )   = explode( '=', substr( $arg, 2 ), 2 );
+					$this->options[ $key ] = $value;
+				} else {
+					$key = substr( $arg, 2 );
+					// Check if next arg is a value or another option.
+					if ( $i + 1 < $count && 0 !== strpos( $this->args[ $i + 1 ], '-' ) ) {
+						$this->options[ $key ] = $this->args[ $i + 1 ];
+						$i++;
+					} else {
+						$this->options[ $key ] = true;
+					}
+				}
+			} elseif ( 0 === strpos( $arg, '-' ) && 2 === strlen( $arg ) ) {
+				// Short option (-o or -o value).
+				$key = substr( $arg, 1 );
+				if ( $i + 1 < $count && 0 !== strpos( $this->args[ $i + 1 ], '-' ) ) {
+					$this->options[ $key ] = $this->args[ $i + 1 ];
+					$i++;
+				} else {
+					$this->options[ $key ] = true;
+				}
+			} else {
+				// Positional argument.
+				$positional[] = $arg;
+			}
 
-        // Validate frameworks
-        if (!isset($this->frameworks[$source])) {
-            $this->error("Unknown source framework: {$source}");
-            $this->list_frameworks();
-            return 1;
-        }
+			$i++;
+		}
 
-        if (!isset($this->frameworks[$target])) {
-            $this->error("Unknown target framework: {$target}");
-            $this->list_frameworks();
-            return 1;
-        }
+		// First positional is the command.
+		$this->command = ! empty( $positional ) ? array_shift( $positional ) : 'help';
+		$this->params  = $positional;
+	}
 
-        // Validate input file
-        if (!file_exists($input_file)) {
-            $this->error("Input file not found: {$input_file}");
-            return 1;
-        }
+	/**
+	 * Execute the CLI command
+	 *
+	 * @return int Exit code (0 = success, non-zero = error).
+	 */
+	public function execute(): int {
+		// Handle global options first.
+		if ( $this->has_option( 'version', 'v' ) ) {
+			return $this->show_version();
+		}
+
+		if ( $this->has_option( 'help', 'h' ) || 'help' === $this->command ) {
+			return $this->show_help();
+		}
+
+		// Route to command handler.
+		$method = 'command_' . str_replace( '-', '_', $this->command );
+
+		if ( method_exists( $this, $method ) ) {
+			return $this->$method();
+		}
+
+		$this->error( "Unknown command: {$this->command}" );
+		$this->info( "Run 'wpbc help' to see available commands." );
+		return 1;
+	}
+
+	/**
+	 * Command: translate
+	 *
+	 * Translate from one framework to another.
+	 * Usage: wpbc translate <source-framework> <target-framework> <input-file> [options]
+	 *
+	 * @return int Exit code.
+	 */
+	private function command_translate(): int {
+		if ( count( $this->params ) < 3 ) {
+			$this->error( "Insufficient arguments for 'translate' command" );
+			$this->info( 'Usage: wpbc translate <source-framework> <target-framework> <input-file> [options]' );
+			$this->info( 'Example: wpbc translate bootstrap divi hero.html' );
+			return 1;
+		}
+
+		$source     = strtolower( $this->params[0] );
+		$target     = strtolower( $this->params[1] );
+		$input_file = $this->params[2];
+
+		// Validate frameworks using helper.
+		if ( ! $this->validate_framework( $source, 'source' ) ) {
+			return 1;
+		}
+
+		if ( ! $this->validate_framework( $target, 'target' ) ) {
+			return 1;
+		}
+
+		// Validate input file using helper.
+		if ( ! $this->validate_input_file( $input_file ) ) {
+			return 1;
+		}
 
         // Determine output file
         $output_file = $this->get_option('output', 'o');
@@ -329,36 +385,34 @@ class WPBC_CLI
         }
     }
 
-    /**
-     * Command: translate-all
-     *
-     * Translate to all frameworks
-     * Usage: wpbc translate-all <source-framework> <input-file> [options]
-     */
-    private function command_translate_all()
-    {
-        if (count($this->params) < 2) {
-            $this->error("Insufficient arguments for 'translate-all' command");
-            $this->info("Usage: wpbc translate-all <source-framework> <input-file> [options]");
-            $this->info("Example: wpbc translate-all bootstrap hero.html");
-            return 1;
-        }
+	/**
+	 * Command: translate-all
+	 *
+	 * Translate to all frameworks.
+	 * Usage: wpbc translate-all <source-framework> <input-file> [options]
+	 *
+	 * @return int Exit code.
+	 */
+	private function command_translate_all(): int {
+		if ( count( $this->params ) < 2 ) {
+			$this->error( "Insufficient arguments for 'translate-all' command" );
+			$this->info( 'Usage: wpbc translate-all <source-framework> <input-file> [options]' );
+			$this->info( 'Example: wpbc translate-all bootstrap hero.html' );
+			return 1;
+		}
 
-        $source = strtolower($this->params[0]);
-        $input_file = $this->params[1];
+		$source     = strtolower( $this->params[0] );
+		$input_file = $this->params[1];
 
-        // Validate framework
-        if (!isset($this->frameworks[$source])) {
-            $this->error("Unknown source framework: {$source}");
-            $this->list_frameworks();
-            return 1;
-        }
+		// Validate framework using helper.
+		if ( ! $this->validate_framework( $source, 'source' ) ) {
+			return 1;
+		}
 
-        // Validate input file
-        if (!file_exists($input_file)) {
-            $this->error("Input file not found: {$input_file}");
-            return 1;
-        }
+		// Validate input file using helper.
+		if ( ! $this->validate_input_file( $input_file ) ) {
+			return 1;
+		}
 
         $this->info("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
         $this->info("  Translation Bridge™ - Translate to All Frameworks");
@@ -470,35 +524,33 @@ class WPBC_CLI
         return 0;
     }
 
-    /**
-     * Command: validate
-     *
-     * Validate a framework file
-     */
-    private function command_validate()
-    {
-        if (count($this->params) < 2) {
-            $this->error("Insufficient arguments for 'validate' command");
-            $this->info("Usage: wpbc validate <framework> <input-file>");
-            $this->info("Example: wpbc validate bootstrap hero.html");
-            return 1;
-        }
+	/**
+	 * Command: validate
+	 *
+	 * Validate a framework file.
+	 *
+	 * @return int Exit code.
+	 */
+	private function command_validate(): int {
+		if ( count( $this->params ) < 2 ) {
+			$this->error( "Insufficient arguments for 'validate' command" );
+			$this->info( 'Usage: wpbc validate <framework> <input-file>' );
+			$this->info( 'Example: wpbc validate bootstrap hero.html' );
+			return 1;
+		}
 
-        $framework = strtolower($this->params[0]);
-        $input_file = $this->params[1];
+		$framework  = strtolower( $this->params[0] );
+		$input_file = $this->params[1];
 
-        // Validate framework
-        if (!isset($this->frameworks[$framework])) {
-            $this->error("Unknown framework: {$framework}");
-            $this->list_frameworks();
-            return 1;
-        }
+		// Validate framework using helper.
+		if ( ! $this->validate_framework( $framework ) ) {
+			return 1;
+		}
 
-        // Validate input file
-        if (!file_exists($input_file)) {
-            $this->error("Input file not found: {$input_file}");
-            return 1;
-        }
+		// Validate input file using helper.
+		if ( ! $this->validate_input_file( $input_file ) ) {
+			return 1;
+		}
 
         $this->info("🔍 Validating {$this->frameworks[$framework]} file...");
         $this->info("File: {$input_file}");

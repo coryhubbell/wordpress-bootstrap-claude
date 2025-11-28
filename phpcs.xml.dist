@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<ruleset name="WordPress Bootstrap Claude">
+	<description>WordPress Coding Standards for WPBC</description>
+
+	<!-- What to scan -->
+	<file>includes/</file>
+	<file>translation-bridge/</file>
+
+	<!-- Exclude paths -->
+	<exclude-pattern>vendor/*</exclude-pattern>
+	<exclude-pattern>node_modules/*</exclude-pattern>
+	<exclude-pattern>tests/*</exclude-pattern>
+	<exclude-pattern>*.min.js</exclude-pattern>
+	<exclude-pattern>*.min.css</exclude-pattern>
+
+	<!-- How to scan -->
+	<arg value="sp"/>
+	<arg name="basepath" value="."/>
+	<arg name="extensions" value="php"/>
+	<arg name="parallel" value="8"/>
+	<arg name="colors"/>
+
+	<!-- Rules: Check PHP version compatibility -->
+	<config name="testVersion" value="7.4-"/>
+
+	<!-- Rules: WordPress Coding Standards -->
+	<rule ref="WordPress-Extra">
+		<!-- Allow short array syntax -->
+		<exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
+	</rule>
+
+	<!-- Rules: WordPress Docs -->
+	<rule ref="WordPress-Docs">
+		<!-- Don't require @package tags in every file -->
+		<exclude name="Squiz.Commenting.FileComment.MissingPackageTag"/>
+	</rule>
+
+	<!-- Allow short array syntax (PHP 5.4+) -->
+	<rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
+
+	<!-- Text domain for translations -->
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="wpbc"/>
+				<element value="wordpress-bootstrap-claude"/>
+			</property>
+		</properties>
+	</rule>
+
+	<!-- Minimum WordPress version -->
+	<config name="minimum_supported_wp_version" value="5.8"/>
+
+	<!-- Allow certain file name patterns -->
+	<rule ref="WordPress.Files.FileName">
+		<properties>
+			<property name="strict_class_file_names" value="false"/>
+		</properties>
+		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
+	</rule>
+
+	<!-- Allow mixed array syntax in some cases -->
+	<rule ref="WordPress.Arrays.ArrayDeclarationSpacing">
+		<properties>
+			<property name="allow_single_item_single_line_associative_arrays" value="true"/>
+		</properties>
+	</rule>
+</ruleset>
