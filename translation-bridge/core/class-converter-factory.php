@@ -20,7 +20,6 @@ use DEVTB\TranslationBridge\Converters\DEVTB_WPBakery_Converter;
 use DEVTB\TranslationBridge\Converters\DEVTB_Beaver_Builder_Converter;
 use DEVTB\TranslationBridge\Converters\DEVTB_Gutenberg_Converter;
 use DEVTB\TranslationBridge\Converters\DEVTB_Oxygen_Converter;
-use DEVTB\TranslationBridge\Converters\DEVTB_Claude_Converter;
 
 /**
  * Class DEVTB_Converter_Factory
@@ -39,7 +38,7 @@ class DEVTB_Converter_Factory {
 	/**
 	 * Create converter for specified framework
 	 *
-	 * @param string $framework Framework name (bootstrap, divi, elementor, avada, bricks, wpbakery, claude).
+	 * @param string $framework Framework name (bootstrap, divi, elementor, avada, bricks, wpbakery, beaver-builder, gutenberg, oxygen).
 	 * @return DEVTB_Converter_Interface|null Converter instance or null if not found.
 	 * @throws \InvalidArgumentException If framework not supported.
 	 */
@@ -105,11 +104,6 @@ class DEVTB_Converter_Factory {
 			case 'oxygen-builder':
 				return new DEVTB_Oxygen_Converter();
 
-			case 'claude':
-			case 'claude-ai':
-			case 'ai':
-				return new DEVTB_Claude_Converter();
-
 			default:
 				return null;
 		}
@@ -121,7 +115,7 @@ class DEVTB_Converter_Factory {
 	 * @return array<string> Array of framework names.
 	 */
 	public static function get_supported_frameworks(): array {
-		return [ 'bootstrap', 'divi', 'elementor', 'avada', 'bricks', 'wpbakery', 'beaver-builder', 'gutenberg', 'oxygen', 'claude' ];
+		return [ 'bootstrap', 'divi', 'elementor', 'avada', 'bricks', 'wpbakery', 'beaver-builder', 'gutenberg', 'oxygen' ];
 	}
 
 	/**

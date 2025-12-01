@@ -105,7 +105,7 @@ class APIv2Test extends TestCase {
         $this->assertArrayHasKey('success', $data);
         $this->assertTrue($data['success']);
         $this->assertArrayHasKey('frameworks', $data);
-        $this->assertCount(10, $data['frameworks']);
+        $this->assertCount(9, $data['frameworks']);
     }
 
     /**
@@ -144,7 +144,7 @@ class APIv2Test extends TestCase {
     }
 
     /**
-     * Test frameworks list contains all 10 frameworks
+     * Test frameworks list contains all 9 frameworks
      */
     public function test_frameworks_list_contains_all_frameworks() {
         $result = $this->api->list_frameworks();
@@ -153,7 +153,7 @@ class APIv2Test extends TestCase {
 
         $expected = [
             'bootstrap', 'divi', 'elementor', 'avada', 'bricks',
-            'wpbakery', 'beaver-builder', 'gutenberg', 'oxygen', 'claude'
+            'wpbakery', 'beaver-builder', 'gutenberg', 'oxygen'
         ];
 
         foreach ($expected as $framework) {

@@ -6,7 +6,7 @@
  * admin interface integration.
  *
  * @package    DevelopmentTranslation_Bridge
- * @version    3.3.0
+ * @version    3.4.0
  * @license    GPL-2.0+
  */
 
@@ -16,7 +16,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define theme constants
-define('DEVTB_THEME_VERSION', '3.3.0');
+define('DEVTB_THEME_VERSION', '3.4.0');
 define('DEVTB_ROOT', get_template_directory());
 define('DEVTB_THEME_DIR', get_template_directory());
 define('DEVTB_THEME_URL', get_template_directory_uri());
@@ -261,7 +261,7 @@ function devtb_admin_page() {
             <h2><?php _e('Quick Start', 'devtb'); ?></h2>
             <p><?php _e('Use the devtb CLI command to translate between frameworks:', 'devtb'); ?></p>
             <pre><code>devtb translate bootstrap divi input.html</code></pre>
-            <pre><code>devtb translate elementor claude page.json</code></pre>
+            <pre><code>devtb translate elementor bootstrap page.json --ai-ready</code></pre>
             <pre><code>devtb translate-all bootstrap hero.html</code></pre>
         </div>
 
@@ -277,9 +277,9 @@ function devtb_admin_page() {
                 <li><strong>Beaver Builder</strong> - Beaver Builder modules</li>
                 <li><strong>Gutenberg</strong> - Gutenberg Block Editor</li>
                 <li><strong>Oxygen</strong> - Oxygen Builder JSON</li>
-                <li><strong>Claude</strong> - Claude AI-Optimized HTML</li>
             </ul>
-            <p><strong>90 Translation Pairs</strong> - Convert any framework to any other framework</p>
+            <p><strong>72 Translation Pairs</strong> - Convert any framework to any other framework</p>
+            <p><strong>AI-Ready Option</strong> - Use <code>--ai-ready</code> flag to add AI-friendly attributes</p>
         </div>
 
         <div class="card">
@@ -345,7 +345,6 @@ function devtb_frameworks_page() {
                 'beaver-builder' => 'Beaver Builder',
                 'gutenberg'      => 'Gutenberg Block Editor',
                 'oxygen'         => 'Oxygen Builder',
-                'claude'         => 'Claude AI-Optimized',
             ];
             $framework_count = count($frameworks);
             ?>
@@ -375,7 +374,6 @@ function devtb_frameworks_page() {
                                 'beaver-builder' => 'Serialized PHP',
                                 'gutenberg'      => 'HTML Comments',
                                 'oxygen'         => 'JSON',
-                                'claude'         => 'HTML (AI-Optimized)',
                             ];
                             echo esc_html($formats[$key] ?? 'Unknown');
                             ?>
@@ -389,7 +387,8 @@ function devtb_frameworks_page() {
 
         <div class="card">
             <h2>Framework Details</h2>
-            <p><strong>Translation Pairs:</strong> 90 (any framework to any other)</p>
+            <p><strong>Translation Pairs:</strong> 72 (9 frameworks x 8 targets)</p>
+            <p><strong>AI-Ready Option:</strong> Use <code>--ai-ready</code> flag to add AI-friendly attributes</p>
             <p><strong>Visual Accuracy:</strong> 98% across all conversions</p>
             <p><strong>Conversion Speed:</strong> ~30 seconds average</p>
         </div>
@@ -438,7 +437,9 @@ function devtb_settings_page() {
                             <option value="avada">Avada</option>
                             <option value="bricks">Bricks</option>
                             <option value="wpbakery">WPBakery</option>
-                            <option value="claude">Claude</option>
+                            <option value="beaver-builder">Beaver Builder</option>
+                            <option value="gutenberg">Gutenberg</option>
+                            <option value="oxygen">Oxygen</option>
                         </select>
                     </td>
                 </tr>
@@ -528,11 +529,15 @@ function devtb_show_system_status() {
         </tr>
         <tr>
             <th><?php _e('Supported Frameworks', 'devtb'); ?></th>
-            <td>10 (Bootstrap, DIVI, Elementor, Avada, Bricks, WPBakery, Beaver Builder, Gutenberg, Oxygen, Claude)</td>
+            <td>9 (Bootstrap, DIVI, Elementor, Avada, Bricks, WPBakery, Beaver Builder, Gutenberg, Oxygen)</td>
         </tr>
         <tr>
             <th><?php _e('Translation Pairs', 'devtb'); ?></th>
-            <td>90</td>
+            <td>72</td>
+        </tr>
+        <tr>
+            <th><?php _e('AI-Ready Option', 'devtb'); ?></th>
+            <td>--ai-ready flag available for all conversions</td>
         </tr>
     </table>
     <?php
@@ -576,26 +581,28 @@ add_action('admin_notices', 'devtb_admin_notices');
  * Custom theme support and features
  */
 function devtb_custom_features() {
-    // Add support for Claude-editable content in the editor
-    add_filter('the_content', 'devtb_preserve_claude_attributes');
+    // Add support for AI-editable content in the editor
+    add_filter('the_content', 'devtb_preserve_ai_attributes');
 }
 add_action('init', 'devtb_custom_features');
 
 /**
- * Preserve data-claude-editable attributes in content
+ * Preserve data-ai-editable attributes in content
  */
-function devtb_preserve_claude_attributes($content) {
-    // Allow data-claude-editable attribute in content
+function devtb_preserve_ai_attributes($content) {
+    // Allow data-ai-editable attribute in content
     return $content;
 }
 
 /**
- * Allow data-claude-editable in KSES
+ * Allow data-ai-editable in KSES
  */
 function devtb_allowed_html($tags, $context) {
     if ($context === 'post') {
         foreach ($tags as $tag => $rules) {
-            $tags[$tag]['data-claude-editable'] = true;
+            $tags[$tag]['data-ai-editable'] = true;
+            $tags[$tag]['data-ai-type'] = true;
+            $tags[$tag]['data-ai-id'] = true;
         }
     }
     return $tags;

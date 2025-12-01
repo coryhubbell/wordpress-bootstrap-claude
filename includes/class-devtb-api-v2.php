@@ -33,7 +33,6 @@ class DEVTB_API_V2 {
         'beaver-builder',
         'gutenberg',
         'oxygen',
-        'claude',
     ];
 
     /**
@@ -291,9 +290,10 @@ class DEVTB_API_V2 {
      * @return WP_REST_Response|WP_Error Response object or error.
      */
     public function translate( WP_REST_Request $request ) {
-        $source  = $request->get_param( 'source' );
-        $target  = $request->get_param( 'target' );
-        $content = $request->get_param( 'content' );
+        $source   = $request->get_param( 'source' );
+        $target   = $request->get_param( 'target' );
+        $content  = $request->get_param( 'content' );
+        $ai_ready = $request->get_param( 'ai_ready' ) ?: false;
 
         try {
             // Initialize translator.
@@ -302,9 +302,15 @@ class DEVTB_API_V2 {
                 return $translator;
             }
 
+            // Build translation options.
+            $options = [];
+            if ( $ai_ready ) {
+                $options['ai_ready'] = true;
+            }
+
             // Perform translation.
             $start_time   = microtime( true );
-            $result       = $translator->translate( $content, $source, $target );
+            $result       = $translator->translate( $content, $source, $target, $options );
             $elapsed_time = microtime( true ) - $start_time;
 
             if ( ! $result ) {
@@ -613,7 +619,7 @@ class DEVTB_API_V2 {
                 'name'        => 'Bootstrap 5.3.3',
                 'type'        => 'HTML/CSS',
                 'extension'   => 'html',
-                'description' => 'Clean HTML/CSS framework, perfect for Claude AI',
+                'description' => 'Clean HTML/CSS framework, ideal for AI assistance',
             ],
             'divi' => [
                 'name'        => 'DIVI Builder',
@@ -663,12 +669,6 @@ class DEVTB_API_V2 {
                 'extension'   => 'json',
                 'description' => 'Visual site builder with 30+ elements',
             ],
-            'claude' => [
-                'name'        => 'Claude AI-Optimized',
-                'type'        => 'HTML',
-                'extension'   => 'html',
-                'description' => 'AI-native framework with data-claude-editable attributes',
-            ],
         ];
 
         return new WP_REST_Response([
@@ -676,6 +676,7 @@ class DEVTB_API_V2 {
             'total_frameworks'  => count($frameworks_info),
             'translation_pairs' => count($frameworks_info) * (count($frameworks_info) - 1),
             'frameworks'        => $frameworks_info,
+            'ai_ready_option'   => 'Use ai_ready:true parameter to add AI-friendly attributes to any conversion output',
         ], 200);
     }
 
@@ -862,6 +863,12 @@ class DEVTB_API_V2 {
                 'required'    => true,
                 'type'        => 'string',
                 'description' => 'Content to translate',
+            ],
+            'ai_ready' => [
+                'required'    => false,
+                'type'        => 'boolean',
+                'default'     => false,
+                'description' => 'Add AI-friendly attributes to output (data-ai-editable, etc.)',
             ],
             'options' => [
                 'required'    => false,

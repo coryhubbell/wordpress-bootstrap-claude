@@ -20,7 +20,6 @@ use DEVTB\TranslationBridge\Parsers\DEVTB_WPBakery_Parser;
 use DEVTB\TranslationBridge\Parsers\DEVTB_Beaver_Builder_Parser;
 use DEVTB\TranslationBridge\Parsers\DEVTB_Gutenberg_Parser;
 use DEVTB\TranslationBridge\Parsers\DEVTB_Oxygen_Parser;
-use DEVTB\TranslationBridge\Parsers\DEVTB_Claude_Parser;
 
 /**
  * Class DEVTB_Parser_Factory
@@ -39,7 +38,7 @@ class DEVTB_Parser_Factory {
 	/**
 	 * Create parser for specified framework
 	 *
-	 * @param string $framework Framework name (bootstrap, divi, elementor, avada, bricks, wpbakery, claude).
+	 * @param string $framework Framework name (bootstrap, divi, elementor, avada, bricks, wpbakery, beaver-builder, gutenberg, oxygen).
 	 * @return DEVTB_Parser_Interface|null Parser instance or null if not found.
 	 * @throws \InvalidArgumentException If framework not supported.
 	 */
@@ -105,11 +104,6 @@ class DEVTB_Parser_Factory {
 			case 'oxygen-builder':
 				return new DEVTB_Oxygen_Parser();
 
-			case 'claude':
-			case 'claude-ai':
-			case 'ai':
-				return new DEVTB_Claude_Parser();
-
 			default:
 				return null;
 		}
@@ -121,7 +115,7 @@ class DEVTB_Parser_Factory {
 	 * @return array<string> Array of framework names.
 	 */
 	public static function get_supported_frameworks(): array {
-		return [ 'bootstrap', 'divi', 'elementor', 'avada', 'bricks', 'wpbakery', 'beaver-builder', 'gutenberg', 'oxygen', 'claude' ];
+		return [ 'bootstrap', 'divi', 'elementor', 'avada', 'bricks', 'wpbakery', 'beaver-builder', 'gutenberg', 'oxygen' ];
 	}
 
 	/**

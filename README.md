@@ -1,10 +1,10 @@
-# 🚀 DevelopmentTranslation Bridge™ 3.2
-## **Real-Time AI Page Builder with 10-Framework Translation & REST API**
-### **Edit WordPress Pages with Natural Language • Convert to Any Framework • Full API Access**
+# 🚀 DevelopmentTranslation Bridge 3.4
+## **Universal Page Builder Translation with 9-Framework Support & AI-Ready Annotations**
+### **Convert Between Any Framework • Optional AI-Ready Output • Full REST API Access**
 
 <div align="center">
 
-![Version](https://img.shields.io/badge/version-3.2.3-blue.svg)
+![Version](https://img.shields.io/badge/version-3.4.0-blue.svg)
 ![CI](https://img.shields.io/github/actions/workflow/status/coryhubbell/development-translation-bridge/ci.yml?label=CI)
 ![CLI](https://img.shields.io/badge/CLI-Production_Ready-success.svg)
 ![API](https://img.shields.io/badge/REST_API_v2-Live-success.svg)
@@ -19,20 +19,20 @@
 ![Beaver Builder Compatible](https://img.shields.io/badge/Beaver_Builder-Compatible-green.svg)
 ![Gutenberg Compatible](https://img.shields.io/badge/Gutenberg-Compatible-navy.svg)
 ![Oxygen Compatible](https://img.shields.io/badge/Oxygen-Compatible-cyan.svg)
-![Claude AI](https://img.shields.io/badge/Claude_AI-10th_Framework-black.svg)
-![Frameworks](https://img.shields.io/badge/Frameworks-10-brightgreen.svg)
+![AI-Ready](https://img.shields.io/badge/AI--Ready-Optional_Flag-black.svg)
+![Frameworks](https://img.shields.io/badge/Frameworks-9-brightgreen.svg)
 ![Testing](https://img.shields.io/badge/Testing-PHPUnit_9.5-success.svg)
 ![Security](https://img.shields.io/badge/Security-AES--256--CBC-critical.svg)
 ![Code Quality](https://img.shields.io/badge/Code_Quality-Enterprise-gold.svg)
 
-### **🤖 Edit Pages in Real-Time with Claude AI • 🌉 90 Translation Pairs Across 10 Frameworks • 🔌 Full REST API • ⚡ Deploy Anywhere**
+### **🌉 72 Translation Pairs Across 9 Frameworks • 🤖 Optional AI-Ready Annotations • 🔌 Full REST API • ⚡ Deploy Anywhere**
 
 **[📖 Documentation](docs/) • [🔌 API Docs](docs/api-v2.md) • [🚀 Quick Start](#-quick-start) • [🌟 Star This Repo](https://github.com/coryhubbell/development-translation-bridge)**
 
 ---
 
 ### **📚 Quick Navigation**
-**[🎯 Mission](#-mission-revolutionize-wordpress-development)** • **[🤖 AI Editing](#-real-time-ai-editing-with-claude)** • **[🚀 Quick Start](#-quick-start)** • **[🌉 10 Frameworks](#-all-10-frameworks-supported)** • **[🔌 REST API v2](#-rest-api-v2)** • **[🖥️ CLI Tool](#%EF%B8%8F-cli-tool---production-ready)** • **[🖥️ Visual Interface](#%EF%B8%8F-visual-interface)** • **[🔒 Security](#-security--enterprise-features)** • **[🛠 Installation](#-installation)**
+**[🎯 Mission](#-mission-revolutionize-wordpress-development)** • **[🤖 AI-Ready Output](#-ai-ready-annotations)** • **[🚀 Quick Start](#-quick-start)** • **[🌉 9 Frameworks](#-all-9-frameworks-supported)** • **[🔌 REST API v2](#-rest-api-v2)** • **[🖥️ CLI Tool](#%EF%B8%8F-cli-tool---production-ready)** • **[🖥️ Visual Interface](#%EF%B8%8F-visual-interface)** • **[🔒 Security](#-security--enterprise-features)** • **[🛠 Installation](#-installation)**
 
 </div>
 

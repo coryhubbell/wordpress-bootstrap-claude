@@ -89,7 +89,7 @@ class CLITest extends TestCase {
     }
 
     /**
-     * Test frameworks array contains all 10 frameworks
+     * Test frameworks array contains all 9 frameworks
      */
     public function test_frameworks_array_contains_all_frameworks() {
         require_once DEVTB_INCLUDES . '/class-devtb-cli.php';
@@ -102,14 +102,14 @@ class CLITest extends TestCase {
 
         $expected_frameworks = [
             'bootstrap', 'divi', 'elementor', 'avada', 'bricks',
-            'wpbakery', 'beaver-builder', 'gutenberg', 'oxygen', 'claude'
+            'wpbakery', 'beaver-builder', 'gutenberg', 'oxygen'
         ];
 
         foreach ($expected_frameworks as $framework) {
             $this->assertArrayHasKey($framework, $frameworks);
         }
 
-        $this->assertCount(10, $frameworks);
+        $this->assertCount(9, $frameworks);
     }
 
     /**

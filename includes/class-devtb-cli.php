@@ -56,7 +56,6 @@ class DEVTB_CLI {
 		'beaver-builder' => 'Beaver Builder',
 		'gutenberg'      => 'Gutenberg Block Editor',
 		'oxygen'         => 'Oxygen Builder',
-		'claude'         => 'Claude AI-Optimized',
 	);
 
 	/**
@@ -265,14 +264,20 @@ class DEVTB_CLI {
         // Check dry run
         $dry_run = $this->has_option('dry-run', 'n');
 
+        // Check AI-ready flag
+        $ai_ready = $this->has_option('ai-ready', 'a');
+
         try {
             $this->info("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-            $this->info("  Translation Bridge™ - Framework Translation");
+            $this->info("  Translation Bridge - Framework Translation");
             $this->info("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
             $this->info("Source:     {$this->frameworks[$source]} ({$source})");
             $this->info("Target:     {$this->frameworks[$target]} ({$target})");
             $this->info("Input:      {$input_file}");
             $this->info("Output:     {$output_file}");
+            if ($ai_ready) {
+                $this->info("AI-Ready:   Yes (adding AI-friendly attributes)");
+            }
             if ($dry_run) {
                 $this->warning("Mode:       DRY RUN (no files will be written)");
             }
@@ -316,6 +321,15 @@ class DEVTB_CLI {
 
             $this->success("✓ Translation completed in {$elapsed}s");
 
+            // Apply AI-ready annotations if requested
+            if ($ai_ready && is_string($result)) {
+                $this->info("🤖 Applying AI-ready annotations...");
+                require_once DEVTB_TRANSLATION_BRIDGE . '/utils/class-ai-ready-annotator.php';
+                $annotator = new \DEVTB\TranslationBridge\Utils\DEVTB_AI_Ready_Annotator();
+                $result = $annotator->annotate($result);
+                $this->success("✓ AI-ready annotations applied");
+            }
+
             // Get statistics
             $stats = $translator->get_stats();
             if (!empty($stats)) {
@@ -349,28 +363,26 @@ class DEVTB_CLI {
                 echo PHP_EOL;
             }
 
-            // Claude AI instructions if target is claude
-            if ($target === 'claude') {
+            // AI-ready instructions if flag was used
+            if ($ai_ready) {
                 echo PHP_EOL;
                 $this->info("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-                $this->info("  🤖 Claude AI-Optimized HTML Generated");
+                $this->info("  🤖 AI-Ready HTML Generated");
                 $this->info("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-                $this->info("This HTML is optimized for Claude AI editing.");
-                $this->info("All editable elements have data-claude-editable attributes.");
+                $this->info("This HTML has AI-friendly attributes for easier editing.");
+                $this->info("All editable elements have data-ai-editable attributes.");
                 echo PHP_EOL;
-                $this->info("💡 Next steps with Claude Code CLI:");
+                $this->info("💡 Next steps:");
                 $this->info("   1. Open the output file in your editor");
-                $this->info("   2. Use natural language commands like:");
-                $this->info("      • \"Change the button text to 'Get Started'\"");
-                $this->info("      • \"Make the heading larger and blue\"");
-                $this->info("      • \"Add a newsletter signup form\"");
-                $this->info("   3. Convert back to {$source}:");
-                $this->info("      devtb translate claude {$source} {$output_file}");
+                $this->info("   2. Use AI assistants with natural language:");
+                $this->info("      - \"Change the button text to 'Get Started'\"");
+                $this->info("      - \"Make the heading larger and blue\"");
+                $this->info("      - \"Add a newsletter signup form\"");
                 $this->info("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
             }
 
             echo PHP_EOL;
-            $this->success("🎉 Translation complete!");
+            $this->success("Translation complete!");
             return 0;
 
         } catch (Exception $e) {
@@ -414,11 +426,17 @@ class DEVTB_CLI {
 			return 1;
 		}
 
+        // Check AI-ready flag
+        $ai_ready = $this->has_option('ai-ready', 'a');
+
         $this->info("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-        $this->info("  Translation Bridge™ - Translate to All Frameworks");
+        $this->info("  Translation Bridge - Translate to All Frameworks");
         $this->info("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
         $this->info("Source:     {$this->frameworks[$source]} ({$source})");
         $this->info("Input:      {$input_file}");
+        if ($ai_ready) {
+            $this->info("AI-Ready:   Yes (adding AI-friendly attributes)");
+        }
         $this->info("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
         echo PHP_EOL;
 
@@ -463,6 +481,12 @@ class DEVTB_CLI {
                 $result = $translator->translate($input_content, $source, $target);
 
                 if ($result) {
+                    // Apply AI-ready annotations if requested
+                    if ($ai_ready && is_string($result)) {
+                        require_once DEVTB_TRANSLATION_BRIDGE . '/utils/class-ai-ready-annotator.php';
+                        $annotator = new \DEVTB\TranslationBridge\Utils\DEVTB_AI_Ready_Annotator();
+                        $result = $annotator->annotate($result);
+                    }
                     // Write output
                     $this->file_handler->write_file($output_file, $result, $target);
                     $this->success("   ✓ {$name}: {$output_file}");
@@ -651,16 +675,17 @@ class DEVTB_CLI {
         echo "  -v, --version    Show version information" . PHP_EOL;
         echo "  -d, --debug      Enable debug mode" . PHP_EOL;
         echo "  -q, --quiet      Suppress non-error output" . PHP_EOL;
+        echo "  -a, --ai-ready   Add AI-friendly attributes to output" . PHP_EOL;
         echo PHP_EOL;
         echo $this->bold("EXAMPLES:") . PHP_EOL;
         echo "  # Translate Bootstrap to DIVI" . PHP_EOL;
         echo "  devtb translate bootstrap divi hero.html" . PHP_EOL;
         echo PHP_EOL;
+        echo "  # Translate with AI-ready annotations" . PHP_EOL;
+        echo "  devtb translate bootstrap divi hero.html --ai-ready" . PHP_EOL;
+        echo PHP_EOL;
         echo "  # Translate to all frameworks" . PHP_EOL;
         echo "  devtb translate-all bootstrap hero.html" . PHP_EOL;
-        echo PHP_EOL;
-        echo "  # Convert to Claude AI-optimized HTML" . PHP_EOL;
-        echo "  devtb translate elementor claude page.json" . PHP_EOL;
         echo PHP_EOL;
         echo "  # Validate a file" . PHP_EOL;
         echo "  devtb validate bootstrap hero.html" . PHP_EOL;

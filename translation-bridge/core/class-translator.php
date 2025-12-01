@@ -163,6 +163,13 @@ class DEVTB_Translator {
 				$target_framework
 			);
 
+			// Apply AI-ready annotations if requested
+			if ( $this->ai_ready && is_string( $output ) ) {
+				require_once dirname( __DIR__ ) . '/utils/class-ai-ready-annotator.php';
+				$annotator = new \DEVTB\TranslationBridge\Utils\DEVTB_AI_Ready_Annotator();
+				$output = $annotator->annotate( $output );
+			}
+
 			// Cache result
 			if ( $this->enable_cache && $output ) {
 				$this->cache_result( $content, $source_framework, $target_framework, $output );
@@ -455,6 +462,13 @@ class DEVTB_Translator {
 	}
 
 	/**
+	 * AI-ready annotation enabled
+	 *
+	 * @var bool
+	 */
+	private bool $ai_ready = false;
+
+	/**
 	 * Apply translation options
 	 *
 	 * @param array $options Options array.
@@ -471,6 +485,10 @@ class DEVTB_Translator {
 
 		if ( isset( $options['progress_callback'] ) && is_callable( $options['progress_callback'] ) ) {
 			$this->progress_callback = $options['progress_callback'];
+		}
+
+		if ( isset( $options['ai_ready'] ) ) {
+			$this->ai_ready = (bool) $options['ai_ready'];
 		}
 	}
 

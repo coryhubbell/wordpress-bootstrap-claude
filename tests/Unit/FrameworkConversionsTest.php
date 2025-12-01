@@ -2,12 +2,12 @@
 /**
  * Framework Conversions Test
  *
- * Tests all 90 framework conversion pairs (10 frameworks × 9 targets each).
+ * Tests all 72 framework conversion pairs (9 frameworks × 8 targets each).
  * Uses PHPUnit data providers to test every source→target combination.
  *
  * @package DevelopmentTranslation_Bridge
  * @subpackage Tests
- * @since 3.2.1
+ * @since 3.4.0
  */
 
 namespace DEVTB\Tests\Unit;
@@ -32,7 +32,6 @@ class FrameworkConversionsTest extends TestCase {
         'wpbakery',
         'bricks',
         'avada',
-        'claude',
     ];
 
     /**
@@ -98,7 +97,7 @@ class FrameworkConversionsTest extends TestCase {
         require_once $bridge_path . '/parsers/class-wpbakery-parser.php';
         require_once $bridge_path . '/parsers/class-bricks-parser.php';
         require_once $bridge_path . '/parsers/class-avada-parser.php';
-        require_once $bridge_path . '/parsers/class-claude-parser.php';
+        // Claude parser removed - AI-ready is now a modifier, not a framework
 
         // Load converters
         require_once $bridge_path . '/converters/class-bootstrap-converter.php';
@@ -110,7 +109,7 @@ class FrameworkConversionsTest extends TestCase {
         require_once $bridge_path . '/converters/class-wpbakery-converter.php';
         require_once $bridge_path . '/converters/class-bricks-converter.php';
         require_once $bridge_path . '/converters/class-avada-converter.php';
-        require_once $bridge_path . '/converters/class-claude-converter.php';
+        // Claude converter removed - AI-ready is now a modifier, not a framework
     }
 
     /**
@@ -355,23 +354,27 @@ This is sample Avada content.
 [/fusion_builder_container]
 SHORTCODE;
 
-        // Claude - AI-optimized HTML
-        self::$sampleInputs['claude'] = <<<HTML
-<!-- CLAUDE AI-OPTIMIZED HTML -->
-<div class="container" data-claude-editable="container">
+        // Claude removed - AI-ready is now a modifier, not a framework
+        // Use 'bootstrap' with --ai-ready flag instead:
+        // self::$sampleInputs['bootstrap'] with ai_ready option
+        /*
+        self::$sampleInputs['ai-ready-example'] = <<<HTML
+<!-- AI-READY HTML -->
+<div class="container" data-ai-editable="container">
     <div class="row">
-        <div class="col-md-6" data-claude-editable="column">
-            <h2 data-claude-editable="heading">Welcome</h2>
-            <p data-claude-editable="text">This is sample Claude-optimized content.</p>
-            <a href="#" class="btn btn-primary" data-claude-editable="button">Learn More</a>
+        <div class="col-md-6" data-ai-editable="column">
+            <h2 data-ai-editable="heading">Welcome</h2>
+            <p data-ai-editable="text">This is sample AI-ready content.</p>
+            <a href="#" class="btn btn-primary" data-ai-editable="button">Learn More</a>
         </div>
     </div>
 </div>
 HTML;
+        */
     }
 
     /**
-     * Data provider for all 90 framework conversion pairs
+     * Data provider for all 72 framework conversion pairs
      *
      * @return array Test data sets
      */
@@ -508,7 +511,7 @@ HTML;
                 break;
 
             case 'bootstrap':
-            case 'claude':
+            // claude case removed - AI-ready is now a modifier, not a framework
                 // Should be valid HTML with content
                 $this->assertNotEmpty(
                     strip_tags( $outputStr ),

@@ -3,8 +3,8 @@ Theme Name: DevelopmentTranslation Bridge
 Theme URI: https://github.com/coryhubbell/development-translation-bridge
 Author: Cory Hubbell
 Author URI: https://github.com/coryhubbell
-Description: DevelopmentTranslation Bridge - The world's first universal page builder translation system. Seamlessly convert between Bootstrap 5.3.3, DIVI, Elementor, Avada Fusion, Bricks, WPBakery, Beaver Builder, Gutenberg, Oxygen, and Claude AI-Optimized formats. Featuring the Translation Bridge architecture with 98% visual accuracy, 30-second conversion times, and comprehensive AI integration for modern WordPress development.
-Version: 3.3.0
+Description: DevelopmentTranslation Bridge - The world's first universal page builder translation system. Seamlessly convert between Bootstrap 5.3.3, DIVI, Elementor, Avada Fusion, Bricks, WPBakery, Beaver Builder, Gutenberg, and Oxygen. Featuring the Translation Bridge architecture with 98% visual accuracy, 30-second conversion times, optional AI-Ready annotations (--ai-ready flag), and comprehensive AI integration for modern WordPress development.
+Version: 3.4.0
 Requires at least: 5.8
 Tested up to: 6.4
 Requires PHP: 7.4
@@ -23,22 +23,22 @@ DevelopmentTranslation Bridge is a revolutionary theme that enables seamless tra
 - Beaver Builder (JSON)
 - Gutenberg Block Editor (HTML)
 - Oxygen Builder (JSON)
-- Claude AI-Optimized Framework (HTML)
 
 Key Features:
-- Translation Bridge™ architecture
-- 90 translation pairs (any framework to any other)
+- Translation Bridge architecture
+- 72 translation pairs (9 frameworks x 8 targets)
+- Optional AI-Ready annotations (--ai-ready flag)
 - 98% visual accuracy in conversions
 - 30-second conversion times
-- Deep Claude AI integration
 - CLI tool (devtb command)
+- REST API v2 with ai_ready parameter
 - Comprehensive documentation
 - Production-ready code quality
 
 Use Cases:
 - Migrate WordPress sites between page builders
 - Convert legacy page builder content to modern frameworks
-- Create AI-editable versions of your designs
+- Create AI-ready HTML with --ai-ready flag for AI-assisted editing
 - Multi-framework development workflows
 - Framework-agnostic component libraries
 - Rapid prototyping across builders
@@ -173,7 +173,7 @@ input[type="submit"]:hover {
 }
 
 /* Translation Bridge Indicators */
-[data-claude-editable] {
+[data-ai-editable] {
     position: relative;
 }
 
